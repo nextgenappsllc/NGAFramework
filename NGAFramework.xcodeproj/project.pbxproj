@@ -16,7 +16,6 @@
 		821663151C9611B900493594 /* NGAGradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 821663021C9611B900493594 /* NGAGradientView.swift */; };
 		821663161C9611B900493594 /* NGAContainerViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 821663031C9611B900493594 /* NGAContainerViews.swift */; };
 		821663171C9611B900493594 /* NGANavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 821663041C9611B900493594 /* NGANavigationController.swift */; };
-		821663181C9611B900493594 /* NGAOutlinedLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 821663051C9611B900493594 /* NGAOutlinedLabel.swift */; };
 		821663191C9611B900493594 /* NGAParallaxTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 821663061C9611B900493594 /* NGAParallaxTableView.swift */; };
 		8216631A1C9611B900493594 /* NGAScrollingImageTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 821663071C9611B900493594 /* NGAScrollingImageTableViewController.swift */; };
 		8216631B1C9611B900493594 /* NGASwitchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 821663081C9611B900493594 /* NGASwitchBar.swift */; };
@@ -151,7 +150,6 @@
 		821663021C9611B900493594 /* NGAGradientView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NGAGradientView.swift; sourceTree = "<group>"; };
 		821663031C9611B900493594 /* NGAContainerViews.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NGAContainerViews.swift; sourceTree = "<group>"; };
 		821663041C9611B900493594 /* NGANavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NGANavigationController.swift; sourceTree = "<group>"; };
-		821663051C9611B900493594 /* NGAOutlinedLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NGAOutlinedLabel.swift; sourceTree = "<group>"; };
 		821663061C9611B900493594 /* NGAParallaxTableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NGAParallaxTableView.swift; sourceTree = "<group>"; };
 		821663071C9611B900493594 /* NGAScrollingImageTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NGAScrollingImageTableViewController.swift; sourceTree = "<group>"; };
 		821663081C9611B900493594 /* NGASwitchBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NGASwitchBar.swift; sourceTree = "<group>"; };
@@ -174,6 +172,7 @@
 		821663491C965A6400493594 /* ArrayExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArrayExtension.swift; sourceTree = "<group>"; };
 		8216634B1C965A8E00493594 /* DictionaryExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DictionaryExtension.swift; sourceTree = "<group>"; };
 		82237F9D1C98DF3B0069153C /* Formable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Formable.swift; sourceTree = "<group>"; };
+		8274A57D1C9C95B200CAC913 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		82763E731C979759009107E0 /* SQLite.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SQLite.xcodeproj; path = "../../Frameworks/SQLite.swift-master/SQLite.xcodeproj"; sourceTree = "<group>"; };
 		82763E881C9797B1009107E0 /* SQLite.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SQLite.swift; sourceTree = "<group>"; };
 		828DAE941C96075400EEDE1B /* NGAFramework.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = NGAFramework.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -289,7 +288,6 @@
 		821663421C96175000493594 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				821663051C9611B900493594 /* NGAOutlinedLabel.swift */,
 				821663021C9611B900493594 /* NGAGradientView.swift */,
 				821663031C9611B900493594 /* NGAContainerViews.swift */,
 				821663081C9611B900493594 /* NGASwitchBar.swift */,
@@ -356,6 +354,7 @@
 				8216630F1C9611B900493594 /* NGAXMLParser.swift */,
 				828DAE971C96075400EEDE1B /* NGAFramework.h */,
 				828DAE991C96075400EEDE1B /* Info.plist */,
+				8274A57D1C9C95B200CAC913 /* README.md */,
 			);
 			path = NGAFramework;
 			sourceTree = "<group>";
@@ -533,7 +532,6 @@
 				8216632D1C9611D400493594 /* NGASwitchBarTableViewController.swift in Sources */,
 				829047181C96800400EF27F5 /* CGRectExtension.swift in Sources */,
 				829046FD1C965DDD00EF27F5 /* UINavigationControllerExtension.swift in Sources */,
-				821663181C9611B900493594 /* NGAOutlinedLabel.swift in Sources */,
 				829047201C9682F700EF27F5 /* BasicConversionExtensions.swift in Sources */,
 				829349391C9B76C7005BB4DE /* APIHandler.swift in Sources */,
 				8290471E1C9680D300EF27F5 /* NSDateExtension.swift in Sources */,

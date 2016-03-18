@@ -172,7 +172,7 @@
 		821663491C965A6400493594 /* ArrayExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArrayExtension.swift; sourceTree = "<group>"; };
 		8216634B1C965A8E00493594 /* DictionaryExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DictionaryExtension.swift; sourceTree = "<group>"; };
 		82237F9D1C98DF3B0069153C /* Formable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Formable.swift; sourceTree = "<group>"; };
-		8274A57D1C9C95B200CAC913 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		8274A57D1C9C95B200CAC913 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = NGAFramework/README.md; sourceTree = "<group>"; };
 		82763E731C979759009107E0 /* SQLite.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SQLite.xcodeproj; path = "../../Frameworks/SQLite.swift-master/SQLite.xcodeproj"; sourceTree = "<group>"; };
 		82763E881C9797B1009107E0 /* SQLite.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SQLite.swift; sourceTree = "<group>"; };
 		828DAE941C96075400EEDE1B /* NGAFramework.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = NGAFramework.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -319,6 +319,7 @@
 		828DAE8A1C96075400EEDE1B = {
 			isa = PBXGroup;
 			children = (
+				8274A57D1C9C95B200CAC913 /* README.md */,
 				828DAE961C96075400EEDE1B /* NGAFramework */,
 				8216633B1C9615F500493594 /* Private */,
 				821662EA1C96103600493594 /* CryptoSwift.xcodeproj */,
@@ -354,7 +355,6 @@
 				8216630F1C9611B900493594 /* NGAXMLParser.swift */,
 				828DAE971C96075400EEDE1B /* NGAFramework.h */,
 				828DAE991C96075400EEDE1B /* Info.plist */,
-				8274A57D1C9C95B200CAC913 /* README.md */,
 			);
 			path = NGAFramework;
 			sourceTree = "<group>";

@@ -9,35 +9,35 @@
 import Foundation
 import UIKit
 
-class NGASegmentedViewController: NGAViewController {
+public class NGASegmentedViewController: NGAViewController {
     
-    weak var titleView:UIView? {
+    public weak var titleView:UIView? {
         didSet{
             self.setFramesForSubviews()
         }
     }
-    weak var topView:UIView? {
+    public weak var topView:UIView? {
         didSet{
             self.setFramesForSubviews()
         }
     }
-    weak var bottomView:UIView? {
+    public weak var bottomView:UIView? {
         didSet{
             self.setFramesForSubviews()
         }
     }
     
-    var segmentXPadding:CGFloat = 10
-    var segmentYPadding:CGFloat = 10
+    public var segmentXPadding:CGFloat = 10
+    public var segmentYPadding:CGFloat = 10
     
-    var titleViewHeightRatio:CGFloat = 0.1
+    public var titleViewHeightRatio:CGFloat = 0.1
     
-    var topViewYRatio:CGFloat = 0.4 {
+    public var topViewYRatio:CGFloat = 0.4 {
         didSet {
             
         }
     }
-    var topViewXRatio:CGFloat = 0.4 {
+    public var topViewXRatio:CGFloat = 0.4 {
         didSet {
             
         }
@@ -54,7 +54,7 @@ class NGASegmentedViewController: NGAViewController {
 //        }
 //    }
     
-    override func setFramesForSubviews() {
+    public override func setFramesForSubviews() {
         super.setFramesForSubviews()
         var top = segmentXPadding
         var otherViewsFullRatio:CGFloat = 1.0

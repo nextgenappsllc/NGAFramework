@@ -22,6 +22,27 @@ public extension Dictionary {
         return temp
     }
     
+    public func addKeyValue(key:Key?, value:Value?) -> Dictionary<Key, Value> {
+        var temp = self
+        temp.safeSetKey(key, toValue: value)
+        return temp
+    }
+    
+    
+    public mutating func append(key:Key?, value:Value?) -> Dictionary<Key,Value> {
+        self.safeSetKey(key, toValue: value)
+        return self
+    }
+    public mutating func append(dict:[Key:Value]?) -> Dictionary<Key,Value> {
+        if let d  = dict {
+            for (key, value) in d {
+                self.safeSetKey(key, toValue: value)
+            }
+        }
+        return self
+    }
+    
+    
     public func selectIf(b:(Value) -> Bool) -> Dictionary {
         var temp = [Key:Value]()
         for (key, value) in self {
@@ -163,5 +184,34 @@ public extension Dictionary {
     
     
 }
+
+
+
+public extension Dictionary where Value:Hashable {
+    
+    public func invert() -> [Value:Key]{
+        var r:[Value:Key] = [:]
+        for (key, value) in self {
+            r[value] = key
+        }
+        return r
+    }
+    
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 

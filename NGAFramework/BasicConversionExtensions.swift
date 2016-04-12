@@ -74,7 +74,7 @@ extension Double:ToClassType {
         return self as? T
     }
     public func toInt() -> Int {
-        return Int(self.roundValue())
+        return Int(round(self))
     }
     
     public func toFloat() -> Float {
@@ -88,9 +88,6 @@ extension Double:ToClassType {
         return "\(self)"
     }
     
-    public func roundValue() -> Double {
-        return round(self)
-    }
     public func toBool() -> Bool {
         return toString().toBool() ?? false
     }
@@ -106,7 +103,15 @@ extension Double:ToClassType {
     public func between(min min:ThisClass, max:ThisClass) -> ThisClass {
         return withMinValue(min).withMaxValue(max)
     }
-    
+    public func rounded(to:Int = 0) -> Double {
+        var i:Int = 1
+        for _ in 0..<to {
+            i = i * 10
+        }
+        var rValue = self
+        rValue = ( rValue * i.toDouble() ).toInt().toDouble() / i.toDouble()
+        return rValue
+    }
 }
 
 extension Float:ToClassType {
@@ -127,7 +132,7 @@ extension Float:ToClassType {
         return self as? T
     }
     public func toInt() -> Int {
-        return Int(self.roundValue())
+        return Int(round(self))
     }
     
     public func toDouble() -> Double {
@@ -140,9 +145,7 @@ extension Float:ToClassType {
     public func toString() -> String {
         return "\(self)"
     }
-    public func roundValue() -> Float {
-        return round(self)
-    }
+
     public func toBool() -> Bool {
         return toString().toBool() ?? false
     }
@@ -158,6 +161,16 @@ extension Float:ToClassType {
     public func between(min min:ThisClass, max:ThisClass) -> ThisClass {
         return withMinValue(min).withMaxValue(max)
     }
+    public func rounded(to:Int = 0) -> Float {
+        var i:Int = 1
+        for _ in 0..<to {
+            i = i * 10
+        }
+        var rValue = self
+        rValue = ( rValue * i.toFloat() ).toInt().toFloat() / i.toFloat()
+        return rValue
+    }
+    
 }
 
 extension CGFloat:ToClassType {
@@ -180,7 +193,7 @@ extension CGFloat:ToClassType {
     
     
     public func toInt() -> Int {
-        return Int(self.roundValue())
+        return Int(round(self))
     }
     
     public func toFloat() -> Float {
@@ -193,18 +206,31 @@ extension CGFloat:ToClassType {
     public func toString() -> String {
         return "\(self)"
     }
-    public func roundValue() -> CGFloat {
-        return round(self)
+    
+//    public func roundTo(decimalPlaces:Int = 0) -> CGFloat {
+//        var i = 1
+//        for (var index = 0; index < decimalPlaces; index++) {
+//            i = i * 10
+//        }
+//        var rValue = self
+//        rValue = ( rValue * i.toCGFloat() ).toInt().toCGFloat() / i.toCGFloat()
+//        return rValue
+//    }
+
+    public func toEqualSize() -> CGSize {
+        return CGSizeMake(self, self)
     }
-    public func roundTo(decimalPlaces:Int = 0) -> CGFloat {
-        var i = 1
-        for (var index = 0; index < decimalPlaces; index++) {
+    
+    public func rounded(to:Int = 0) -> CGFloat {
+        var i:Int = 1
+        for _ in 0..<to {
             i = i * 10
         }
         var rValue = self
         rValue = ( rValue * i.toCGFloat() ).toInt().toCGFloat() / i.toCGFloat()
         return rValue
     }
+
     
     public func toBool() -> Bool {
         return toString().toBool() ?? false
@@ -234,8 +260,11 @@ public extension NSData {
     public func toRawString() -> String {
         return "\(self)"
     }
-    public func toXMLElement() -> NGAXMLElement? {
-        return NGAXMLParser.parseData(self)
+//    public func toXMLElement() -> NGAXMLElement? {
+//        return NGAXMLParser.parseData(self)
+//    }
+    public func toXmlElement() -> XmlElement? {
+        return XmlElement(data: self)
     }
     public func toJSON(options:NSJSONReadingOptions = .AllowFragments) -> AnyObject? {
         do {
@@ -299,7 +328,7 @@ extension String:ToClassType {
     
     public func toInt(nilValue:Int? = nil) -> Int? {
         let trimmed = self.trim()
-        return Int(trimmed) ?? toDouble()?.roundValue().toInt() ?? nilValue
+        return Int(trimmed) ?? toDouble()?.toInt() ?? nilValue
     }
     
     public func toFloat(nilValue:Float? = nil) -> Float? {

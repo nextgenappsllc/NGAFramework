@@ -9,8 +9,52 @@
 import Foundation
 
 public extension UILabel {
-    public func fitTextToSize() {
-        font = font.fitFontToSize(frameSize, forString: text)
+//    @nonobjc public func fitFontToSizeOfText(t:String? = nil) {
+//        let textToSize = t ?? text
+//        font = font.fitFontToSize(frameSize, forString: textToSize)
+//    }
+    @nonobjc public func fitTextToSize(t:String? = nil) {
+        let textToSize = t ?? text
+        font = font.fitFontToSize(frameSize, forString: textToSize)
+    }
+    
+    @nonobjc public func sizeToFitY(t:String? = nil) {
+        let textToSize = t ?? text
+        let l = UILabel()
+        l.frame = frame
+        l.attributedText = attributedText
+        if !String.isEmptyOrNil(attributedText?.string) {
+            l.attributedText = attributedText
+        }else {
+            l.text = textToSize
+            l.font = font
+        }
+        l.sizeToFit()
+        frameHeight = l.frameHeight
+    }
+    
+    @nonobjc public func sizeToFitX(t:String? = nil) {
+        let textToSize = t ?? text
+        let l = UILabel()
+        l.frame = frame
+        if !String.isEmptyOrNil(attributedText?.string) {
+            l.attributedText = attributedText
+        }else {
+            l.text = textToSize
+            l.font = font
+        }
+        l.sizeToFit()
+        frameWidth = l.frameWidth
+    }
+    
+    func sizeToFitText(t:String? = nil) {
+        let txt = t ?? text
+        let l = UILabel()
+        l.text = txt
+        l.font = font
+        l.frame = frame
+        l.sizeToFit()
+        frameSize = l.frameSize
     }
     
     public func fadeInText(txt:String? = nil) {
@@ -81,7 +125,7 @@ public extension UILabel {
                     label.removeFromSuperview()
                     if i >= count {self.text = t}
             })
-            i++
+            i += 1
             if i >= count {print("invalidate");timer?.invalidate()}
         }
         

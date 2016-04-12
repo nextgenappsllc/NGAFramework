@@ -10,9 +10,9 @@ import Foundation
 
 public extension Array {
     
-    public mutating func appendIfNotNil(element:Element?) {
+    public mutating func appendIfNotNil(element:Element?) -> Array<Element> {
         if element != nil {append(element!)}
-        
+        return self
     }
     
     //    func containsIfNotNil(element:Element?) -> Bool {
@@ -118,17 +118,19 @@ public extension Array {
     
     public mutating func mapInPlace(iteratorBlock b:(element:Element) -> Element?) {
         var vCount = count
-        for var i = 0; i < vCount; i++ {
+        var i = 0
+        while i < vCount {
             if let newElement = b(element: self[i]) {
                 self[i] = newElement
+                i += 1
             } else {
                 removeAtIndex(i)
-                vCount--
-                i--
+                vCount -= 1
             }
             
-            
+        
         }
+        
     }
     
     public func convertedToType<T>(c: (T.Type)) -> [T]? {
@@ -183,6 +185,13 @@ public extension Array {
         return temp
     }
     
+    
+    public func selectFirst(b:(Element) -> Bool) -> Element? {
+        for e in self  {
+            if b(e) {return e}
+        }
+        return nil
+    }
     //    func hasObject<Elemen>(obj:Element) -> Bool {
     //        for object in self {
     //
@@ -210,3 +219,7 @@ public extension Array where Element : Equatable {
         }
     }
 }
+
+
+
+

@@ -18,7 +18,7 @@ import MapKit
 public class TimerExecutor {
     public var block:((NSTimer?) -> Void)?
     public var timer:NSTimer?
-    public func executeBlock() {
+    @objc public func executeBlock() {
         block?(timer)
     }
     public init() {}

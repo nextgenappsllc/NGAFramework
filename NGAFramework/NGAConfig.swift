@@ -12,28 +12,27 @@ import SystemConfiguration
 
 
 
-struct NGADevice {
-    static var currentScreenBounds:CGRect {
+public struct NGADevice {
+    public static var currentScreenBounds:CGRect {
         get {
             return UIScreen.mainScreen().bounds
         }
     }
     
-    static var portraitScreenBounds:CGRect {
+    public static var portraitScreenBounds:CGRect {
         get {
             return UIScreen.mainScreen().nativeBounds
         }
     }
     
-    static var screenLongSide:CGFloat {
+    public static var screenLongSide:CGFloat {
         get {
             var temp:CGFloat = 0
             temp = currentScreenBounds.size.height > currentScreenBounds.size.width ? currentScreenBounds.size.height : currentScreenBounds.size.width
-            
             return temp
         }
     }
-    static var screenShortSide:CGFloat {
+    public static var screenShortSide:CGFloat {
         get {
             var temp:CGFloat = 0
             temp = currentScreenBounds.size.height < currentScreenBounds.size.width ? currentScreenBounds.size.height : currentScreenBounds.size.width
@@ -42,19 +41,23 @@ struct NGADevice {
         }
     }
     
-    static var windowShortSide:CGFloat {
+    public static var window:UIWindow? {get{return (UIApplication.sharedApplication().delegate as? AppDelegate)?.window}}
+    
+    public static var statusBarFrame:CGRect {get{return UIApplication.sharedApplication().statusBarFrame}}
+    
+    public static var windowShortSide:CGFloat {
         get {
-            return (UIApplication.sharedApplication().delegate as? AppDelegate)?.window?.bounds.shortSide ?? screenShortSide
+            return window?.bounds.shortSide ?? screenShortSide
         }
     }
     
-    static var windowLongSide:CGFloat {
+    public static var windowLongSide:CGFloat {
         get {
-            return (UIApplication.sharedApplication().delegate as? AppDelegate)?.window?.bounds.longSide ?? screenLongSide
+            return window?.bounds.longSide ?? screenLongSide
         }
     }
     
-    static var cellularConnected:Bool {
+    public static var cellularConnected:Bool {
         var temp = false
         var flags = SCNetworkReachabilityFlags(rawValue: 0)
         let netReachability = SCNetworkReachabilityCreateWithName(kCFAllocatorDefault, "www.google.com")
@@ -68,53 +71,49 @@ struct NGADevice {
         return temp
     }
     
-    static var networkConnected:Bool {
+    public static var networkConnected:Bool {
         var temp = false
         var flags = SCNetworkReachabilityFlags(rawValue: 0)
         var retrievedFlags = false
         let netReachability = SCNetworkReachabilityCreateWithName(kCFAllocatorDefault, "www.google.com")
         if netReachability != nil {
             retrievedFlags = SCNetworkReachabilityGetFlags(netReachability!, &flags)
-            
-            
         }
         temp = !(!retrievedFlags || flags.rawValue == 0)
         
         return temp
     }
     
-    static var wifiConnected:Bool {
+    public static var wifiConnected:Bool {
         var temp = false
         temp = cellularConnected ? false : networkConnected
         return temp
     }
     
     
-    static var iPad:Bool {
+    public static var iPad:Bool {
         get {
             return UIDevice.currentDevice().userInterfaceIdiom == UIUserInterfaceIdiom.Pad
         }
     }
     
-    static var iPhone:Bool {
+    public static var iPhone:Bool {
         get {
             return UIDevice.currentDevice().userInterfaceIdiom == UIUserInterfaceIdiom.Phone
         }
     }
     
-    static var multitasking:Bool {
+    public static var multitasking:Bool {
         get {
             var temp = false
             if #available(iOS 9.0, *) {
                 temp = screenShortSide > windowShortSide
-//                if let windowShortSide = (UIApplication.sharedApplication().delegate as? AppDelegate)?.window?.bounds.shortSide {
-//                    temp = UIScreen.mainScreen().bounds.shortSide > windowShortSide
-//                }
             }
             return temp
         }
     }
     
+    public static var remSize:CGFloat {get {return screenShortSide * 0.04}}
 
     
 }
@@ -125,8 +124,8 @@ struct NGADevice {
 
 //MARK: Thread handler
 
-class NGAExecute {
-    class func performOnMainThread(b:VoidBlock?) {
+public class NGAExecute {
+    public class func performOnMainThread(b:VoidBlock?) {
         if b == nil {return}
         if NSThread.isMainThread() {
             b?()

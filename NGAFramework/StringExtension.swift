@@ -41,17 +41,14 @@ public extension String {
             self = arr.joinWithSeparator("")
         }
     }
-    public subscript (var r: Range<Int>) -> String {
+    
+    public subscript (r: Range<Int>) -> String {
+        var range = r
         let letterCount = self.characters.count
-        if r.endIndex > letterCount && letterCount > 0{
-            r.endIndex = letterCount
-        }
-        return substringWithRange(Range(start: startIndex.advancedBy(r.startIndex), end: startIndex.advancedBy(r.endIndex)))
+        if range.endIndex > letterCount && letterCount > 0{ range.endIndex = letterCount }
+        return substringWithRange(startIndex.advancedBy(range.startIndex)..<startIndex.advancedBy(range.endIndex))
     }
     
-    //    subscript (var r: Range<Int>) -> String {
-    //        return substrings[r].joinWithSeparator("")
-    //    }
     
     func abbreviatedStringWithMaxCharacters(maxChars:Int = 3) -> String {
         var temp = self
@@ -137,27 +134,41 @@ public extension String {
         return self.stringByAddingPercentEncodingWithAllowedCharacters(allowedCharacters) ?? self
     }
     
-    public func htmlDecode() -> String {
-        let attributedOptions = [NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType]
-        return NSAttributedString(string: self, attributes: attributedOptions).string
+    
+    public static let xmlEscapeCharMap = [["&":"&amp"],["<":"&lt"], [">": "&gt"], ["'":"&pos"], ["\"":"&quo"]]
+    
+    public func xmlEncode() -> String {
+        var str = self
+        for charDictionary in String.xmlEscapeCharMap {
+            for (key, value) in charDictionary {
+                str = str.stringByReplacingOccurrencesOfString(key, withString: value)
+            }
+        }
+        return str
+    }
+    public func xmlDecode() -> String {
+        var str = self
+        for charDictionary in String.xmlEscapeCharMap.reverse() {
+            for (key, value) in charDictionary.invert() {
+                str = str.stringByReplacingOccurrencesOfString(key, withString: value)
+            }
+        }
+        return str
     }
     
-    //    func crc32CheckSum() -> String? {
-    //        if let data = self.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: true) {
-    //            let length = data.length
-    //            let buff = UnsafePointer<Bytef>(data.bytes)
-    //            let checkSum = crc32(0, buff, uInt(length))
-    //            return "\(checkSum)"
-    //        }
-    //        return nil
-    //    }
+    public func htmlDecode() -> String? {
+        let encodedData = self.dataUsingEncoding(NSUTF8StringEncoding)
+        if encodedData == nil {return nil}
+        let attributedOptions : [String: AnyObject] = [NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType, NSCharacterEncodingDocumentAttribute: NSUTF8StringEncoding]
+        return try? NSAttributedString(data: encodedData!, options: attributedOptions, documentAttributes: nil).string
+    }
+    
     
     public func crc32CheckSum() -> String? {
         let s = self.crc32()
         if let i = UInt(s, radix: 16) {
             return "\(i)"
         }
-        
         return nil
     }
     
@@ -188,6 +199,28 @@ public extension String {
     }
 
     
+    public static func repeatedStringOfSize(s:Int, repeatedString:String = " ") -> String {
+        var str = ""
+        s.times { (i) in
+            str += repeatedString
+        }
+        return str
+    }
+    
+    
+    public static let degrees = "°"
+    
+    
+    
     
 }
+
+
+
+
+
+
+
+
+
 

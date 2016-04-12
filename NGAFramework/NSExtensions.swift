@@ -112,11 +112,43 @@ public extension NSDictionary {
     }
 }
 
+
+public extension NSData {
+    public func toMutableData() -> NSMutableData {
+        return self.mutableCopy() as! NSMutableData
+    }
+    
+    public func append(data:NSData?) -> NSData {
+        if let d = data {
+            let mut = d.toMutableData()
+            mut.appendData(d)
+            return mut.toData()
+        } else {
+            return self
+        }
+    }
+}
+
+public extension NSMutableData {
+    func toData() -> NSData {
+        return self.copy() as! NSData
+    }
+}
+
+
+
 public extension Equatable {
     public func isEqualTo<T>(other:T?) -> Bool {
         return self == other as? Self
     }
 }
+
+
+
+
+
+
+
 
 
 

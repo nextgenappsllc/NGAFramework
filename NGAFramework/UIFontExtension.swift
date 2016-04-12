@@ -10,7 +10,12 @@ import Foundation
 
 public extension UIFont {
     
+    @nonobjc public static let attributeKey = NSFontAttributeName
+    
     public func fitFontToSize(size:CGSize, forString string:String?) -> UIFont {
+        if String.isEmptyOrNil(string) || size.width == 0 || size.height == 0 {
+            return self.fontWithSize(0)
+        }
         var fontSize:CGFloat = 0.0
         var fontSizeFound = false
         var smallSide:CGFloat = 1
@@ -20,19 +25,16 @@ public extension UIFont {
         else {
             smallSide = size.height
         }
-        let increment = 1 * smallSide / 10
-        
+        let increment = smallSide / 100
         var temp = self.fontWithSize(fontSize)
-        if string != nil {
-            while !fontSizeFound {
-                let testSize = string!.sizeWithAttributes([NSFontAttributeName:self.fontWithSize(fontSize)])
-                if testSize.height > size.height || testSize.width > size.width{
-                    fontSizeFound = true
-                }
-                else {
-                    temp = self.fontWithSize(fontSize)
-                    fontSize += increment
-                }
+        while !fontSizeFound {
+            let testSize = string!.sizeWithAttributes([NSFontAttributeName:self.fontWithSize(fontSize)])
+            if testSize.height > size.height || testSize.width > size.width{
+                fontSizeFound = true
+            }
+            else {
+                temp = self.fontWithSize(fontSize)
+                fontSize += increment
             }
         }
         return temp
@@ -63,6 +65,16 @@ public extension UIFont {
         let r = i ?? 0
         let size = inc ? pointSize + (pointSize * r) : pointSize - (pointSize * r)
         return self.fontWithSize(size)
+    }
+    
+    public class func allFontNames() -> [String] {
+        var temp:[String] = []
+        for family in UIFont.familyNames() {
+            for fontName in UIFont.fontNamesForFamilyName(family) {
+                temp.append(fontName)
+            }
+        }
+        return temp
     }
     
     public class func printAllFonts() {

@@ -13,7 +13,7 @@ public extension NSTimer {
     public class func executeBlockWithDelay(delay:Double, block:(NSTimer?) -> Void) -> NSTimer {
         let executor = TimerExecutor()
         executor.block = block
-        let timer = NSTimer.scheduledTimerWithTimeInterval(delay, target: executor, selector: Selector("executeBlock"), userInfo: executor, repeats: true)
+        let timer = NSTimer.scheduledTimerWithTimeInterval(delay, target: executor, selector: #selector(TimerExecutor.executeBlock), userInfo: executor, repeats: true)
         executor.timer = timer
         return timer
     }

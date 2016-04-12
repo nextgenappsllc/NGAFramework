@@ -9,25 +9,19 @@
 import Foundation
 import UIKit
 
-public class NGAGradientView: UIView {
+public class NGAGradientView: NGAView {
     public let gradientLayer = CAGradientLayer()
     public var colors:[UIColor]? {get{return convertCGColorsToUIColors(gradientLayer.colors)} set{gradientLayer.colors = convertUIColorsToCGColors(newValue)}}
     public var locations:[NSNumber]? {get{return gradientLayer.locations} set{gradientLayer.locations = newValue}}
     public var endPoint: CGPoint {get{return gradientLayer.endPoint} set{gradientLayer.endPoint = newValue}}
     public var startPoint: CGPoint {get{return gradientLayer.startPoint} set{gradientLayer.startPoint = newValue}}
     
-    public override init(frame: CGRect) {
-        super.init(frame: frame)
+    public override func postInit() {
+        super.postInit()
         layer.addSublayer(gradientLayer)
-        
     }
-    
-    public convenience required init?(coder aDecoder: NSCoder) {
-        self.init(frame:CGRectZero)
-    }
-    
-    public override func layoutSubviews() {
-        super.layoutSubviews()
+    public override func setFramesForSubviews() {
+        super.setFramesForSubviews()
         gradientLayer.frame = bounds
     }
     

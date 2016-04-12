@@ -10,19 +10,19 @@ import Foundation
 import UIKit
 
 
-class NGASwitchBarTableViewController: NGATableViewController, NGASwitchBarDelegate {
+public class NGASwitchBarTableViewController: NGATableViewController, NGASwitchBarDelegate {
     
-    var switchBar = NGASwitchBar()
+    public var switchBar = NGASwitchBar()
     
-    var switchBarIndex:Int {
+    public var switchBarIndex:Int {
         get {
             return self.switchBar.index
         }
     }
     
-    var switchBarRatio:CGFloat = 0.08 {didSet{dispatch_async(dispatch_get_main_queue(), self.setFramesForSubviews)}}
+    public var switchBarRatio:CGFloat = 0.08 {didSet{dispatch_async(dispatch_get_main_queue(), self.setFramesForSubviews)}}
     
-    var mainTableViewFrame:CGRect {
+    public var mainTableViewFrame:CGRect {
         get {
             let longSide = self.contentView.longSide * (1 - switchBarRatio)
             var tableViewFrame = self.contentView.bounds
@@ -38,29 +38,10 @@ class NGASwitchBarTableViewController: NGATableViewController, NGASwitchBarDeleg
         }
     }
     
-    //MARK: View Cycle
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        self.setup()
-    }
-    
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
-//        self.tableView.delegate = self
-//        self.tableView.dataSource = self
-        
-    }
-    
-    override func viewWillDisappear(animated: Bool) {
-        super.viewWillDisappear(animated)
-//        self.tableView.delegate = nil
-//        self.tableView.dataSource = nil
-        
-    }
     
     
     //MARK: Setup
-    override func setup() {
+    public override func setup() {
         super.setup()
         self.contentView.scrollEnabled = false
         self.switchBar.delegate = self
@@ -68,33 +49,29 @@ class NGASwitchBarTableViewController: NGATableViewController, NGASwitchBarDeleg
     
     
     //MARK: Frames
-    override func setFramesForSubviews() {
+    public override func setFramesForSubviews() {
         self.setSwitchBarFrame()
         super.setFramesForSubviews()
     }
     
-    func setSwitchBarFrame() {
+    public func setSwitchBarFrame() {
         
         let longSide = self.contentView.longSide * switchBarRatio
         var switchBarFrame = self.contentView.bounds
-        if landscape {
-            switchBarFrame.size.width = longSide
-        }
-        else {
-            switchBarFrame.size.height = longSide
-        }
+        if landscape { switchBarFrame.size.width = longSide}
+        else {switchBarFrame.size.height = longSide}
         self.switchBar.frame = switchBarFrame
         switchBar.vertical = landscape
         self.contentView.addSubview(switchBar)
     }
     
-    override func setTableViewFrame() {
+    public override func setTableViewFrame() {
         super.setTableViewFrame()
         self.tableView.frame = self.mainTableViewFrame
         
     }
     
-    func frameForTableview(tableView:UITableView) -> CGRect {
+    public func frameForTableview(tableView:UITableView) -> CGRect {
         let temp = CGRectZero
         let longSide = self.contentView.longSide * 0.9
         var tableViewFrame = self.contentView.bounds
@@ -111,7 +88,7 @@ class NGASwitchBarTableViewController: NGATableViewController, NGASwitchBarDeleg
     
     
     //MARK: Switch Bar Delegate
-    func switchBarIndexChangedTo(index: Int) {
+    public func switchBarIndexChangedTo(index: Int) {
 //        self.loadFoldersAndFilesInBackground()
         
         let startFrame1 = self.mainTableViewFrame

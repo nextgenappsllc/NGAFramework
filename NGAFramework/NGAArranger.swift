@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 
 
-
+//// deprecate, use array and dictionary extensions instead
 class NGAArranger {
     
     class func arrangeArrayIntoDictionaryAndKeyArray(array:NSArray?, objectOrderedBefore:((AnyObject?, AnyObject?) -> Bool)?, keyGenerator:(AnyObject?) -> String?, keyOrderedBeforeBlock:((String, String) -> Bool)?) -> (dictionary:NSDictionary?, keyArray:NSArray?) {

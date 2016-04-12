@@ -26,10 +26,6 @@ public enum FormItemType:String {
     case Boolean
     case Date
     case Double
-    
-    
-    
-    
 }
 
 

@@ -12,7 +12,8 @@ public extension UIView {
     
     //// adding subviews make the last one appear on top of the previous so these methods do not re add thus preserving the order
     public func addSubviewIfNeeded(subview:UIView?) {
-        if subview != nil && !subview!.isDescendantOfView(self) {addSubview(subview!)}
+        //// changed to direct descendant
+        if subview != nil && !subview!.isDirectDescendantOf(self) {addSubview(subview!)}
     }
     //// same as above but can add many
     public func addSubviewsIfNeeded(subviews:UIView?...) {
@@ -292,8 +293,22 @@ public extension UIView {
         frame.fitRectInCiricleWithRadius(radius, xInset: xInset, yInset: yInset)
     }
     
+    public var topView:UIView? {
+        get{
+            var v = superview
+            while v != nil {
+                let s = v?.superview
+                if s.isNil || s is UIWindow {return v}
+                v = s
+            }
+            return v
+        }
+    }
     
     
+    public func isDirectDescendantOf(view:UIView) -> Bool {
+        return view.subviews.contains(self)
+    }
     
     //MARK: Layer
     public var borderColor:UIColor? {get{if let temp = layer.borderColor{return UIColor(CGColor: temp)};return nil}set{layer.borderColor = newValue?.CGColor}}
@@ -362,6 +377,23 @@ public extension UIView {
         if let c = UIGraphicsGetCurrentContext() { layer.renderInContext(c) }
         UIGraphicsEndPDFContext()
         return data.copy() as? NSData
+    }
+    
+    public func toSquare(useSmallSide:Bool = true) {
+        let s = useSmallSide ? shortSide : longSide
+        frameSize = CGSizeMake(s, s)
+    }
+    public func toCircle(useSmallSide:Bool = true) {
+        toSquare(useSmallSide)
+        cornerRadius = frameWidth / 2
+    }
+    
+    public func setSizeWithWidth(w:CGFloat, aspectRatioHToW:CGFloat) {
+        frameSize = CGSize.makeFromWidth(w, aspectRatioHToW: aspectRatioHToW)
+    }
+    
+    public func setSizeWithHeight(h:CGFloat, aspectRatioWToH:CGFloat) {
+        frameSize = CGSize.makeFromWidth(h, aspectRatioHToW: aspectRatioWToH)
     }
     
 }

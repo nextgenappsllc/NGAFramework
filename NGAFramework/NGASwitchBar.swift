@@ -69,9 +69,9 @@ public class NGASwitchBar: UIView, NGASwitchBarItemDelegate {
                             button.imageView.tintColor = self.textColor
                             //                        self.buttonArray.addObject(button)
                             self.buttonArray.insertObject(button, atIndex: i)
-                            numberFound++
+                            numberFound += 1
                             if i <= index {
-                                index++
+                                index += 1
                             }
                         }
                         else if numberFound > 0 {
@@ -79,7 +79,7 @@ public class NGASwitchBar: UIView, NGASwitchBarItemDelegate {
                                 button.tag += numberFound
                             }
                         }
-                        i++
+                        i += 1
                     }
                     if numberFound > 0{
                         self.setFrames()
@@ -98,20 +98,20 @@ public class NGASwitchBar: UIView, NGASwitchBarItemDelegate {
                             }
                             self.buttonArray.removeObjectAtIndex(i)
 //                            println("removed object at index \(i)")
-                            numberFound++
+                            numberFound += 1
                             if i == index {
                                 if i > 0 {
-                                    index--
+                                    index -= 1
                                 }
                                 else if index + 1 <= buttonArray.count {
-                                    index++
+                                    index += 1
                                 }
                             }
                             else if i > index {
                                 
                             }
                             else if i < index && index - 1 >= 0 {
-                                index--
+                                index -= 1
                             }
                             
                         }
@@ -120,7 +120,7 @@ public class NGASwitchBar: UIView, NGASwitchBarItemDelegate {
                                 button.tag -= numberFound
                             }
                         }
-                        i++
+                        i += 1
                     }
                     if numberFound > 0{
                         self.setFrames()
@@ -319,7 +319,7 @@ public class NGASwitchBar: UIView, NGASwitchBarItemDelegate {
                 button.imageView.tintColor = self.textColor
                 self.buttonArray.addObject(button)
                 button.backgroundColor = UIColor.clearColor()
-                index++
+                index += 1
             }
         }
         else {
@@ -364,7 +364,7 @@ public class NGASwitchBar: UIView, NGASwitchBarItemDelegate {
                 }
 //                println("setting frame for button with title \(button.title)")
                 
-                i++
+                i += 1
             }
         }
     }
@@ -514,7 +514,7 @@ public class NGASwitchBar: UIView, NGASwitchBarItemDelegate {
                     temp = i
                     break
                 }
-                i++
+                i += 1
             }
             
         }
@@ -589,7 +589,7 @@ public class NGASwitchBarItem: UIView {
     }()
     public var captionedImagePresent = false
     public lazy var tapGestureRecognizer:UITapGestureRecognizer = {
-        var temp = UITapGestureRecognizer(target: self, action: "switchBarItemTapped")
+        var temp = UITapGestureRecognizer(target: self, action: #selector(switchBarItemTapped))
         return temp
     }()
     
@@ -740,9 +740,9 @@ public class NGAScrollingSwitchBar: UIScrollView, NGASwitchBarItemDelegate {
                             button.imageView.tintColor = self.textColor
                             //                        self.buttonArray.addObject(button)
                             self.buttonArray.insertObject(button, atIndex: i)
-                            numberFound++
+                            numberFound += 1
                             if i <= index {
-                                index++
+                                index += 1
                             }
                         }
                         else if numberFound > 0 {
@@ -750,7 +750,7 @@ public class NGAScrollingSwitchBar: UIScrollView, NGASwitchBarItemDelegate {
                                 button.tag += numberFound
                             }
                         }
-                        i++
+                        i += 1
                     }
                     if numberFound > 0{
                         self.setFramesOnMainThread()
@@ -769,20 +769,20 @@ public class NGAScrollingSwitchBar: UIScrollView, NGASwitchBarItemDelegate {
                             }
                             self.buttonArray.removeObjectAtIndex(i)
                             //                            println("removed object at index \(i)")
-                            numberFound++
+                            numberFound += 1
                             if i == index {
                                 if i > 0 {
-                                    index--
+                                    index -= 1
                                 }
                                 else if index + 1 <= buttonArray.count {
-                                    index++
+                                    index += 1
                                 }
                             }
                             else if i > index {
                                 
                             }
                             else if i < index && index - 1 >= 0 {
-                                index--
+                                index -= 1
                             }
                             
                         }
@@ -791,7 +791,7 @@ public class NGAScrollingSwitchBar: UIScrollView, NGASwitchBarItemDelegate {
                                 button.tag -= numberFound
                             }
                         }
-                        i++
+                        i += 1
                     }
                     if numberFound > 0{
                         self.setFramesOnMainThread()
@@ -994,7 +994,7 @@ public class NGAScrollingSwitchBar: UIScrollView, NGASwitchBarItemDelegate {
                 button.imageView.tintColor = self.textColor
                 self.buttonArray.addObject(button)
                 button.backgroundColor = UIColor.clearColor()
-                index++
+                index += 1
             }
         }
         else {
@@ -1046,7 +1046,7 @@ public class NGAScrollingSwitchBar: UIScrollView, NGASwitchBarItemDelegate {
                 //                println("setting frame for button with title \(button.title)")
                 if i == 0 {sTop = button.top; sLeft = button.left} else if i == arr.count - 1 {sBottom = button.bottom; sRight = button.right}
                 
-                i++
+                i += 1
             }
         }
         if vertical {sRight = viewBounds.width} else {sBottom = viewBounds.height}
@@ -1208,7 +1208,7 @@ public class NGAScrollingSwitchBar: UIScrollView, NGASwitchBarItemDelegate {
                     temp = i
                     break
                 }
-                i++
+                i += 1
             }
             
         }

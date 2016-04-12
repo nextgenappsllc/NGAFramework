@@ -10,16 +10,29 @@ import Foundation
 
 public extension CGSize {
     
+//    public mutating func fitInCircleWithRadius(radius:CGFloat, xInset:CGFloat = 0, yInset:CGFloat = 0) {
+//        let wToHRatio = width * height == 0 ? 1 : width / height
+//        let hToWRatio = 1 / wToHRatio
+//        var w = sqrt((radius * radius) / (1 + (hToWRatio * hToWRatio)))
+////        var w = sqrt((2 * radius) / (1 + (hToWRatio * hToWRatio)))
+//        w = w > xInset ? w - xInset : 0
+//        var h = w * hToWRatio
+//        h = h > yInset ? h - yInset : 0
+//        let newSize = CGSizeMake(w, h)
+//        self = newSize
+//    }
+    
     public mutating func fitInCircleWithRadius(radius:CGFloat, xInset:CGFloat = 0, yInset:CGFloat = 0) {
-        let wToHRatio = width / height
-        let hToWRatio = 1 / wToHRatio
-        var w = sqrt((radius * radius) / (1 + (hToWRatio * hToWRatio)))
+//        let wToHRatio = width * height == 0 ? 1 : width / height
+//        let hToWRatio = 1 / wToHRatio
+        var w = sqrt((radius * radius) / 2)
         w = w > xInset ? w - xInset : 0
-        var h = w * hToWRatio
+        var h = w
         h = h > yInset ? h - yInset : 0
         let newSize = CGSizeMake(w, h)
         self = newSize
     }
+
     
     public var shortSide:CGFloat {
         get {return width > height ? height : width}
@@ -39,7 +52,25 @@ public extension CGSize {
     }
     
     public static func squareSizeWithLength(l:CGFloat) -> CGSize{
-        return CGSizeMake(l, l)
+        return l.toEqualSize()
+    }
+    
+    public static func makeFromHeight(h:CGFloat, aspectRatioWToH:CGFloat) -> CGSize {
+        return CGSizeMake(h * aspectRatioWToH, h)
+    }
+    
+    
+    public static func makeFromWidth(w:CGFloat, aspectRatioHToW:CGFloat) -> CGSize {
+        return CGSizeMake(w, w * aspectRatioHToW)
+    }
+    
+    public static func makeFromHeight(h:CGFloat, aspectRatioHToW:CGFloat) -> CGSize {
+        return CGSizeMake(h / aspectRatioHToW, h)
+    }
+    
+    
+    public static func makeFromWidth(w:CGFloat, aspectRatioWToH:CGFloat) -> CGSize {
+        return CGSizeMake(w, w / aspectRatioWToH)
     }
     
 }

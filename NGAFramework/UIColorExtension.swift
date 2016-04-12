@@ -9,7 +9,7 @@
 import Foundation
 
 public extension UIColor {
-    
+    @nonobjc public static let textColorAttributeKey = NSForegroundColorAttributeName
     public convenience init(hexString:String) {
         
         if let intValue = UInt(hexString, radix: 16) {

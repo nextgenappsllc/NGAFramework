@@ -12,34 +12,34 @@ import UIKit
 
 
 
-class NGATextCollectionViewController: NGACollectionViewController {
+public class NGATextCollectionViewController: NGACollectionViewController {
     
     
     
     
-    override var collectionViewCellClass:AnyClass? {
+    public override var collectionViewCellClass:AnyClass? {
         get {return LabelCollectionViewCell.self}
     }
     
-    override var collectionViewHeaderClass:AnyClass? {
+    public override var collectionViewHeaderClass:AnyClass? {
         get {return LabelCollectionHeaderView.self}
     }
     
-    override func viewDidLoad() {
+    public override func viewDidLoad() {
         super.viewDidLoad()
         collectionView.alwaysBounceVertical = true
         cellRightTextColor = UIColor.blackColor()
     }
     
-    override func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
+    public override func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
         return sectionArray.count
     }
     
-    override func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    public override func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return rowsForSection(section).count
     }
     
-    override func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
+    public override func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
         let label = UILabel()
         label.numberOfLines = 0
         let width = contentView.frameWidth * cellXRatio
@@ -49,7 +49,7 @@ class NGATextCollectionViewController: NGACollectionViewController {
         return CGSizeMake(width, label.frameHeight)
     }
     
-    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
+    public func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
         let text = textForHeaderForSection(section)
         let label = UILabel()
         label.text = text
@@ -61,7 +61,7 @@ class NGATextCollectionViewController: NGACollectionViewController {
         return CGSizeMake(width, label.frameHeight)
     }
     
-    override func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
+    public override func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         let cell = super.collectionView(collectionView, cellForItemAtIndexPath: indexPath)
         if let c = cell as? LabelCollectionViewCell {
             c.label.textAlignment = .Left
@@ -75,7 +75,7 @@ class NGATextCollectionViewController: NGACollectionViewController {
         return cell
     }
     
-    func collectionView(collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, atIndexPath indexPath: NSIndexPath) -> UICollectionReusableView {
+    public func collectionView(collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, atIndexPath indexPath: NSIndexPath) -> UICollectionReusableView {
         let temp = collectionView.dequeueReusableSupplementaryViewOfKind(kind, withReuseIdentifier: "Header", forIndexPath: indexPath)
         if let v = temp as? LabelCollectionHeaderView {
             v.label.text = textForHeaderForSection(indexPath.section)
@@ -91,27 +91,28 @@ class NGATextCollectionViewController: NGACollectionViewController {
     
     //MARK: Text Source
     
-    var cellFont:UIFont? = UIFont(name: NGAFontNames.HelveticaNeueLight, size: 16.0) {didSet{reloadCollectionViewOnMainThread()}}
-    var cellLeftFont:UIFont? {didSet{reloadCollectionViewOnMainThread()}}
-    var cellRightFont:UIFont? {didSet{reloadCollectionViewOnMainThread()}}
-    var headerFont:UIFont? = UIFont(name: NGAFontNames.HelveticaNeue, size: 18.0) {didSet{reloadCollectionViewOnMainThread()}}
+    public var cellFont:UIFont? = UIFont(name: NGAFontNames.HelveticaNeueLight, size: 16.0) {didSet{reloadCollectionViewOnMainThread()}}
+    public var cellLeftFont:UIFont? {didSet{reloadCollectionViewOnMainThread()}}
+    public var cellRightFont:UIFont? {didSet{reloadCollectionViewOnMainThread()}}
+    public var headerFont:UIFont? = UIFont(name: NGAFontNames.HelveticaNeue, size: 18.0) {didSet{reloadCollectionViewOnMainThread()}}
     
-    var cellXRatio:CGFloat = 1 {didSet{reloadCollectionViewOnMainThread()}}
-    var headerXRatio:CGFloat = 1 {didSet{reloadCollectionViewOnMainThread()}}
-    var cellLabelXRatio:CGFloat = 0.95 {didSet{reloadCollectionViewOnMainThread()}}
-    var headerLabelXRatio:CGFloat = 0.98 {didSet{reloadCollectionViewOnMainThread()}}
+    public var cellXRatio:CGFloat = 1 {didSet{reloadCollectionViewOnMainThread()}}
+    public var headerXRatio:CGFloat = 1 {didSet{reloadCollectionViewOnMainThread()}}
+    public var cellLabelXRatio:CGFloat = 0.95 {didSet{reloadCollectionViewOnMainThread()}}
+    public var headerLabelXRatio:CGFloat = 0.98 {didSet{reloadCollectionViewOnMainThread()}}
     
-    var headerBackgroundColor:UIColor = UIColor.darkGrayColor() {didSet{reloadCollectionViewOnMainThread()}}
-    var headerTextColor:UIColor = UIColor.whiteColor() {didSet{reloadCollectionViewOnMainThread()}}
-    var cellBackgroundColor:UIColor = UIColor.whiteColor() {didSet{reloadCollectionViewOnMainThread()}}
-    var cellTextColor:UIColor = UIColor.darkGrayColor() {didSet{reloadCollectionViewOnMainThread()}}
-    var cellLeftTextColor:UIColor? {didSet{reloadCollectionViewOnMainThread()}}
-    var cellRightTextColor:UIColor? {didSet{reloadCollectionViewOnMainThread()}}
+    public var headerBackgroundColor:UIColor = UIColor.darkGrayColor() {didSet{reloadCollectionViewOnMainThread()}}
+    public var headerTextColor:UIColor = UIColor.whiteColor() {didSet{reloadCollectionViewOnMainThread()}}
+    public var cellBackgroundColor:UIColor = UIColor.whiteColor() {didSet{reloadCollectionViewOnMainThread()}}
+    public var cellTextColor:UIColor = UIColor.darkGrayColor() {didSet{reloadCollectionViewOnMainThread()}}
+    public var cellLeftTextColor:UIColor? {didSet{reloadCollectionViewOnMainThread()}}
+    public var cellRightTextColor:UIColor? {didSet{reloadCollectionViewOnMainThread()}}
     
     
-    func setTextArray(a:[AnyObject]?) {
+    public func setTextArray(a:[AnyObject]?) {
         if let textArray = a {
-            sectionArray = textArray.collect(initialValue: []) { (var total:[[NSObject:AnyObject]], element:AnyObject) -> [[NSObject:AnyObject]] in
+            sectionArray = textArray.collect(initialValue: []) { (t:[[NSObject:AnyObject]], element:AnyObject) -> [[NSObject:AnyObject]] in
+                var total = t
                 if let dict = element as? [NSObject:AnyObject] {
                     var sectionDictionary = total.last ?? [:]
                     var rows = sectionDictionary["rows"] as? [AnyObject] ?? []
@@ -123,14 +124,14 @@ class NGATextCollectionViewController: NGACollectionViewController {
                     sectionDictionary["header"] = element
                     total.append(sectionDictionary)
                 }
-                print(element)
+//                print(element)
                 return total
             }
         }
         
     }
     
-    func attributedTextForIndexPath(indexPath:NSIndexPath) -> NSAttributedString? {
+    public func attributedTextForIndexPath(indexPath:NSIndexPath) -> NSAttributedString? {
         if let dict = rowsForSection(indexPath.section).itemAtIndex(indexPath.row) as? [NSObject:AnyObject] {
             let key = dict.keys.first; let value = dict.values.first
             var temp = NSAttributedString()
@@ -157,20 +158,20 @@ class NGATextCollectionViewController: NGACollectionViewController {
     }
     
     
-    func textForHeaderForSection(section:Int) -> String? {
+    public func textForHeaderForSection(section:Int) -> String? {
         if let temp = headerObjectForSection(section) {return "\(temp)"}
         return nil
     }
     
-    func rowsForSection(section:Int) -> [AnyObject] {
+    public func rowsForSection(section:Int) -> [AnyObject] {
         return sectionArray.itemAtIndex(section)?.arrayForKey("rows") ?? []
     }
-    func headerObjectForSection(section:Int) -> AnyObject? {
+    public func headerObjectForSection(section:Int) -> AnyObject? {
         return sectionArray.itemAtIndex(section)?.valueForKey("header")
     }
     
     
-    var sectionArray:[[NSObject:AnyObject]] = [[:]] {
+    public var sectionArray:[[NSObject:AnyObject]] = [[:]] {
         didSet{
             reloadCollectionViewOnMainThread()
             print(sectionArray)

@@ -41,7 +41,9 @@ public class APIHandler: NSObject, NSURLSessionDelegate, NSURLSessionDownloadDel
      
      For files you want to add the data and filename in the dictionary as follows:
      
-     ["file":fileData, "file-filename": "myFile.pdf", "otherFile": otherFileData, "otherFile-filename", "anotherOne.png"]
+     ["file":fileData, "file-filename": "myFile.pdf", "otherFile": otherFileData, "otherFile-filename": "anotherOne.png"... etc]
+     
+     sends fileData with the name myFile.pdf and otherFileData with the name anotherOne.png
      
      - Parameter boundary: The boundary as a string. It should be a long alphanumeric string.
      
@@ -84,8 +86,16 @@ public class APIHandler: NSObject, NSURLSessionDelegate, NSURLSessionDownloadDel
         let task:NSURLSessionTask
         if let data = self.dynamicType.createMultiFormData(multiFormBoundary, parameters: multiFormParameters) {
             request.setValue("multipart/form-data; boundary=\(multiFormBoundary)", forHTTPHeaderField: NGAHttpStrings.contentTypeHeaderField)
+            request.setValue(data.length.toString(), forHTTPHeaderField: HTTPHeaderField.ContentLength.rawValue)
             task = defaultDataSession.uploadTaskWithRequest(request, fromData: data, completionHandler: finalBlock)
-        }else{task = defaultDataSession.dataTaskWithRequest(request, completionHandler: finalBlock)}
+        }else{
+            if progressBlock == nil {task = defaultDataSession.dataTaskWithRequest(request, completionHandler: finalBlock)} else {
+                task = defaultDataSession.dataTaskWithRequest(request)
+                dataTaskUpdateBlock = progressBlock
+                dataTaskCompletionBlock = completionBlock
+            }
+            
+        }
         dataTaskUpdateBlock = progressBlock
         task.resume()
         return task
@@ -189,6 +199,20 @@ public enum HTTPMethod:String {
     case PUT
 }
 
+
+public enum HTTPContentType:String {
+    case WWWFormUrlEncoded = "application/x-www-form-urlencoded"
+    case JSON = "application/json"
+    case OctetStream = "application/octet-stream"
+    case TextPlain = "text/plain"
+    case MultiPartFormData = "multipart/form-data"     //// needs ; boundary=() after it
+    
+}
+
+public enum HTTPHeaderField:String {
+    case ContentType = "Content-Type"
+    case ContentLength = "Content-Length"
+}
 
 
 

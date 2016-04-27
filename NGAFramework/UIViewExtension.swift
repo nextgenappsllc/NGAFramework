@@ -285,6 +285,8 @@ public extension UIView {
         }
     }
     
+    public func shiftRight(to:CGFloat) {left = to - frameWidth}
+    public func shiftBottom(to:CGFloat) {top = to - frameHeight}
     
     public var aspectRatioWToH:CGFloat {get {return frame.size.aspectRatioWToH}}
     public var aspectRatioHtoW:CGFloat {get {return frame.size.aspectRatioHtoW}}
@@ -308,6 +310,13 @@ public extension UIView {
     
     public func isDirectDescendantOf(view:UIView) -> Bool {
         return view.subviews.contains(self)
+    }
+    
+    public func lowestSubviewBottom() -> CGFloat {
+        return subviews.collect(initialValue: 0, iteratorBlock: { (t, v) -> CGFloat in
+            let b = v.alpha == 0 ? t : v.bottom
+            return b > t ? b : t
+        })
     }
     
     //MARK: Layer

@@ -33,6 +33,9 @@ public extension CGSize {
         self = newSize
     }
 
+    public func aSideIsZero() -> Bool {
+        return height == 0 || width == 0
+    }
     
     public var shortSide:CGFloat {
         get {return width > height ? height : width}
@@ -72,5 +75,7 @@ public extension CGSize {
     public static func makeFromWidth(w:CGFloat, aspectRatioWToH:CGFloat) -> CGSize {
         return CGSizeMake(w, w / aspectRatioWToH)
     }
+    
+    public var diagonalLength:CGFloat {get{return sqrt(width * width + height * height)}}
     
 }

@@ -226,10 +226,21 @@ public class NGAViewController: UIViewController {
     public func flash(title title:String?, message:String?, cancelTitle:String?, actions:UIAlertAction?...) {
         NGAExecute.performOnMainThread() { () -> Void in
             let alertController = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.Alert)
-            let cancelBlock:AlertActionBlock = {(action:UIAlertAction!) -> Void in }
+            let cancelBlock:AlertActionBlock = {(action:UIAlertAction) -> Void in }
             let cancelAction = UIAlertAction(title: cancelTitle, style: UIAlertActionStyle.Cancel, handler: cancelBlock)
             alertController.addAction(cancelAction)
-            for action in actions {if let a = action {alertController.addAction(a)}}
+            for action in actions {if let action = action {alertController.addAction(action)}}
+            self.presentViewController(alertController, animated: true, completion: nil)
+        }
+    }
+    
+    public func flash(title title:String?, message:String?, cancelTitle:String?, actions:[UIAlertAction]?) {
+        NGAExecute.performOnMainThread() { () -> Void in
+            let alertController = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.Alert)
+            let cancelBlock:AlertActionBlock = {(action:UIAlertAction) -> Void in }
+            let cancelAction = UIAlertAction(title: cancelTitle, style: UIAlertActionStyle.Cancel, handler: cancelBlock)
+            alertController.addAction(cancelAction)
+            if let actions = actions {for action in actions {alertController.addAction(action)}}
             self.presentViewController(alertController, animated: true, completion: nil)
         }
     }
@@ -299,12 +310,12 @@ public class NGAContentView: NGAScrollView, UIGestureRecognizerDelegate {
         guard willDynamicallyAdjustBottomBounds else {return}
         var newBounds = bounds
         let bottom = frameHeight
-        var lowestPoint:CGFloat = 0
-        for subview in subviews {
-            if subview.alpha == 0 {continue}
-            let subviewBottom = subview.bottom
-            if subviewBottom > lowestPoint{lowestPoint = subviewBottom}
-        }
+        var lowestPoint:CGFloat = lowestSubviewBottom()
+//        for subview in subviews {
+//            if subview.alpha == 0 {continue}
+//            let subviewBottom = subview.bottom
+//            if subviewBottom > lowestPoint{lowestPoint = subviewBottom}
+//        }
         lowestPoint += bottomPadding
         if lowestPoint > bottom {
             self.scrollEnabled = true

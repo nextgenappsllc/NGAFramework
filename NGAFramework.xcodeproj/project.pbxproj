@@ -38,9 +38,11 @@
 		82647A9B1CBB020600D8AA13 /* CryptoSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82647A9A1CBB020600D8AA13 /* CryptoSwift.framework */; };
 		826DE6BF1CAAC79300F7323D /* CompassView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 826DE6BE1CAAC79300F7323D /* CompassView.swift */; };
 		8273F1781CAED62C00F1A45C /* CoreLocationExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8273F1771CAED62C00F1A45C /* CoreLocationExtensions.swift */; };
+		827518121CC85EFD0039289D /* StandardObjects.swift in Sources */ = {isa = PBXBuildFile; fileRef = 827518111CC85EFD0039289D /* StandardObjects.swift */; };
 		827619CD1CADCBC500544A98 /* UICollectionViewExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 827619CC1CADCBC500544A98 /* UICollectionViewExtensions.swift */; };
 		82763E891C9797B1009107E0 /* SQLite.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82763E881C9797B1009107E0 /* SQLite.swift */; };
 		8276F0221CB59FA80070FDC6 /* UIViewControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8276F0211CB59FA80070FDC6 /* UIViewControllerExtension.swift */; };
+		828817991CC8197100602B7E /* Loggable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 828817981CC8197100602B7E /* Loggable.swift */; };
 		828DAE981C96075400EEDE1B /* NGAFramework.h in Headers */ = {isa = PBXBuildFile; fileRef = 828DAE971C96075400EEDE1B /* NGAFramework.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		829046FD1C965DDD00EF27F5 /* UINavigationControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 829046FC1C965DDD00EF27F5 /* UINavigationControllerExtension.swift */; };
 		829047041C96600200EF27F5 /* UIViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 829047031C96600200EF27F5 /* UIViewExtension.swift */; };
@@ -97,9 +99,11 @@
 		826DE6BE1CAAC79300F7323D /* CompassView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CompassView.swift; sourceTree = "<group>"; };
 		8273F1771CAED62C00F1A45C /* CoreLocationExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreLocationExtensions.swift; sourceTree = "<group>"; };
 		8274A58B1C9C99C200CAC913 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		827518111CC85EFD0039289D /* StandardObjects.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StandardObjects.swift; sourceTree = "<group>"; };
 		827619CC1CADCBC500544A98 /* UICollectionViewExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UICollectionViewExtensions.swift; sourceTree = "<group>"; };
 		82763E881C9797B1009107E0 /* SQLite.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SQLite.swift; sourceTree = "<group>"; };
 		8276F0211CB59FA80070FDC6 /* UIViewControllerExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIViewControllerExtension.swift; sourceTree = "<group>"; };
+		828817981CC8197100602B7E /* Loggable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Loggable.swift; sourceTree = "<group>"; };
 		828DAE941C96075400EEDE1B /* NGAFramework.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = NGAFramework.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		828DAE971C96075400EEDE1B /* NGAFramework.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NGAFramework.h; sourceTree = "<group>"; };
 		828DAE991C96075400EEDE1B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -198,6 +202,8 @@
 				821663491C965A6400493594 /* ArrayExtension.swift */,
 				821663431C96183B00493594 /* StringExtension.swift */,
 				821663471C9657E000493594 /* OptionalExtension.swift */,
+				828817981CC8197100602B7E /* Loggable.swift */,
+				827518111CC85EFD0039289D /* StandardObjects.swift */,
 			);
 			name = Extensions;
 			sourceTree = "<group>";
@@ -367,6 +373,7 @@
 				829047141C967DB400EF27F5 /* UIntExtension.swift in Sources */,
 				82237F9E1C98DF3B0069153C /* Formable.swift in Sources */,
 				821663161C9611B900493594 /* NGAContainerViews.swift in Sources */,
+				828817991CC8197100602B7E /* Loggable.swift in Sources */,
 				8216631E1C9611B900493594 /* NGASegmentedViewController.swift in Sources */,
 				821663171C9611B900493594 /* NGANavigationController.swift in Sources */,
 				82AAD9391CA0D03000587401 /* XMLParser.swift in Sources */,
@@ -379,6 +386,7 @@
 				829047081C96629700EF27F5 /* UIImageExtension.swift in Sources */,
 				821663461C96564000493594 /* Operators.swift in Sources */,
 				821663151C9611B900493594 /* NGAGradientView.swift in Sources */,
+				827518121CC85EFD0039289D /* StandardObjects.swift in Sources */,
 				821663221C9611B900493594 /* NGAXMLParser.swift in Sources */,
 				8290470C1C9662F400EF27F5 /* UIColorExtension.swift in Sources */,
 				8216631F1C9611B900493594 /* NGAParallaxCollectionViewController.swift in Sources */,

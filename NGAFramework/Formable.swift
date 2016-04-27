@@ -29,30 +29,30 @@ public enum FormItemType:String {
 }
 
 
-public class FormItem {
-    public typealias Getter = () -> Formable?
-    public typealias Setter = Formable? -> Void
-    public let type:FormItemType
-    public var getter:Getter?
-    public var setter:Setter?
-    public var title:String?
-    public var options:SwiftDictionary = [:]
-    
-    public var value:Formable? {
-        get {return getter?()}
-        set {setter?(newValue)}
-    }
-    
-    
-    public init(type:FormItemType, getter:Getter?, setter:Setter?) {
-        self.type = type
-        self.getter = getter
-        self.setter = setter
-    }
-    
-    
-    
-}
+//public class FormItem {
+//    public typealias Getter = () -> Formable?
+//    public typealias Setter = Formable? -> Void
+//    public let type:FormItemType
+//    public var getter:Getter?
+//    public var setter:Setter?
+//    public var title:String?
+//    public var options:SwiftDictionary = [:]
+//    
+//    public var value:Formable? {
+//        get {return getter?()}
+//        set {setter?(newValue)}
+//    }
+//    
+//    
+//    public init(type:FormItemType, getter:Getter?, setter:Setter?) {
+//        self.type = type
+//        self.getter = getter
+//        self.setter = setter
+//    }
+//    
+//    
+//    
+//}
 
 
 

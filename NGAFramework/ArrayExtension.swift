@@ -127,10 +127,7 @@ public extension Array {
                 removeAtIndex(i)
                 vCount -= 1
             }
-            
-        
         }
-        
     }
     
     public func convertedToType<T>(c: (T.Type)) -> [T]? {
@@ -199,6 +196,15 @@ public extension Array {
     //        return false
     //    }
     
+    public func elementalCast<T>(to:T.Type, allOrNothing:Bool = true) -> [T]? {
+        guard allOrNothing else {return mapToNewArray() {e -> T? in return e as? T}}
+        var t = [T]()
+        for element in self {
+            guard let e = element as? T else {return nil}
+            t.append(e)
+        }
+        return t
+    }
     
     
 }

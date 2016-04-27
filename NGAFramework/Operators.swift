@@ -8,6 +8,7 @@
 
 import Foundation
 
+//// Equals as
 infix operator =? {associativity left}
 
 public func =?<T,U>(inout left:T?, right:U?) {
@@ -18,4 +19,18 @@ public func =?<T,U>(inout left:T, right:U?) {
     if let v = right as? T {
         left = v
     }
+}
+
+
+//// assign if nil
+infix operator ?= {associativity left}
+
+public func ?=<T,U>(inout left:T?, right:U?) {
+    if left == nil {left = right as? T}
+}
+
+infix operator ||= {associativity left}
+
+public func ||=<T,U>(inout left:T?, @autoclosure right:() -> U) {
+    if left == nil {left = right() as? T}
 }

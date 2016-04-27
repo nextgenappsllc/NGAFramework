@@ -21,6 +21,21 @@ public class NGAView: UIView {
     public func postInit() {}
     public var autoUpdateFrames:Bool = true {didSet{if autoUpdateFrames && !oldValue {setFramesForSubviewsOnMainThread()}}}
     
+//    public override var frame: CGRect {didSet{if autoUpdateFrames && oldValue.size != frame.size {setNeedsLayout()}}}
+//    public func setFramesForSubviews() {}
+//    public func setFramesForSubviewsOnMainThread() {NGAExecute.performOnMainThread(setFramesForSubviews)}
+//    public override init(frame: CGRect) {
+//        super.init(frame: frame)
+//        postInit()
+//    }
+//    public convenience required init?(coder aDecoder: NSCoder) {self.init()}
+//    public func postInit() {}
+//    public override func layoutSubviews() {
+//        super.layoutSubviews()
+//        setFramesForSubviews()
+//    }
+//    public var autoUpdateFrames:Bool = true {didSet{if autoUpdateFrames && !oldValue {setNeedsLayout()}}}
+    
 }
 
 public class NGACollectionViewCell: UICollectionViewCell {
@@ -38,6 +53,21 @@ public class NGACollectionViewCell: UICollectionViewCell {
         setFramesForSubviews()
     }
     public var autoUpdateFrames:Bool = true {didSet{if autoUpdateFrames && !oldValue {setFramesForSubviewsOnMainThread()}}}
+    
+//    public override var frame: CGRect {didSet{if autoUpdateFrames && oldValue.size != frame.size {setNeedsLayout()}}}
+//    public func setFramesForSubviews() {}
+//    public func setFramesForSubviewsOnMainThread() {NGAExecute.performOnMainThread(setFramesForSubviews)}
+//    public override init(frame: CGRect) {
+//        super.init(frame: frame)
+//        postInit()
+//    }
+//    public convenience required init?(coder aDecoder: NSCoder) {self.init()}
+//    public func postInit() {}
+//    public override func layoutSubviews() {
+//        super.layoutSubviews()
+//        setFramesForSubviews()
+//    }
+//    public var autoUpdateFrames:Bool = true {didSet{if autoUpdateFrames && !oldValue {setNeedsLayout()}}}
 }
 
 public class NGACollectionReusableView: UICollectionReusableView {

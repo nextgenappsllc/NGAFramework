@@ -115,3 +115,21 @@ public extension UIImage {
     
     
 }
+
+public extension UIImageView {
+    public func sizeToFitImage(s:CGSize? = nil) -> CGSize {
+        var s = s ?? frameSize;let imageSize = image?.size ?? CGSizeZero
+        guard !imageSize.aSideIsZero() else {return CGSizeZero}
+        if imageSize.aspectRatioWToH > s.aspectRatioWToH {
+            s.height = s.width * imageSize.aspectRatioHtoW
+        } else {
+            s.width = s.height * imageSize.aspectRatioWToH
+        }
+        return s
+    }
+}
+
+
+
+
+

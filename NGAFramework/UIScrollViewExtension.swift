@@ -45,4 +45,12 @@ public extension UIScrollView {
         return isRightOfContentByMoreThan(frameWidth * xRatio)
     }
     
+    public func fitContentSizeHeightToBottom() {
+        contentSize.height = lowestSubviewBottom()
+    }
+    
+    
+    
+    
+    
 }

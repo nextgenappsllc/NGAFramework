@@ -44,8 +44,8 @@ public extension String {
     
     public subscript (r: Range<Int>) -> String {
         var range = r
-        let letterCount = self.characters.count
-        if range.endIndex > letterCount && letterCount > 0{ range.endIndex = letterCount }
+        let letterCount = characters.count
+        if range.endIndex > letterCount { range.endIndex = letterCount }
         return substringWithRange(startIndex.advancedBy(range.startIndex)..<startIndex.advancedBy(range.endIndex))
     }
     

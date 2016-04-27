@@ -156,26 +156,49 @@ public extension Dictionary {
     }
     
     public func toJSONData(prettyPrint:Bool = false) -> NSData? {
-        do {
-            if let a = self as? AnyObject {
-                if !NSJSONSerialization.isValidJSONObject(a) {return nil}
-                let options = prettyPrint ? NSJSONWritingOptions.PrettyPrinted : NSJSONWritingOptions.init(rawValue: 0)
-                return try NSJSONSerialization.dataWithJSONObject(a, options: options)
-            }
-            return nil
-        } catch {
-            return nil
-        }
+        guard var a = self as? AnyObject else {return nil}
+        if !NSJSONSerialization.isValidJSONObject(a) { a =? toJSONSafe()}
+        guard NSJSONSerialization.isValidJSONObject(a) else {return nil}
+        let options = prettyPrint ? NSJSONWritingOptions.PrettyPrinted : NSJSONWritingOptions.init(rawValue: 0)
+        return try? NSJSONSerialization.dataWithJSONObject(a, options: options)
     }
     
-    public func toJSONSafe() -> Dictionary<Key, AnyObject> {
-        return mapToNewDictionary { (k:Key, v:Value) -> AnyObject? in
-            var val = v as? AnyObject
-            if let d = val as? NSData {
-                val = d.base64EncodedStringWithOptions(NSDataBase64EncodingOptions.Encoding64CharacterLineLength)
-            } else {val = "\(v)"}
-            return val
+    
+    public func toJSONSafe() -> [String:AnyObject] {
+        var temp:[String:AnyObject] = [:]
+        for (k,v) in self {
+            let key = k as? String ?? "\(k)"
+            let value = (v as? SwiftDictionary)?.toJSONSafe() ?? (v as? NSData)?.base64EncodedStringWithOptions(.Encoding64CharacterLineLength) ??  v as? AnyObject
+            temp.append(key, value: value)
         }
+        return temp
+    }
+    
+    public func valueCast<T>(to:T.Type, allOrNothing:Bool = true) -> [Key:T]? {
+        guard allOrNothing else {return mapToNewDictionary(){(k,v) -> T? in return v as? T}}
+        var t:[Key:T] = [:]
+        for (k,v) in self {
+            guard let v = v as? T else {return nil}
+            t[k] = v
+        }
+        return t
+    }
+    public func keyCast<T where T:Hashable>(to:T.Type, allOrNothing:Bool = true) -> [T:Value]? {
+        guard allOrNothing else {return mapKeysToNewDictionary(){(k,v) -> T? in return k as? T}}
+        var t:[T:Value] = [:]
+        for (k,v) in self {
+            guard let k = k as? T else {return nil}
+            t[k] = v
+        }
+        return t
+    }
+    public func cast<K,V>(to:Dictionary<K,V>.Type, allOrNothing:Bool = true) -> [K:V]? {
+        var t:[K:V] = [:]
+        for (k,v) in self {
+            if let k = k as? K, let v = v as? V {t[k] = v}
+            else if allOrNothing {return nil}
+        }
+        return t
     }
     
     //    func containsValue(v:Value) -> Bool {

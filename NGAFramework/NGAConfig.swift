@@ -11,6 +11,9 @@ import UIKit
 import SystemConfiguration
 
 
+//public protocol WindowHolder {
+//    var window:UIWindow? {get set}
+//}
 
 public struct NGADevice {
     public static var currentScreenBounds:CGRect {
@@ -41,7 +44,12 @@ public struct NGADevice {
         }
     }
     
-    public static var window:UIWindow? {get{return (UIApplication.sharedApplication().delegate as? AppDelegate)?.window}}
+    public static var window:UIWindow? {
+        get{
+            guard let w = UIApplication.sharedApplication().delegate?.window else {return nil}
+            return w
+        }
+    }
     
     public static var statusBarFrame:CGRect {get{return UIApplication.sharedApplication().statusBarFrame}}
     
@@ -113,8 +121,19 @@ public struct NGADevice {
         }
     }
     
-    public static var remSize:CGFloat {get {return screenShortSide * 0.04}}
-
+//    public static var remSize:CGFloat {get {return screenShortSide * 0.04}}
+    public static var remSize:CGFloat {
+        get {
+            return currentScreenBounds.size.diagonalLength * 0.019
+        }
+    }
+    public static var emSize:CGFloat {
+        get{
+            if window == nil {print("no window!")}
+            guard let window = window else {return remSize}
+            return window.frameSize.diagonalLength * 0.019
+        }
+    }
     
 }
 

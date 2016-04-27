@@ -19,42 +19,41 @@ public extension UILabel {
     }
     
     @nonobjc public func sizeToFitY(t:String? = nil) {
-        let textToSize = t ?? text
         let l = UILabel()
         l.frame = frame
-        l.attributedText = attributedText
-        if !String.isEmptyOrNil(attributedText?.string) {
-            l.attributedText = attributedText
-        }else {
-            l.text = textToSize
-            l.font = font
+        l.font = font
+        l.numberOfLines = numberOfLines
+        l.text = text
+        if let t = t {
+            l.text = t
+        } else if let attrText = attributedText {
+            l.attributedText = attrText
         }
         l.sizeToFit()
         frameHeight = l.frameHeight
     }
     
     @nonobjc public func sizeToFitX(t:String? = nil) {
-        let textToSize = t ?? text
-        let l = UILabel()
-        l.frame = frame
-        if !String.isEmptyOrNil(attributedText?.string) {
-            l.attributedText = attributedText
-        }else {
-            l.text = textToSize
-            l.font = font
-        }
-        l.sizeToFit()
-        frameWidth = l.frameWidth
+        frameWidth = UILabel.sizeToFitLabel(self, text: t).width
     }
     
-    func sizeToFitText(t:String? = nil) {
-        let txt = t ?? text
+    public func sizeToFitText(t:String? = nil) {
+        frameSize = UILabel.sizeToFitLabel(self, text: t)
+    }
+    
+    public class func sizeToFitLabel(label:UILabel, text:String? = nil) -> CGSize {
         let l = UILabel()
-        l.text = txt
-        l.font = font
-        l.frame = frame
+        l.frame = label.frame
+        l.font = label.font
+        l.numberOfLines = label.numberOfLines
+        l.text = label.text
+        if let t = text {
+            l.text = t
+        } else if let attrText = label.attributedText {
+            l.attributedText = attrText
+        }
         l.sizeToFit()
-        frameSize = l.frameSize
+        return l.frameSize
     }
     
     public func fadeInText(txt:String? = nil) {

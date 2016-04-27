@@ -9,59 +9,7 @@
 import Foundation
 import UIKit
 
-
-
-
-
-
-
-
-//public class NGAContainerView: NGAView {
-//    
-//    public var viewToCenter:UIView? {didSet{if viewToCenter != oldValue{ setFramesForSubviewsOnMainThread()}}}
-//    public var sizeRatio:CGFloat = 0.9  {didSet{if sizeRatio != oldValue{ setFramesForSubviewsOnMainThread()}}}
-//    public var circular:Bool = false {didSet{if circular != oldValue{ setFramesForSubviews()}}}
-//    public var containerXOffset:CGFloat = 0 {didSet{if containerXOffset > 1{containerXOffset = 1}else if containerXOffset < -1 {containerXOffset = -1}; if containerXOffset != oldValue {setFramesForSubviewsOnMainThread()}}}
-//    public var containerYOffset:CGFloat = 0 {didSet{if containerYOffset > 1{containerYOffset = 1}else if containerYOffset < -1 {containerYOffset = -1}; if containerYOffset != oldValue {setFramesForSubviewsOnMainThread()}}}
-//    public var squaredCenterView:Bool = false {didSet{if squaredCenterView != oldValue{ setFramesForSubviewsOnMainThread()}}}
-//
-//    
-//    
-//    public override func setFramesForSubviews() {
-//        super.setFramesForSubviews()
-//        if circular {
-//            let side = shortSide > 0 ? shortSide : longSide
-//            if frameWidth != frameHeight {frameSize = CGSize.squareSizeWithLength(side)}
-//            viewToCenter?.frameSize = sizeForViewInCircularView()
-//            layer.cornerRadius = side / 2
-//        }
-//        else {viewToCenter?.setSizeFromView(self, withXRatio: sizeRatio, andYRatio: sizeRatio)}
-//        if squaredCenterView {if let s = viewToCenter?.shortSide { viewToCenter?.frameSize = CGSize.squareSizeWithLength(s)}}
-//        var xPadding:CGFloat = 0 ; var yPadding:CGFloat = 0
-//        if let size = viewToCenter?.frameSize {
-//            xPadding = (frameWidth - size.width) * containerXOffset
-//            yPadding = (frameHeight - size.height) * containerYOffset
-//        }
-//        viewToCenter?.placeViewInView(view: self, position: .AlignCenterX, andPadding: xPadding)
-//        viewToCenter?.placeViewInView(view: self, position: .AlignCenterY, andPadding: yPadding)
-//        addSubviewIfNeeded(viewToCenter)
-//        
-//    }
-//    
-//    public func sizeForViewInCircularView() -> CGSize {
-//        let s = sideSizeForViewInCircularView(self)
-//        return CGSizeMake(s, s)
-//    }
-//    
-//    public func sideSizeForViewInCircularView(v:UIView) -> CGFloat {
-//        let side = v.shortSide / sqrt(2) * sizeRatio
-//        return side
-//    }
-//    
-//}
-
 public class NGAContainerView: NGAView {
-    
     public var viewToSize:UIView? {
         didSet{
             if viewToSize != oldValue{
@@ -70,7 +18,7 @@ public class NGAContainerView: NGAView {
             }
         }
     }
-    public var circular:Bool = false {didSet{if autoUpdateFrames && circular != oldValue{ setFramesForSubviews()}}}
+    public var circular:Bool = false {didSet{if autoUpdateFrames && circular != oldValue{ setFramesForSubviewsOnMainThread()}}}
     public var containerXOffset:CGFloat = 0 {didSet{if containerXOffset > 1{containerXOffset = 1}else if containerXOffset < -1 {containerXOffset = -1}; if autoUpdateFrames && containerXOffset != oldValue {setFramesForSubviewsOnMainThread()}}}
     public var containerYOffset:CGFloat = 0 {didSet{if containerYOffset > 1{containerYOffset = 1}else if containerYOffset < -1 {containerYOffset = -1}; if autoUpdateFrames && containerYOffset != oldValue {setFramesForSubviewsOnMainThread()}}}
     public var squaredCenterView:Bool = false {didSet{if autoUpdateFrames && squaredCenterView != oldValue{ setFramesForSubviewsOnMainThread()}}}
@@ -93,10 +41,11 @@ public class NGAContainerView: NGAView {
     }
     
     public func setEqualRatio(r:CGFloat) {
+        let old = autoUpdateFrames
         autoUpdateFrames = false
         xRatio = r
         yRatio = r
-        autoUpdateFrames = true
+        autoUpdateFrames = old
     }
     
     
@@ -169,13 +118,13 @@ public class NGATapView: NGAContainerView {
 public class NGATapLabelView: NGATapView {
     
     public let label = UILabel()
-    public var text:String? {get{return label.text}set{label.text = newValue; setFramesForSubviews()}}
-    public var attributedText:NSAttributedString? {get{return label.attributedText}set{label.attributedText = newValue; setFramesForSubviews()}}
+    public var text:String? {get{return label.text}set{label.text = newValue; setFramesForSubviewsOnMainThread()}}
+    public var attributedText:NSAttributedString? {get{return label.attributedText}set{label.attributedText = newValue; setFramesForSubviewsOnMainThread()}}
     public var textColor:UIColor? {get{return label.textColor}set{label.textColor = newValue}}
-    public var font:UIFont? {get{return label.font}set{if label.font != newValue {label.font = newValue; setFramesForSubviews()}}}
+    public var font:UIFont? {get{return label.font}set{if label.font != newValue {label.font = newValue; setFramesForSubviewsOnMainThread()}}}
     public var textAlignment:NSTextAlignment {get{return label.textAlignment}set{label.textAlignment = newValue}}
     public var fitFontToLabel:Bool = true
-    
+    public var constrainFontToLabel = false
     
     public override func postInit() {
         super.postInit()
@@ -185,11 +134,15 @@ public class NGATapLabelView: NGATapView {
         viewToSize = label
     }
     
-    
-    
     public override func setFramesForSubviews() {
         super.setFramesForSubviews()
-        if fitFontToLabel && frameHeight > 0 && frameWidth > 0 {font = font?.fitFontToSize(label.frameSize, forString: label.text)}
+        guard frameHeight > 0 && frameWidth > 0 else {return}
+        if fitFontToLabel {font = font?.fitFontToSize(label.frameSize, forString: label.text)}
+//        else if constrainFontToLabel {
+//            let s = UILabel.sizeToFitLabel(label)
+//            guard s.height > label.frameHeight || s.width > label.frameWidth else {return}
+//            font = font?.fitFontToSize(label.frameSize, forString: label.text)
+//        }
     }
     
     

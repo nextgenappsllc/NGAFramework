@@ -52,6 +52,11 @@ public class NGACollectionViewController: NGAViewController, UICollectionViewDel
         collectionView.registerClass(collectionViewFooterClass, forSupplementaryViewOfKind: UICollectionElementKindSectionFooter, withReuseIdentifier: "Footer")
     }
     
+    public override func viewWillTransitionToSize(size: CGSize, withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator) {
+        collectionView.collectionViewLayout.invalidateLayout()
+        super.viewWillTransitionToSize(size, withTransitionCoordinator: coordinator)
+    }
+    
     public override func setFramesForSubviews() {
         super.setFramesForSubviews()
         setCollectionViewFrame()

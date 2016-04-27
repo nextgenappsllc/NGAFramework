@@ -16,31 +16,18 @@ public extension UIFont {
         if String.isEmptyOrNil(string) || size.width == 0 || size.height == 0 {
             return self.fontWithSize(0)
         }
-        var fontSize:CGFloat = 0.0
-        var fontSizeFound = false
-        var smallSide:CGFloat = 1
-        if size.height > size.width {
-            smallSide = size.width
-        }
-        else {
-            smallSide = size.height
-        }
+        let smallSide = size.shortSide
         let increment = smallSide / 100
-        var temp = self.fontWithSize(fontSize)
-        while !fontSizeFound {
-            let testSize = string!.sizeWithAttributes([NSFontAttributeName:self.fontWithSize(fontSize)])
-            if testSize.height > size.height || testSize.width > size.width{
-                fontSizeFound = true
-            }
-            else {
-                temp = self.fontWithSize(fontSize)
-                fontSize += increment
-            }
-        }
-        return temp
+        var fontSize:CGFloat = 0
+        var testSize = CGSizeZero
+        repeat {
+            fontSize += increment
+            testSize =? string?.sizeWithAttributes([UIFont.attributeKey: fontWithSize(fontSize)])
+        } while testSize.height < size.height && testSize.width < size.width
+        fontSize -= increment
+        return fontWithSize(fontSize)
         
     }
-    
     
     public func fontIncreasedByAmount(i:CGFloat?) -> UIFont {
         return fontChangeByAmount(i, inc: true)
@@ -54,7 +41,6 @@ public extension UIFont {
     public func fontDecreasedByPercent(i:CGFloat?) -> UIFont {
         return fontChangeByPercent(i, inc: false)
     }
-    
     private func fontChangeByAmount(i:CGFloat?, inc:Bool) -> UIFont {
         let diff = i ?? 0
         let size = inc ? pointSize + diff : pointSize - diff

@@ -22,10 +22,10 @@ public extension Optional {
         return self ?? nonNilValue
     }
     
-    public func printToLog() {
-        if let s = self {print(s)}
-        else {print(self)}
-    }
+//    public func printToLog() {
+//        if let s = self {print(s)}
+//        else {print(self)}
+//    }
     
 }
 

@@ -59,12 +59,12 @@ public extension NSURL {
 
 
 public extension NSAttributedString {
-    public class func compoundAttributedStringFrom(str1:String, withAttributes attr1:[String : AnyObject]?, andStr2 str2:String, withAttributes attr2:[String : AnyObject]?, andConnector connector:String? = nil) -> NSAttributedString? {
-        let firstString = connector == nil ? str1 : str1 + connector!
-        let mutableString = NSMutableAttributedString(string: firstString, attributes: attr1)
-        mutableString.appendAttributedString(NSAttributedString(string: str2, attributes: attr2))
-        return mutableString.copy() as? NSAttributedString
-    }
+//    public class func compoundAttributedStringFrom(str1:String, withAttributes attr1:[String : AnyObject]?, andStr2 str2:String, withAttributes attr2:[String : AnyObject]?, andConnector connector:String? = nil) -> NSAttributedString? {
+//        let firstString = connector == nil ? str1 : str1 + connector!
+//        let mutableString = NSMutableAttributedString(string: firstString, attributes: attr1)
+//        mutableString.appendAttributedString(NSAttributedString(string: str2, attributes: attr2))
+//        return mutableString.copy() as? NSAttributedString
+//    }
     
     public func append(attStr:NSAttributedString?) -> NSAttributedString {
         let mutSelf = toMutableAttributedString()

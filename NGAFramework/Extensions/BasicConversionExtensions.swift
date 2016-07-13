@@ -108,9 +108,9 @@ extension Double:ToClassType {
         for _ in 0..<to {
             i = i * 10
         }
-        var rValue = self
-        rValue = ( rValue * i.toDouble() ).toInt().toDouble() / i.toDouble()
-        return rValue
+//        var rValue = self
+//        rValue = ( rValue * i.toDouble() ).toInt().toDouble() / i.toDouble()
+        return ( self * i.toDouble() ).toInt().toDouble() / i.toDouble()
     }
 }
 
@@ -348,10 +348,9 @@ extension String:ToClassType {
         return Bool(str: self.trim().lowercaseString == "si" ? "true" : self)
     }
     
-        
-    //    func toData() {
-    //
-    //    }
+    public func toData(encoding: NSStringEncoding = NSUTF8StringEncoding, allowLossyConversion: Bool = true) -> NSData? {
+        return dataUsingEncoding(encoding, allowLossyConversion: allowLossyConversion)
+    }
 }
 
 

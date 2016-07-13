@@ -18,7 +18,7 @@ public typealias NetworkResponseBlock = (NSData?, NSURLResponse?, NSError?) -> V
 
 public typealias DataProgressBlock = (Int, Int, NSURLSessionTask?) -> Void
 
-
+public typealias AlertActionBlock = (UIAlertAction) -> Void
 
 
 //// possibly deprecating or refactoring these
@@ -28,7 +28,7 @@ typealias DictionaryFetchCompletionBlock = (dictionary:NSDictionary?, urlRespons
 typealias FileURLReturnBlock = (NSURL?, NSError?) -> Void
 typealias URLReturnBlock = (NSURL?, NSURLResponse?, NSError?) -> Void
 typealias SuccessCompletionBlock = (success:Bool, error:NSError?) -> Void
-typealias AlertActionBlock = (UIAlertAction) -> Void
+
 typealias ArrayReturnBlock = (NSArray?) -> Void
 typealias DictionaryReturnBlock = (NSDictionary?) -> Void
 typealias ImageReturnBlock = (UIImage?) -> Void

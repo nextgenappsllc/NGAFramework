@@ -368,13 +368,14 @@ public extension UIView {
     public func toImage(size:CGSize? = nil) -> UIImage? {
         var temp:UIImage?
         let s = size ?? bounds.size
-        UIGraphicsBeginImageContext(s)
-        if let c = UIGraphicsGetCurrentContext() {
-            layer.renderInContext(c)
-            temp = UIGraphicsGetImageFromCurrentImageContext()
-        }
-        UIGraphicsEndImageContext()
-        
+        autoreleasepool {
+            UIGraphicsBeginImageContext(s)
+            if let c = UIGraphicsGetCurrentContext() {
+                layer.drawInContext(c)
+                temp = UIGraphicsGetImageFromCurrentImageContext()
+            }
+            UIGraphicsEndImageContext()
+        }        
         return temp
     }
     

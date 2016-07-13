@@ -222,6 +222,32 @@ public class NGAViewController: UIViewController {
     }
     
     
+//    //MARK: Pop up
+//    public func flash(title title:String?, message:String?, cancelTitle:String?, actions:UIAlertAction?...) {
+//        NGAExecute.performOnMainThread() { () -> Void in
+//            let alertController = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.Alert)
+//            let cancelBlock:AlertActionBlock = {(action:UIAlertAction) -> Void in }
+//            let cancelAction = UIAlertAction(title: cancelTitle, style: UIAlertActionStyle.Cancel, handler: cancelBlock)
+//            alertController.addAction(cancelAction)
+//            for action in actions {if let action = action {alertController.addAction(action)}}
+//            self.presentViewController(alertController, animated: true, completion: nil)
+//        }
+//    }
+//    
+//    public func flash(title title:String?, message:String?, cancelTitle:String?, actions:[UIAlertAction]?) {
+//        NGAExecute.performOnMainThread() { () -> Void in
+//            let alertController = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.Alert)
+//            let cancelBlock:AlertActionBlock = {(action:UIAlertAction) -> Void in }
+//            let cancelAction = UIAlertAction(title: cancelTitle, style: UIAlertActionStyle.Cancel, handler: cancelBlock)
+//            alertController.addAction(cancelAction)
+//            if let actions = actions {for action in actions {alertController.addAction(action)}}
+//            self.presentViewController(alertController, animated: true, completion: nil)
+//        }
+//    }
+    
+}
+
+public extension UIViewController {
     //MARK: Pop up
     public func flash(title title:String?, message:String?, cancelTitle:String?, actions:UIAlertAction?...) {
         NGAExecute.performOnMainThread() { () -> Void in
@@ -234,17 +260,16 @@ public class NGAViewController: UIViewController {
         }
     }
     
-    public func flash(title title:String?, message:String?, cancelTitle:String?, actions:[UIAlertAction]?) {
+    public func flash(title title:String?, message:String?, cancelTitle:String?, actions:[UIAlertAction]) {
         NGAExecute.performOnMainThread() { () -> Void in
             let alertController = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.Alert)
             let cancelBlock:AlertActionBlock = {(action:UIAlertAction) -> Void in }
             let cancelAction = UIAlertAction(title: cancelTitle, style: UIAlertActionStyle.Cancel, handler: cancelBlock)
             alertController.addAction(cancelAction)
-            if let actions = actions {for action in actions {alertController.addAction(action)}}
+            for action in actions {alertController.addAction(action)}
             self.presentViewController(alertController, animated: true, completion: nil)
         }
     }
-    
 }
 
 

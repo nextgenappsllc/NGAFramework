@@ -39,7 +39,7 @@ public class APIHandler: NSObject, NSURLSessionDelegate, NSURLSessionDownloadDel
     /**
      Encodes the key value pairs as multiform data seperated by the specified boundary string.
      
-     For files you want to add the data and filename in the dictionary as follows:
+     For files, you want to add the data and filename in the dictionary as follows:
      
      ["file":fileData, "file-filename": "myFile.pdf", "otherFile": otherFileData, "otherFile-filename": "anotherOne.png"... etc]
      
@@ -76,7 +76,23 @@ public class APIHandler: NSObject, NSURLSessionDelegate, NSURLSessionDownloadDel
         return body.copy() as? NSData
     }
 
-    
+    /**
+     Sends a http request to the specified url string with the entered parameters.
+     
+     The bare minimum required is the url string.
+     
+     - Parameter url: A string of where to send the request.
+     
+     - Parameter method: A HTTPMethod that you would like to use (GET, PUSH, PUT, etc.). Default is GET.
+     
+     - Parameter urlParamters: A dictionary containing paramters you wish to be added to the url. Default is nil.
+     
+     - Parameter multiFormParameters: A dictionary containing paramters you wish to be added to form for PUT, PATCH, or POST.
+     
+     - Parameter progressBlock: A block that will be passed the progress of the download or upload. Default is nil.
+     
+     - Parameter completionBlock: A block that will be passed the result of the request upon completion.
+     */
     public func sendRequestTo(url:String, method:HTTPMethod = .GET, urlParameters:SwiftDictionary? = nil, multiFormParameters:SwiftDictionary? = nil, progressBlock:DataProgressBlock? = nil, completionBlock:NetworkResponseBlock?) -> NSURLSessionTask? {
         let urlString = self.dynamicType.urlStringWithParameters(url, parameters: urlParameters)
         guard let request = urlString.url?.toMutableRequest() else {return nil}
@@ -85,7 +101,7 @@ public class APIHandler: NSObject, NSURLSessionDelegate, NSURLSessionDownloadDel
         let finalBlock = completionBlock == nil ? nullBlock : completionBlock!
         let task:NSURLSessionTask
         if let data = self.dynamicType.createMultiFormData(multiFormBoundary, parameters: multiFormParameters) {
-            request.setValue("multipart/form-data; boundary=\(multiFormBoundary)", forHTTPHeaderField: NGAHttpStrings.contentTypeHeaderField)
+            request.setValue("multipart/form-data; boundary=\(multiFormBoundary)", forHTTPHeaderField: HTTPHeaderField.ContentType.rawValue)
             request.setValue(data.length.toString(), forHTTPHeaderField: HTTPHeaderField.ContentLength.rawValue)
             task = defaultDataSession.uploadTaskWithRequest(request, fromData: data, completionHandler: finalBlock)
         }else{
@@ -214,7 +230,14 @@ public enum HTTPHeaderField:String {
     case ContentLength = "Content-Length"
 }
 
-
+//struct NGAHttpStrings {
+//    static let postMethod = "POST"
+//    static let getMethod = "GET"
+//    static let deleteMethod = "DELETE"
+//    static let contentLengthHeaderField = "Content-Length"
+//    static let contentTypeHeaderField = "Content-Type"
+//    static let contentTypeWWWFormUrlEncoded = "application/x-www-form-urlencoded"
+//}
 
 
 

@@ -96,7 +96,8 @@ public extension String {
     }
     
     public func appendIfNotNil(str:String?, separator:String? = nil) -> String {
-        return surround(prefix: nil, postfix: "\(separator ?? "")\(str ?? "")")
+        guard let str = str else {return self}
+        return surround(prefix: nil, postfix: "\(separator ?? "")\(str)")
     }
     
     public func prependIfNotNil(str:String?, separator:String? = nil) -> String {
@@ -157,10 +158,9 @@ public extension String {
     }
     
     public func htmlDecode() -> String? {
-        let encodedData = self.dataUsingEncoding(NSUTF8StringEncoding)
-        if encodedData == nil {return nil}
+        guard let encodedData = dataUsingEncoding(NSUTF8StringEncoding) else {return nil}
         let attributedOptions : [String: AnyObject] = [NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType, NSCharacterEncodingDocumentAttribute: NSUTF8StringEncoding]
-        return try? NSAttributedString(data: encodedData!, options: attributedOptions, documentAttributes: nil).string
+        return try? NSAttributedString(data: encodedData, options: attributedOptions, documentAttributes: nil).string
     }
     
     

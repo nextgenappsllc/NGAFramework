@@ -113,28 +113,28 @@ public struct NGADevice {
     
     public static var multitasking:Bool {
         get {
-            var temp = false
-            if #available(iOS 9.0, *) {
-                temp = screenShortSide > windowShortSide
-            }
-            return temp
+            guard #available(iOS 9.0, *) else {return false}
+            return screenShortSide > windowShortSide
         }
     }
     
-//    public static var remSize:CGFloat {get {return screenShortSide * 0.04}}
     public static var remSize:CGFloat {
         get {
-            return currentScreenBounds.size.diagonalLength * 0.019
+            return remSizeFor(currentScreenBounds.size)
         }
     }
     public static var emSize:CGFloat {
         get{
-            if window == nil {print("no window!")}
             guard let window = window else {return remSize}
-            return window.frameSize.diagonalLength * 0.019
+            return remSizeFor(window.frameSize)
         }
     }
-    
+    public static func remSizeFor(size:CGSize) -> CGFloat {
+        return size.diagonalLength * 0.019
+    }
+    public static func remSizeFor(view:UIView) -> CGFloat {
+        return remSizeFor(view.frameSize)
+    }
 }
 
 

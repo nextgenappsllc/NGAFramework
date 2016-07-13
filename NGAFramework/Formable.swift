@@ -8,25 +8,25 @@
 
 import Foundation
 
-public protocol Formable {
-    init()
-}
-extension Int:Formable {}
-extension String:Formable {}
-extension Double:Formable {}
-extension NSDate:Formable {}
-extension Bool:Formable {}
-
-
-
-public enum FormItemType:String {
-    case String
-    case Integer
-    case Text
-    case Boolean
-    case Date
-    case Double
-}
+//public protocol Formable {
+//    init()
+//}
+//extension Int:Formable {}
+//extension String:Formable {}
+//extension Double:Formable {}
+//extension NSDate:Formable {}
+//extension Bool:Formable {}
+//
+//
+//
+//public enum FormItemType:String {
+//    case String
+//    case Integer
+//    case Text
+//    case Boolean
+//    case Date
+//    case Double
+//}
 
 
 //public class FormItem {

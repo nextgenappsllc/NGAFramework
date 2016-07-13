@@ -127,6 +127,11 @@ public extension NSData {
             return self
         }
     }
+    
+    public convenience init?(filePath:String?) {
+        guard let filePath = filePath else {return nil}
+        self.init(contentsOfFile: filePath)
+    }
 }
 
 public extension NSMutableData {

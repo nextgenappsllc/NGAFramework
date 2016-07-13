@@ -25,8 +25,8 @@ public class NGASwitchBar: UIView, NGASwitchBarItemDelegate {
     public func addDropShadow(b:Bool = true) {
         if !b {removeShadow()}
         else {
-            let offset = vertical ? CGSizeMake(1.5, 0) : CGSizeMake(0, 1.5)
-            addShadowWith(radius: 1.5, offset: offset, opacity: 0.8, color: UIColor.blackColor(), path: UIBezierPath(rect: bounds))
+            let offset = vertical ? CGSizeMake(1, 0) : CGSizeMake(0, 1)
+            addShadowWith(radius: 1, offset: offset, opacity: 0.7, color: UIColor.blackColor(), path: UIBezierPath(rect: bounds))
         }
     }
     

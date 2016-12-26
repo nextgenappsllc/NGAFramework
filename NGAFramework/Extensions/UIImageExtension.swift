@@ -11,27 +11,27 @@ import Foundation
 public extension UIImage {
     
     
-    public func captionedImageWith(caption caption:String?) -> UIImage {
+    public func captionedImageWith(caption:String?) -> UIImage {
         let font = UIFont(name: NGAFontNames.ArialRoundedMTBold, size: 12.0)
         return self.captionedImageWith(caption: caption, andFont: font)
     }
     
     
     
-    public func captionedImageWith(caption caption:String?, andFont font:UIFont?) -> UIImage {
+    public func captionedImageWith(caption:String?, andFont font:UIFont?) -> UIImage {
         
         return self.captionedImageWith(caption: caption, size: self.size, andFont: font)
     }
     
-    public func captionedImageWith(caption caption:String?, size:CGSize, andFont font:UIFont?) -> UIImage {
+    public func captionedImageWith(caption:String?, size:CGSize, andFont font:UIFont?) -> UIImage {
         return captionedImageWith(caption: caption, textHeightRatio: 0.3, size: size, andFont: font)
     }
     
     
-    public func captionedImageWith(caption caption:String?, textHeightRatio:CGFloat, size:CGSize, andFont font:UIFont?) -> UIImage {
+    public func captionedImageWith(caption:String?, textHeightRatio:CGFloat, size:CGSize, andFont font:UIFont?) -> UIImage {
         //        println(size)
         func frameForLabel() -> CGRect {
-            var temp = CGRectZero
+            var temp = CGRect.zero
             temp.origin.y = size.height
             temp.size = UIView.sizeFromSize(size, withXRatio: 1.0, andYRatio: textHeightRatio)
             
@@ -40,11 +40,11 @@ public extension UIImage {
         
         let label = UILabel(frame: frameForLabel())
         label.text = caption
-        label.textAlignment = NSTextAlignment.Center
+        label.textAlignment = NSTextAlignment.center
         let textFont = font ?? UIFont(name: NGAFontNames.ArialRoundedMTBold, size: 12.0)
         label.font = textFont?.fitFontToSize(label.frame.size, forString: caption)
         
-        var imageFrame = CGRectZero
+        var imageFrame = CGRect.zero
         imageFrame.size = size
         //        println("image frame = \(imageFrame)")
         var totalFrame = imageFrame
@@ -52,22 +52,22 @@ public extension UIImage {
         //        println("total frame = \(totalFrame)")
         
         UIGraphicsBeginImageContext(label.frame.size)
-        label.layer.renderInContext(UIGraphicsGetCurrentContext()!)
+        label.layer.render(in: UIGraphicsGetCurrentContext()!)
         let labelImage = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
         
         UIGraphicsBeginImageContext(totalFrame.size)
-        self.drawInRect(imageFrame)
-        labelImage.drawInRect(label.frame)
+        self.draw(in: imageFrame)
+        labelImage?.draw(in: label.frame)
         let captionedImage = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
         
         
-        return captionedImage
+        return captionedImage!
     }
     
     
-    public func roundedImage(radius:CGFloat? = nil) -> UIImage {
+    public func roundedImage(_ radius:CGFloat? = nil) -> UIImage {
         let smallSide = size.height > size.width ? size.width : size.height
         let r = radius ?? smallSide / 30
         var temp = self
@@ -76,8 +76,8 @@ public extension UIImage {
         imageView.clipsToBounds = true
         imageView.layer.cornerRadius = r
         UIGraphicsBeginImageContext(imageView.frameSize)
-        imageView.layer.renderInContext(UIGraphicsGetCurrentContext()!)
-        temp = UIGraphicsGetImageFromCurrentImageContext()
+        imageView.layer.render(in: UIGraphicsGetCurrentContext()!)
+        temp = UIGraphicsGetImageFromCurrentImageContext()!
         UIGraphicsEndImageContext()
         
         return temp
@@ -85,17 +85,17 @@ public extension UIImage {
     
     
     /// maxSize is the max pixel count for any side
-    public func compressTo(maxSize:CGFloat) -> UIImage {
+    public func compressTo(_ maxSize:CGFloat) -> UIImage {
         let largeSide = size.height > size.width ? size.height : size.width
         if largeSide > maxSize
         {
             let imageScale = maxSize / largeSide
-            let newSize = CGSizeMake(size.width * imageScale, size.height * imageScale)
+            let newSize = CGSize(width: size.width * imageScale, height: size.height * imageScale)
             UIGraphicsBeginImageContext(newSize)
-            drawInRect(CGRectMake(0, 0, newSize.width, newSize.height))
+            draw(in: CGRect(x: 0, y: 0, width: newSize.width, height: newSize.height))
             let newImage = UIGraphicsGetImageFromCurrentImageContext()
             UIGraphicsEndImageContext()
-            return newImage
+            return newImage!
         }
         else {
             return self
@@ -105,11 +105,11 @@ public extension UIImage {
     public var aspectRatioWToH:CGFloat {get {return size.aspectRatioWToH}}
     public var aspectRatioHtoW:CGFloat {get {return size.aspectRatioHtoW}}
     
-    public func toJPEGData(quality:CGFloat = 1.0) -> NSData? {
+    public func toJPEGData(_ quality:CGFloat = 1.0) -> Data? {
         return UIImageJPEGRepresentation(self, quality)
     }
     
-    public func toPNGData() -> NSData? {
+    public func toPNGData() -> Data? {
         return UIImagePNGRepresentation(self)
     }
     
@@ -117,9 +117,9 @@ public extension UIImage {
 }
 
 public extension UIImageView {
-    public func sizeToFitImage(s:CGSize? = nil) -> CGSize {
-        var s = s ?? frameSize;let imageSize = image?.size ?? CGSizeZero
-        guard !imageSize.aSideIsZero() else {return CGSizeZero}
+    public func sizeToFitImage(_ s:CGSize? = nil) -> CGSize {
+        var s = s ?? frameSize;let imageSize = image?.size ?? CGSize.zero
+        guard !imageSize.aSideIsZero() else {return CGSize.zero}
         if imageSize.aspectRatioWToH > s.aspectRatioWToH {
             s.height = s.width * imageSize.aspectRatioHtoW
         } else {

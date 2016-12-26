@@ -11,15 +11,15 @@ import CoreLocation
 
 
 public extension CLLocationCoordinate2D {
-    public func latitudeString(decimalFormat:Bool = false) -> String {
+    public func latitudeString(_ decimalFormat:Bool = false) -> String {
         let hemisphere = latitude < 0 ? "S" : "N"
         return decimalFormat ? latitude.rounded(7).toString().appendIfNotNil(String.degrees) : CLLocationCoordinate2D.coordinateStringFromDecimal(latitude).appendIfNotNil(hemisphere)
     }
-    public func longitudeString(decimalFormat:Bool = false) -> String {
+    public func longitudeString(_ decimalFormat:Bool = false) -> String {
         let hemisphere = longitude < 0 ? "W" : "E"
         return decimalFormat ? longitude.rounded(7).toString().appendIfNotNil(String.degrees) : CLLocationCoordinate2D.coordinateStringFromDecimal(longitude).appendIfNotNil(hemisphere)
     }
-    public static func coordinateStringFromDecimal(coordinate:Double) -> String {
+    public static func coordinateStringFromDecimal(_ coordinate:Double) -> String {
         let c = abs(coordinate)
         var seconds = c * 3600
         let degrees = seconds.toInt() / 3600

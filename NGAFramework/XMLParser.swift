@@ -9,10 +9,10 @@
 import Foundation
 
 class XmlParser {
-    class func parseData(data:NSData?,autoTrimText:Bool = true) -> XmlElement? {
+    class func parseData(_ data:Data?,autoTrimText:Bool = true) -> XmlElement? {
         var temp:XmlElement?
         if let cData = data {
-            let parser = NSXMLParser(data: cData)
+            let parser = XMLParser(data: cData)
             let parserDelegate = XmlParserDelegate()
             parserDelegate.autoTrimText = autoTrimText
             parser.delegate = parserDelegate
@@ -23,42 +23,42 @@ class XmlParser {
     }
 }
 
-class XmlParserDelegate: NSObject, NSXMLParserDelegate {
+class XmlParserDelegate: NSObject, XMLParserDelegate {
     var autoTrimText = true
     var mainXMLElement:XmlElement?
     var currentXMLElement:XmlElement?
-    func parserDidStartDocument(parser: NSXMLParser) { mainXMLElement = nil }
-    func parser(parser: NSXMLParser, didStartElement elementName: String, namespaceURI: String?, qualifiedName qName: String?, attributes attributeDict: [String : String]) {
+    func parserDidStartDocument(_ parser: XMLParser) { mainXMLElement = nil }
+    func parser(_ parser: XMLParser, didStartElement elementName: String, namespaceURI: String?, qualifiedName qName: String?, attributes attributeDict: [String : String]) {
         let newElement = XmlElement(elementName: elementName)
         newElement.attributeDictionary = attributeDict
         if mainXMLElement == nil { mainXMLElement = newElement }
         if currentXMLElement != nil { currentXMLElement?.addSubElement(newElement) }
         currentXMLElement = newElement
     }
-    func parser(parser: NSXMLParser, foundCDATA CDATABlock: NSData) {
-        let data = currentXMLElement?.cdata ?? NSData()
+    func parser(_ parser: XMLParser, foundCDATA CDATABlock: Data) {
+        let data = currentXMLElement?.cdata ?? Data()
         currentXMLElement?.cdata = data.append(CDATABlock)
     }
-    func parser(parser: NSXMLParser, foundCharacters string: String) {
+    func parser(_ parser: XMLParser, foundCharacters string: String) {
         let text = currentXMLElement?.text ?? ""
         currentXMLElement?.text = text.appendIfNotNil(string)
     }
-    func parser(parser: NSXMLParser, didEndElement elementName: String, namespaceURI: String?, qualifiedName qName: String?) {
+    func parser(_ parser: XMLParser, didEndElement elementName: String, namespaceURI: String?, qualifiedName qName: String?) {
         if autoTrimText {currentXMLElement?.text = currentXMLElement?.text?.trim()}
         currentXMLElement = currentXMLElement?.parentElement
     }
-    func parserDidEndDocument(parser: NSXMLParser) {}
-    func parser(parser: NSXMLParser, parseErrorOccurred parseError: NSError) {print("parse error \(parseError)")}
+    func parserDidEndDocument(_ parser: XMLParser) {}
+    func parser(_ parser: XMLParser, parseErrorOccurred parseError: Error) {print("parse error \(parseError)")}
 }
 
-public class XmlElement {
-    public var elementName:String
-    public var attributeDictionary:[String:String] = [:]
-    public var text:String?
-    public var cdata:NSData?
-    public var subElements:[XmlElement] = []
-    public weak var parentElement:XmlElement?
-    public var rootElement:XmlElement {get {return parentElement?.rootElement ?? self}}
+open class XmlElement {
+    open var elementName:String
+    open var attributeDictionary:[String:String] = [:]
+    open var text:String?
+    open var cdata:Data?
+    open var subElements:[XmlElement] = []
+    open weak var parentElement:XmlElement?
+    open var rootElement:XmlElement {get {return parentElement?.rootElement ?? self}}
     public init(elementName:String) {
         self.elementName = elementName
     }
@@ -70,8 +70,8 @@ public class XmlElement {
         self.text = copy.text
         self.subElements = copy.subElements
     }
-    public class func from(data:NSData?, autoTrimText:Bool = true) -> XmlElement? {return XmlParser.parseData(data,autoTrimText: autoTrimText)}
-    public convenience init?(data:NSData?, autoTrimText:Bool = true) {
+    open class func from(_ data:Data?, autoTrimText:Bool = true) -> XmlElement? {return XmlParser.parseData(data,autoTrimText: autoTrimText)}
+    public convenience init?(data:Data?, autoTrimText:Bool = true) {
         guard let el = XmlParser.parseData(data,autoTrimText: autoTrimText) else {return nil}
         self.init(copy: el)
     }
@@ -79,22 +79,22 @@ public class XmlElement {
         self.init(elementName: elementName)
         self.attributeDictionary = attributeDictionary
     }
-    public func addSubElement(element:XmlElement?) {
+    open func addSubElement(_ element:XmlElement?) {
         element?.parentElement = self
-        subElements.appendIfNotNil(element)
+        let _=subElements.appendIfNotNil(element)
     }
-    public func subElementsNamed(name:String?) -> [XmlElement]? {
+    open func subElementsNamed(_ name:String?) -> [XmlElement]? {
         if name == nil {return nil}
         return subElements.mapToNewArray() {(element) -> XmlElement? in return element.elementName == name ? element : nil}
     }
-    public func subElementNamed(name:String?) -> XmlElement? {
+    open func subElementNamed(_ name:String?) -> XmlElement? {
         if name == nil {return nil}
         return subElements.selectFirst(){ (element) -> Bool in element.elementName == name }
     }
-    public func subElementText(name:String?) -> String? {return subElementNamed(name)?.text}
-    public func subElementCData(name:String?) -> NSData? {return subElementNamed(name)?.cdata}
-    public func subElementAttributeDictionary(name:String?) -> [String:String]? {return subElementNamed(name)?.attributeDictionary}
-    public func toXmlString(indent:Int = 0, showWhiteSpace:Bool = false) -> String {
+    open func subElementText(_ name:String?) -> String? {return subElementNamed(name)?.text}
+    open func subElementCData(_ name:String?) -> Data? {return subElementNamed(name)?.cdata}
+    open func subElementAttributeDictionary(_ name:String?) -> [String:String]? {return subElementNamed(name)?.attributeDictionary}
+    open func toXmlString(_ indent:Int = 0, showWhiteSpace:Bool = false) -> String {
         var str = indent == 0 ? "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" : ""
         let spacer = showWhiteSpace ? " " : ""
         let tab = String.repeatedStringOfSize(indent, repeatedString: spacer)
@@ -106,7 +106,7 @@ public class XmlElement {
         guard !oneLine || cdata != nil || textExists else {str += "/>";return str}
         str += ">"
         if !oneLine {str += "\n"}
-        func addSubText(txt:String) {
+        func addSubText(_ txt:String) {
             if !oneLine {str += "\(tab)\(spacer)"}
             str += txt
             if !oneLine {str += "\n"}

@@ -10,12 +10,12 @@ import Foundation
 
 public extension UIButton {
     
-    public func captionImageWithTitle(title:String?) {
+    public func captionImageWithTitle(_ title:String?) {
         let font = UIFont(name: "ArialRoundedMTBold", size: 12.0)
         self.captionImageWith(title: title, andFont: font)
     }
     
-    public func captionImageWith(title title:String?, andFont font:UIFont?) {
+    public func captionImageWith(title:String?, andFont font:UIFont?) {
         var buttonFrame = self.frame
         var totalFrame = buttonFrame
         var newFrame = totalFrame
@@ -25,50 +25,50 @@ public extension UIButton {
         
         //// set context to not nil
         UIGraphicsBeginImageContext(buttonFrame.size)
-        self.layer.renderInContext(UIGraphicsGetCurrentContext()!)
+        self.layer.render(in: UIGraphicsGetCurrentContext()!)
         let buttonImage = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
         
         UIGraphicsBeginImageContext(captionLabelFrame.size)
-        captionLabel.layer.renderInContext(UIGraphicsGetCurrentContext()!)
+        captionLabel.layer.render(in: UIGraphicsGetCurrentContext()!)
         let captionImage = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
         
-        buttonFrame.origin = CGPointZero
-        totalFrame.origin = CGPointZero
-        captionLabelFrame.origin = CGPointZero
+        buttonFrame.origin = CGPoint.zero
+        totalFrame.origin = CGPoint.zero
+        captionLabelFrame.origin = CGPoint.zero
         captionLabelFrame.origin.y = totalFrame.size.height
         totalFrame.size.height = totalFrame.size.height + captionLabel.frame.size.height
         
         UIGraphicsBeginImageContext(totalFrame.size)
-        buttonImage.drawInRect(buttonFrame)
-        captionImage.drawInRect(captionLabelFrame)
+        buttonImage?.draw(in: buttonFrame)
+        captionImage?.draw(in: captionLabelFrame)
         let finalImage = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
         
-        self.setImage(finalImage, forState: UIControlState.Normal)
+        self.setImage(finalImage, for: UIControlState())
         newFrame.size.height = totalFrame.size.height
         self.frame = newFrame
         
     }
     
     
-    public func captionLabelWithTitle(title:String?, andFont font:UIFont?) -> UILabel {
+    public func captionLabelWithTitle(_ title:String?, andFont font:UIFont?) -> UILabel {
         let temp = UILabel()
         temp.text = title
         
         temp.setSizeFromView(self, withXRatio: 1.0, andYRatio: 0.2)
-        temp.placeViewAccordingToView(view: self, andPosition: NGARelativeViewPosition.BelowBottom)
-        temp.placeViewAccordingToView(view: self, andPosition: NGARelativeViewPosition.AlignLeft)
+        temp.placeViewAccordingToView(view: self, andPosition: NGARelativeViewPosition.belowBottom)
+        temp.placeViewAccordingToView(view: self, andPosition: NGARelativeViewPosition.alignLeft)
         
         //        temp.frame = self.frameForCaptionLabel(temp)
-        temp.textAlignment = NSTextAlignment.Center
+        temp.textAlignment = NSTextAlignment.center
         temp.font = font?.fitFontToSize(temp.frame.size, forString: title)
         
         return temp
     }
     
-    public func frameForCaptionLabel(label:UILabel) -> CGRect {
+    public func frameForCaptionLabel(_ label:UILabel) -> CGRect {
         let frame = self.frame
         var temp = frame
         temp.origin.y = frame.origin.y + frame.size.height

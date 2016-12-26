@@ -9,53 +9,53 @@
 import Foundation
 import WebKit
 
-public class NGAWKWebViewController: NGAViewController, WKNavigationDelegate, WKUIDelegate, WKScriptMessageHandler {
+open class NGAWKWebViewController: NGAViewController, WKNavigationDelegate, WKUIDelegate, WKScriptMessageHandler {
     
-    public var bannedDomains:[String] = []
-    public var optionalDomains:[String] = []
+    open var bannedDomains:[String] = []
+    open var optionalDomains:[String] = []
     
-    public var blockOptionalDomains = false
+    open var blockOptionalDomains = false
     
-    public var cacheHTML:Bool {get{return webView.cacheHTML} set{webView.cacheHTML = newValue}}
+    open var cacheHTML:Bool {get{return webView.cacheHTML} set{webView.cacheHTML = newValue}}
     
-    public var urlRequest:NSURLRequest? {
+    open var urlRequest:URLRequest? {
         didSet {
             if urlRequest != nil {
-                self.webView.loadRequest(urlRequest!)
+                let _=self.webView.load(urlRequest!)
             }
         }
     }
     
     
-    public lazy var backButton:UIBarButtonItem = {
-        let temp = UIBarButtonItem(title: "Back", style: UIBarButtonItemStyle.Plain, target: self, action: #selector(backButtonPressed))
+    open lazy var backButton:UIBarButtonItem = {
+        let temp = UIBarButtonItem(title: "Back", style: UIBarButtonItemStyle.plain, target: self, action: #selector(backButtonPressed))
         return temp
     }()
     
     
-    public lazy var webView:NGAWKWebView = {
+    open lazy var webView:NGAWKWebView = {
         var configuration = WKWebViewConfiguration()
         //        self.addJQueryMobileScriptToContentController(configuration.userContentController)
         
         //        let temp = WKWebView(frame: CGRectZero, configuration: configuration)
-        let temp = NGAWKWebView(frame: CGRectZero, configuration: configuration)
+        let temp = NGAWKWebView(frame: CGRect.zero, configuration: configuration)
         
         temp.navigationDelegate = self
-        temp.UIDelegate = self
-        temp.backgroundColor = UIColor.whiteColor()
+        temp.uiDelegate = self
+        temp.backgroundColor = UIColor.white
         return temp
     }()
     
-    public var activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.Gray)
+    open var activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.gray)
     
-    public override func viewDidLoad() {
+    open override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.contentView.scrollEnabled = false
+        self.contentView.isScrollEnabled = false
         //        println("webVC view loaded")
-        self.contentView.backgroundColor = UIColor.whiteColor()
+        self.contentView.backgroundColor = UIColor.white
         
-        if !cacheHTML || webView.htmlStringForURL(urlRequest?.URL) == nil {
+        if !cacheHTML || webView.htmlStringForURL(urlRequest?.url) == nil {
             let loadingLabel = UILabel()
             loadingLabel.text = "Loading..."
             loadingLabel.font = UIFont(name: "Verdana-Bold", size: 20.0)
@@ -78,7 +78,7 @@ public class NGAWKWebViewController: NGAViewController, WKNavigationDelegate, WK
     
 
     
-    public override func viewWillDisappear(animated: Bool) {
+    open override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         //        println("webVC view will disappear")
         self.webView.stopLoading()
@@ -86,14 +86,14 @@ public class NGAWKWebViewController: NGAViewController, WKNavigationDelegate, WK
     
 
     
-    public override func setFramesForSubviews() {
+    open override func setFramesForSubviews() {
         super.setFramesForSubviews()
         self.webView.frame = self.contentView.bounds
         //        self.webView.placeViewInView(view: self.contentView, andPosition: NGARelativeViewPosition.AboveTop)
     }
     
     //MARK: WKWebView
-    public func webView(webView: WKWebView, didFinishNavigation navigation: WKNavigation!) {
+    open func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
         print("finished", navigation)
         //        if let url = webView.URL {
         //            var lastPathComponent = url.lastPathComponent
@@ -101,7 +101,7 @@ public class NGAWKWebViewController: NGAViewController, WKNavigationDelegate, WK
         //        }
         
         
-        if !webView.isDescendantOfView(self.contentView) {
+        if !webView.isDescendant(of: self.contentView) {
             self.contentView.addSubview(webView)
             self.activityIndicator.stopAnimating()
         }
@@ -115,15 +115,15 @@ public class NGAWKWebViewController: NGAViewController, WKNavigationDelegate, WK
     
     
     
-    public func webView(webView: WKWebView, decidePolicyForNavigationAction navigationAction: WKNavigationAction, decisionHandler: (WKNavigationActionPolicy) -> Void) {
+    open func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
         
-        var decision = WKNavigationActionPolicy.Allow
+        var decision = WKNavigationActionPolicy.allow
         
-        let url = navigationAction.request.URL
+        let url = navigationAction.request.url
         let banned = self.isURLBanned(url!)
         if banned {
             print("BANNED::: \(url?.absoluteString)")
-            decision = WKNavigationActionPolicy.Cancel
+            decision = WKNavigationActionPolicy.cancel
         }
         else {
             
@@ -137,55 +137,55 @@ public class NGAWKWebViewController: NGAViewController, WKNavigationDelegate, WK
     }
     
     
-    public func webView(webView: WKWebView, decidePolicyForNavigationResponse navigationResponse: WKNavigationResponse, decisionHandler: (WKNavigationResponsePolicy) -> Void) {
-        let decision = WKNavigationResponsePolicy.Allow
+    open func webView(_ webView: WKWebView, decidePolicyFor navigationResponse: WKNavigationResponse, decisionHandler: @escaping (WKNavigationResponsePolicy) -> Void) {
+        let decision = WKNavigationResponsePolicy.allow
         decisionHandler(decision)
     }
     
-    public func webView(webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {
+    open func webView(_ webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {
         //        println("Start provisional nav \(navigation.description)")
     }
     
-    public func webView(webView: WKWebView, runJavaScriptAlertPanelWithMessage message: String, initiatedByFrame frame: WKFrameInfo, completionHandler: () -> Void) {
+    open func webView(_ webView: WKWebView, runJavaScriptAlertPanelWithMessage message: String, initiatedByFrame frame: WKFrameInfo, completionHandler: @escaping () -> Void) {
         print("JAVA ALERT PANEL MESSAGE " + message + "by frame" + frame.description)
     }
     
-    public func webView(webView: WKWebView, runJavaScriptConfirmPanelWithMessage message: String, initiatedByFrame frame: WKFrameInfo, completionHandler: (Bool) -> Void) {
+    open func webView(_ webView: WKWebView, runJavaScriptConfirmPanelWithMessage message: String, initiatedByFrame frame: WKFrameInfo, completionHandler: @escaping (Bool) -> Void) {
         print("JAVA CONFIRM PANEL MESSAGE " + message + "by frame" + frame.description)
     }
     
-    public func webView(webView: WKWebView, runJavaScriptTextInputPanelWithPrompt prompt: String, defaultText: String?, initiatedByFrame frame: WKFrameInfo, completionHandler: (String?) -> Void) {
+    open func webView(_ webView: WKWebView, runJavaScriptTextInputPanelWithPrompt prompt: String, defaultText: String?, initiatedByFrame frame: WKFrameInfo, completionHandler: @escaping (String?) -> Void) {
         print("JAVA TEXT INPUT PANEL MESSAGE " + prompt + "by frame" + frame.description)
     }
     
-    public func userContentController(userContentController: WKUserContentController, didReceiveScriptMessage message: WKScriptMessage) {
+    open func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
         print("executing: " + message.name)
     }
     
     
     //MARK: Actions
-    public func backButtonPressed(){
+    open func backButtonPressed(){
         self.webView.goBack()
     }
     
     //MARK: Helper Methods
     
-    public func runScriptFrom(resource:String, andExtension scriptExtension:String) {
+    open func runScriptFrom(_ resource:String, andExtension scriptExtension:String) {
         //        println(resource)
         //        var scriptError:NSError? = nil
-        let scriptUrl = NSBundle.mainBundle().URLForResource(resource, withExtension: scriptExtension)
+        let scriptUrl = Bundle.main.url(forResource: resource, withExtension: scriptExtension)
         if scriptUrl != nil {
             var hideTableOfContentScriptString: NSString?
             do {
-                hideTableOfContentScriptString = try NSString(contentsOfURL: scriptUrl!, encoding: NSUTF8StringEncoding)
+                hideTableOfContentScriptString = try NSString(contentsOf: scriptUrl!, encoding: String.Encoding.utf8.rawValue)
             } catch {
                 //                scriptError = error
                 hideTableOfContentScriptString = nil
             }
             if hideTableOfContentScriptString != nil {
-                webView.evaluateJavaScript(hideTableOfContentScriptString! as String, completionHandler: { (result:AnyObject?, error:NSError?) -> Void in
+                webView.evaluateJavaScript(hideTableOfContentScriptString! as String, completionHandler: { (result:Any?, error:Error?) -> Void in
                     if error != nil {
-                        print("js error " + error!.description)
+                        print("js error \(error)")
                     }
                     else {
                         print("no error")
@@ -204,11 +204,11 @@ public class NGAWKWebViewController: NGAViewController, WKNavigationDelegate, WK
     }
     
     
-    public func isURLBanned(url:NSURL) -> Bool {
+    open func isURLBanned(_ url:URL) -> Bool {
         var banned = false
-        if let urlString:NSString = url.absoluteString {
+        if let urlString:NSString = url.absoluteString as NSString? {
             for bannedDomain in bannedDomains {
-                let range = urlString.rangeOfString(bannedDomain, options: NSStringCompareOptions.CaseInsensitiveSearch)
+                let range = urlString.range(of: bannedDomain, options: NSString.CompareOptions.caseInsensitive)
                 if range.location != NSNotFound {
                     banned = true
                     break
@@ -216,7 +216,7 @@ public class NGAWKWebViewController: NGAViewController, WKNavigationDelegate, WK
             }
             if self.blockOptionalDomains && !banned {
                 for optionalDomain in optionalDomains {
-                    let range = urlString.rangeOfString(optionalDomain, options: NSStringCompareOptions.CaseInsensitiveSearch)
+                    let range = urlString.range(of: optionalDomain, options: NSString.CompareOptions.caseInsensitive)
                     if range.location != NSNotFound {
                         banned = true
                         break
@@ -235,56 +235,56 @@ public class NGAWKWebViewController: NGAViewController, WKNavigationDelegate, WK
 
 
 
-public class NGAWKWebView: WKWebView {
+open class NGAWKWebView: WKWebView {
     
-    public var cacheHTML = false
-    public var apiHandler = CachedWebViewApiHandler()
-    public var htmlCacheDirectory:String {get{return tempSubDirectoryWithName("NGAHTMLCache")}}
+    open var cacheHTML = false
+    open var apiHandler = CachedWebViewApiHandler()
+    open var htmlCacheDirectory:String {get{return tempSubDirectoryWithName("NGAHTMLCache")}}
     
-    public override func loadRequest(request: NSURLRequest) -> WKNavigation? {
+    open override func load(_ request: URLRequest) -> WKNavigation? {
         if cacheHTML  {
-            let url = request.URL
+            let url = request.url
             if let s = self.htmlStringForURL(url) {
                 self.loadHTMLString(s, baseURL: url?.baseURL)
             }
-            let task:NSURLSessionTask
-            if let body = request.HTTPBody {
-                task = apiHandler.defaultDataSession.uploadTaskWithRequest(request, fromData: body){ (data:NSData?, urlResponse:NSURLResponse?, error:NSError?) -> Void in
-                    guard let s = self.htmlStringForURL(url) where self.saveHTMLData(data, fromUrlPath: url?.absoluteString) else {return}
+            let task:URLSessionTask
+            if let body = request.httpBody {
+                task = apiHandler.defaultDataSession.uploadTask(with: request, from: body, completionHandler: { (data:Data?, urlResponse:URLResponse?, error:Error?) -> Void in
+                    guard let s = self.htmlStringForURL(url) , self.saveHTMLData(data, fromUrlPath: url?.absoluteString) else {return}
                     self.loadHTMLString(s, baseURL: url?.baseURL)
-                }
-            }else if request.HTTPBodyStream != nil {
-                task = apiHandler.defaultDataSession.uploadTaskWithStreamedRequest(request)
-                apiHandler.streamDictionary.append(task, value: request.HTTPBodyStream)
+                })
+            }else if request.httpBodyStream != nil {
+                task = apiHandler.defaultDataSession.uploadTask(withStreamedRequest: request)
+                let _=apiHandler.streamDictionary.append(task, value: request.httpBodyStream)
             }else {
-                task = apiHandler.defaultDataSession.dataTaskWithRequest(request){ (data:NSData?, urlResponse:NSURLResponse?, error:NSError?) -> Void in
+                task = apiHandler.defaultDataSession.dataTask(with: request, completionHandler: { (data:Data?, urlResponse:URLResponse?, error:Error?) -> Void in
                     guard self.saveHTMLData(data, fromUrlPath: url?.absoluteString), let s = self.htmlStringForURL(url) else {return}
                     self.loadHTMLString(s, baseURL: url?.baseURL)
-                }
+                })
             }
             task.resume()
             return nil
-        } else {return super.loadRequest(request)}
+        } else {return super.load(request)}
     }
     
-    public func htmlStringForURL(url:NSURL?) -> String? {
+    open func htmlStringForURL(_ url:URL?) -> String? {
         guard let url = htmlCacheDirectory.stringByAddingPathComponent(url?.absoluteString.crc32CheckSum())?.appendIfNotNil(".html").fileUrl else {return nil}
-        return NSData(contentsOfURL: url)?.toString()
+        return (try? Data(contentsOf: url))?.toString()
     }
     
-    public func saveHTMLData(htmlData:NSData?, fromUrlPath path:String?) -> Bool {
+    open func saveHTMLData(_ htmlData:Data?, fromUrlPath path:String?) -> Bool {
         print(htmlData != nil, String.isNotEmpty(path))
         guard htmlData != nil && String.isNotEmpty(path),
-            let url = htmlCacheDirectory.stringByAddingPathComponent(path!.crc32CheckSum())?.appendIfNotNil(".html").fileUrl where htmlData != NSData(contentsOfURL: url)
+            let url = htmlCacheDirectory.stringByAddingPathComponent(path!.crc32CheckSum())?.appendIfNotNil(".html").fileUrl , htmlData != (try? Data(contentsOf: url))
             else {return false}
-        htmlData?.writeToURL(url, atomically: true)
+        try? htmlData?.write(to: url, options: [.atomic])
         return true
     }
     
-    public func tempSubDirectoryWithName(name:String?) -> String {
+    open func tempSubDirectoryWithName(_ name:String?) -> String {
         let temp = NSTemporaryDirectory()
         guard String.isNotEmpty(name), let path = temp.stringByAddingPathComponent(name) else {return temp}
-        if !NSFileManager.defaultManager().fileExistsAtPath(path) {_ = try? NSFileManager.defaultManager().createDirectoryAtPath(path, withIntermediateDirectories: false, attributes: nil)}
+        if !FileManager.default.fileExists(atPath: path) {_ = try? FileManager.default.createDirectory(atPath: path, withIntermediateDirectories: false, attributes: nil)}
         return path
     }
     
@@ -294,11 +294,15 @@ public class NGAWKWebView: WKWebView {
 
 
 
-public class CachedWebViewApiHandler:APIHandler {
-    var streamDictionary:[NSURLSessionTask:NSInputStream] = [:]
-    public override func URLSession(session: NSURLSession, task: NSURLSessionTask, needNewBodyStream completionHandler: (NSInputStream?) -> Void) {
+open class CachedWebViewApiHandler:APIHandler {
+    var streamDictionary:[URLSessionTask:InputStream] = [:]
+
+    open override func urlSession(_ session: URLSession, task: URLSessionTask, needNewBodyStream completionHandler: @escaping (InputStream?) -> Void) {
         completionHandler(streamDictionary[task])
     }
+//    open override func urlSession(_ session: Foundation.URLSession, task: URLSessionTask, needNewBodyStream completionHandler: (InputStream?) -> Void) {
+//        completionHandler(streamDictionary[task])
+//    }
 }
 
 

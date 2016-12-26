@@ -9,8 +9,8 @@
 import Foundation
 import UIKit
 
-public class NGAContainerView: NGAView {
-    public var viewToSize:UIView? {
+open class NGAContainerView: NGAView {
+    open var viewToSize:UIView? {
         didSet{
             if viewToSize != oldValue{
                 if oldValue?.isDirectDescendantOf(self) ?? false {oldValue?.removeFromSuperview()}
@@ -18,12 +18,12 @@ public class NGAContainerView: NGAView {
             }
         }
     }
-    public var circular:Bool = false {didSet{if autoUpdateFrames && circular != oldValue{ setFramesForSubviewsOnMainThread()}}}
-    public var containerXOffset:CGFloat = 0 {didSet{if containerXOffset > 1{containerXOffset = 1}else if containerXOffset < -1 {containerXOffset = -1}; if autoUpdateFrames && containerXOffset != oldValue {setFramesForSubviewsOnMainThread()}}}
-    public var containerYOffset:CGFloat = 0 {didSet{if containerYOffset > 1{containerYOffset = 1}else if containerYOffset < -1 {containerYOffset = -1}; if autoUpdateFrames && containerYOffset != oldValue {setFramesForSubviewsOnMainThread()}}}
-    public var squaredCenterView:Bool = false {didSet{if autoUpdateFrames && squaredCenterView != oldValue{ setFramesForSubviewsOnMainThread()}}}
+    open var circular:Bool = false {didSet{if autoUpdateFrames && circular != oldValue{ setFramesForSubviewsOnMainThread()}}}
+    open var containerXOffset:CGFloat = 0 {didSet{if containerXOffset > 1{containerXOffset = 1}else if containerXOffset < -1 {containerXOffset = -1}; if autoUpdateFrames && containerXOffset != oldValue {setFramesForSubviewsOnMainThread()}}}
+    open var containerYOffset:CGFloat = 0 {didSet{if containerYOffset > 1{containerYOffset = 1}else if containerYOffset < -1 {containerYOffset = -1}; if autoUpdateFrames && containerYOffset != oldValue {setFramesForSubviewsOnMainThread()}}}
+    open var squaredCenterView:Bool = false {didSet{if autoUpdateFrames && squaredCenterView != oldValue{ setFramesForSubviewsOnMainThread()}}}
     
-    public var xRatio:CGFloat = 1 {
+    open var xRatio:CGFloat = 1 {
         didSet{
             if xRatio < 0 {xRatio = 0}
             if autoUpdateFrames && xRatio != oldValue{
@@ -31,7 +31,7 @@ public class NGAContainerView: NGAView {
             }
         }
     }
-    public var yRatio:CGFloat = 1 {
+    open var yRatio:CGFloat = 1 {
         didSet{
             if yRatio < 0 {yRatio = 0}
             if autoUpdateFrames && yRatio != oldValue{
@@ -40,7 +40,7 @@ public class NGAContainerView: NGAView {
         }
     }
     
-    public func setEqualRatio(r:CGFloat) {
+    open func setEqualRatio(_ r:CGFloat) {
         let old = autoUpdateFrames
         autoUpdateFrames = false
         xRatio = r
@@ -49,7 +49,7 @@ public class NGAContainerView: NGAView {
     }
     
     
-    public override func setFramesForSubviews() {
+    open override func setFramesForSubviews() {
         super.setFramesForSubviews()
         if circular {
             let side = shortSide > 0 ? shortSide : longSide
@@ -58,83 +58,83 @@ public class NGAContainerView: NGAView {
             layer.cornerRadius = side / 2
         }
         else {viewToSize?.setSizeFromView(self, withXRatio: xRatio, andYRatio: yRatio)}
-        if let s = viewToSize?.shortSide where squaredCenterView { viewToSize?.frameSize = s.toEqualSize()}
+        if let s = viewToSize?.shortSide , squaredCenterView { viewToSize?.frameSize = s.toEqualSize()}
         var xPadding:CGFloat = 0 ; var yPadding:CGFloat = 0
         if let size = viewToSize?.frameSize {
             xPadding = (frameWidth - size.width) * containerXOffset
             yPadding = (frameHeight - size.height) * containerYOffset
         }
-        viewToSize?.placeViewInView(view: self, position: .AlignCenterX, andPadding: xPadding)
-        viewToSize?.placeViewInView(view: self, position: .AlignCenterY, andPadding: yPadding)
+        viewToSize?.placeViewInView(view: self, position: .alignCenterX, andPadding: xPadding)
+        viewToSize?.placeViewInView(view: self, position: .alignCenterY, andPadding: yPadding)
         addSubviewIfNeeded(viewToSize)
     }
     
-    public func sizeForViewInCircularView() -> CGSize {
+    open func sizeForViewInCircularView() -> CGSize {
         let s = sideSizeForViewInCircularView(self)
-        return CGSizeMake(s * xRatio, s * yRatio)
+        return CGSize(width: s * xRatio, height: s * yRatio)
     }
     
-    public func sideSizeForViewInCircularView(v:UIView) -> CGFloat {
+    open func sideSizeForViewInCircularView(_ v:UIView) -> CGFloat {
         let side = v.shortSide / sqrt(2)
         return side
     }
     
 }
 
-public class NGATapView: NGAContainerView {
-    public var callBack:VoidBlock?
-    public var callBackWithSender:((sender:AnyObject?) -> Void)?
-    public var tapRecognizer:UITapGestureRecognizer? {didSet{addTapGestureRecognizer(tapRecognizer, old: oldValue, toSelf: recognizeTapOnWholeContainer)}}
-    public var recognizeTapOnWholeContainer:Bool = true {didSet{addTapGestureRecognizer(tapRecognizer, old: tapRecognizer, toSelf: recognizeTapOnWholeContainer)}}
+open class NGATapView: NGAContainerView {
+    open var callBack:VoidBlock?
+    open var callBackWithSender:((_ sender:Any?) -> Void)?
+    open var tapRecognizer:UITapGestureRecognizer? {didSet{addTapGestureRecognizer(tapRecognizer, old: oldValue, toSelf: recognizeTapOnWholeContainer)}}
+    open var recognizeTapOnWholeContainer:Bool = true {didSet{addTapGestureRecognizer(tapRecognizer, old: tapRecognizer, toSelf: recognizeTapOnWholeContainer)}}
     
-    public override var viewToSize:UIView? {
+    open override var viewToSize:UIView? {
         didSet{
             if let t = tapRecognizer {oldValue?.removeGestureRecognizer(t)}
             if !recognizeTapOnWholeContainer{addTapGestureRecognizer(tapRecognizer, old: tapRecognizer, toSelf: recognizeTapOnWholeContainer)}
         }
     }
     
-    public override func postInit() {
+    open override func postInit() {
         super.postInit()
         tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(userTapped(_:)))
         addTapGestureRecognizer(tapRecognizer, old: nil, toSelf: recognizeTapOnWholeContainer)
     }
     
-    public func addTapGestureRecognizer(new:UITapGestureRecognizer?, old:UITapGestureRecognizer?, toSelf b:Bool) {
+    open func addTapGestureRecognizer(_ new:UITapGestureRecognizer?, old:UITapGestureRecognizer?, toSelf b:Bool) {
         if let o = old {viewToSize?.removeGestureRecognizer(o); removeGestureRecognizer(o)}
-        if let n = new {if b{addGestureRecognizer(n)}else {viewToSize?.addGestureRecognizer(n); viewToSize?.userInteractionEnabled = true}}
+        if let n = new {if b{addGestureRecognizer(n)}else {viewToSize?.addGestureRecognizer(n); viewToSize?.isUserInteractionEnabled = true}}
     }
     
     
-    public func userTapped(sender:AnyObject?) {
+    open func userTapped(_ sender:Any?) {
         //        print("tapped")
         callBack?()
-        callBackWithSender?(sender: self)
+        callBackWithSender?(self)
     }
 }
 
 
 
-public class NGATapLabelView: NGATapView {
+open class NGATapLabelView: NGATapView {
     
-    public let label = UILabel()
-    public var text:String? {get{return label.text}set{label.text = newValue; setFramesForSubviewsOnMainThread()}}
-    public var attributedText:NSAttributedString? {get{return label.attributedText}set{label.attributedText = newValue; setFramesForSubviewsOnMainThread()}}
-    public var textColor:UIColor? {get{return label.textColor}set{label.textColor = newValue}}
-    public var font:UIFont? {get{return label.font}set{if label.font != newValue {label.font = newValue; setFramesForSubviewsOnMainThread()}}}
-    public var textAlignment:NSTextAlignment {get{return label.textAlignment}set{label.textAlignment = newValue}}
-    public var fitFontToLabel:Bool = true
-    public var constrainFontToLabel = false
+    open let label = UILabel()
+    open var text:String? {get{return label.text}set{label.text = newValue; setFramesForSubviewsOnMainThread()}}
+    open var attributedText:NSAttributedString? {get{return label.attributedText}set{label.attributedText = newValue; setFramesForSubviewsOnMainThread()}}
+    open var textColor:UIColor? {get{return label.textColor}set{label.textColor = newValue}}
+    open var font:UIFont? {get{return label.font}set{if label.font != newValue {label.font = newValue; setFramesForSubviewsOnMainThread()}}}
+    open var textAlignment:NSTextAlignment {get{return label.textAlignment}set{label.textAlignment = newValue}}
+    open var fitFontToLabel:Bool = true
+    open var constrainFontToLabel = false
     
-    public override func postInit() {
+    open override func postInit() {
         super.postInit()
         label.numberOfLines = 0
-        label.textAlignment = .Center
-        label.backgroundColor = UIColor.clearColor()
+        label.textAlignment = .center
+        label.backgroundColor = UIColor.clear
         viewToSize = label
     }
     
-    public override func setFramesForSubviews() {
+    open override func setFramesForSubviews() {
         super.setFramesForSubviews()
         guard frameHeight > 0 && frameWidth > 0 else {return}
         if fitFontToLabel {font = font?.fitFontToSize(label.frameSize, forString: label.text)}
@@ -150,19 +150,19 @@ public class NGATapLabelView: NGATapView {
 
 
 
-public class NGATapImageView: NGATapView {
-    public let imageView = UIImageView()
-    public var image:UIImage? {get{return imageView.image}set{imageView.image = alwaysTemplate ? newValue?.imageWithRenderingMode(.AlwaysTemplate) : newValue}}
-    public var imageTintColor:UIColor? {get{return imageView.tintColor}set{imageView.tintColor = newValue}}
-    public var imageContentMode:UIViewContentMode {get{return imageView.contentMode} set{imageView.contentMode = newValue}}
-    public var alwaysTemplate:Bool = true {didSet{if alwaysTemplate != oldValue {imageView.image = imageView.image}}}
+open class NGATapImageView: NGATapView {
+    open let imageView = UIImageView()
+    open var image:UIImage? {get{return imageView.image}set{imageView.image = alwaysTemplate ? newValue?.withRenderingMode(.alwaysTemplate) : newValue}}
+    open var imageTintColor:UIColor? {get{return imageView.tintColor}set{imageView.tintColor = newValue}}
+    open var imageContentMode:UIViewContentMode {get{return imageView.contentMode} set{imageView.contentMode = newValue}}
+    open var alwaysTemplate:Bool = true {didSet{if alwaysTemplate != oldValue {imageView.image = imageView.image}}}
     
-    public override func postInit() {
+    open override func postInit() {
         super.postInit()
-        imageView.backgroundColor = UIColor.clearColor()
-        imageView.userInteractionEnabled = true
-        imageView.contentMode = .ScaleAspectFit
-        imageTintColor = UIColor.blackColor()
+        imageView.backgroundColor = UIColor.clear
+        imageView.isUserInteractionEnabled = true
+        imageView.contentMode = .scaleAspectFit
+        imageTintColor = UIColor.black
         viewToSize = imageView
     }
     

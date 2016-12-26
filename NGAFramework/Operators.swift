@@ -8,29 +8,34 @@
 
 import Foundation
 
-//// Equals as
-infix operator =? {associativity left}
-
-public func =?<T,U>(inout left:T?, right:U?) {
+infix operator =? : AssignAs
+precedencegroup AssignAs {
+    associativity: left
+    lowerThan: AssignmentPrecedence
+}
+public func =?<T,U>(left:inout T?, right:U?) {
     left = right as? T
 }
-
-public func =?<T,U>(inout left:T, right:U?) {
+public func =?<T,U>(left:inout T, right:U?) {
     if let v = right as? T {
         left = v
     }
 }
 
-
-//// assign if nil
-infix operator ?= {associativity left}
-
-public func ?=<T,U>(inout left:T?, right:U?) {
+infix operator ?= : AssignIfNil
+precedencegroup AssignIfNil {
+    associativity: left
+    lowerThan: AssignmentPrecedence
+}
+public func ?=<T,U>(left:inout T?, right:U?) {
     if left == nil {left = right as? T}
 }
 
-infix operator ||= {associativity left}
-
-public func ||=<T,U>(inout left:T?, @autoclosure right:() -> U) {
+infix operator ||= : AssignResultIfNil
+precedencegroup AssignResultIfNil {
+    associativity: left
+    lowerThan: AssignmentPrecedence
+}
+public func ||=<T,U>(left:inout T?, right:@autoclosure () -> U) {
     if left == nil {left = right() as? T}
 }

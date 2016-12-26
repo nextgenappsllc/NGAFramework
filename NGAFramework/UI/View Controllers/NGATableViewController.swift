@@ -9,15 +9,15 @@
 import Foundation
 import UIKit
 
-public class NGATableViewController: NGAViewController, UITableViewDataSource, UITableViewDelegate {
+open class NGATableViewController: NGAViewController, UITableViewDataSource, UITableViewDelegate {
     
-    public lazy var tableView:UITableView = {
-        let tempTableView:UITableView = UITableView(frame: self.contentView.bounds, style: UITableViewStyle.Plain)
-        tempTableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: "Cell")
+    open lazy var tableView:UITableView = {
+        let tempTableView:UITableView = UITableView(frame: self.contentView.bounds, style: UITableViewStyle.plain)
+        tempTableView.register(UITableViewCell.self, forCellReuseIdentifier: "Cell")
         tempTableView.delegate = self
         tempTableView.dataSource = self
-        tempTableView.separatorStyle = UITableViewCellSeparatorStyle.None
-        tempTableView.backgroundColor = UIColor.whiteColor()
+        tempTableView.separatorStyle = UITableViewCellSeparatorStyle.none
+        tempTableView.backgroundColor = UIColor.white
         tempTableView.autoresizesSubviews = true
         //// if iOS 9
         if #available(iOS 9.0, *) {
@@ -32,15 +32,15 @@ public class NGATableViewController: NGAViewController, UITableViewDataSource, U
     
     //MARK: Frames
     
-    public override func setFramesForSubviews() {
+    open override func setFramesForSubviews() {
         super.setFramesForSubviews()
         self.setTableViewFrame()
         
     }
     
-    public func setTableViewFrame() {
+    open func setTableViewFrame() {
         self.tableView.frame = self.contentView.bounds
-        if !self.tableView.isDescendantOfView(self.contentView){
+        if !self.tableView.isDescendant(of: self.contentView){
             self.contentView.addSubview(self.tableView)
         }
 //        self.tableView.reloadData()
@@ -48,35 +48,35 @@ public class NGATableViewController: NGAViewController, UITableViewDataSource, U
     
     
     //MARK: TableView
-    public func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    open func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 0
     }
     
-    public func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    open func numberOfSections(in tableView: UITableView) -> Int {
         return 0
     }
     
-    public func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath)
+    open func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
         
         return cell
     }
     
-    public func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
+    open func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         
         
     }
     
     
-    public func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    open func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         
     }
-    public func tableView(tableView: UITableView, didDeselectRowAtIndexPath indexPath: NSIndexPath) {
+    open func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
         
     }
     
-    public func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    open func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return self.contentView.bounds.size.height * 0.1
     }
 

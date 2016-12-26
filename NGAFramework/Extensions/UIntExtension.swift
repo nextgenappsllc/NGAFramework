@@ -9,21 +9,24 @@
 import Foundation
 
 /// after xcode upgrade the method below no longer works because of distance. Used to in conversion of hex string to color
-public extension UInt {
-    public init?(_ string: String, radix: UInt) {
-        let digits = "0123456789abcdefghijklmnopqrstuvwxyz"
-        var result = UInt(0)
-        for digit in string.lowercaseString.characters {
-            if let range = digits.rangeOfString(String(digit)) {
-                let val = UInt(range.count)
-                if val >= radix {
-                    return nil
-                }
-                result = result * radix + val
-            } else {
-                return nil
-            }
-        }
-        self = result
-    }
-}
+
+/// SWIFT3 might not need this
+
+//public extension UInt {
+//    public init?(_ string: String, radix: UInt) {
+//        let digits = "0123456789abcdefghijklmnopqrstuvwxyz"
+//        var result = UInt(0)
+//        for digit in string.lowercased().characters {
+//            if let range = digits.range(of: String(digit)) {
+//                let val = UInt(range.count)
+//                if val >= radix {
+//                    return nil
+//                }
+//                result = result * radix + val
+//            } else {
+//                return nil
+//            }
+//        }
+//        self = result
+//    }
+//}

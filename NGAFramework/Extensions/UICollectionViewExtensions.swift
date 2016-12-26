@@ -11,22 +11,22 @@ import UIKit
 
 
 public extension UICollectionView {
-    public func registerCellClasses(dict:[String:AnyClass]) {
+    public func registerCellClasses(_ dict:[String:AnyClass]) {
         for (key, value) in dict {
-            registerClass(value, forCellWithReuseIdentifier: key)
+            register(value, forCellWithReuseIdentifier: key)
         }
     }
-    public func registerHeaderClasses(dict:[String:AnyClass]) {
+    public func registerHeaderClasses(_ dict:[String:AnyClass]) {
         for (key, value) in dict {
-            registerClass(value, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: key)
+            register(value, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: key)
         }
     }
-    public func registerFooterClasses(dict:[String:AnyClass]) {
+    public func registerFooterClasses(_ dict:[String:AnyClass]) {
         for (key, value) in dict {
-            registerClass(value, forSupplementaryViewOfKind: UICollectionElementKindSectionFooter, withReuseIdentifier: key)
+            register(value, forSupplementaryViewOfKind: UICollectionElementKindSectionFooter, withReuseIdentifier: key)
         }
     }
-    public func rectForCellAtIndexPath(indexPath:NSIndexPath) -> CGRect? {
-        return layoutAttributesForItemAtIndexPath(indexPath)?.frame
+    public func rectForCellAtIndexPath(_ indexPath:IndexPath) -> CGRect? {
+        return layoutAttributesForItem(at: indexPath)?.frame
     }
 }

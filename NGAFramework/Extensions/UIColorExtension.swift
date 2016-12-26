@@ -68,7 +68,7 @@ public extension UIColor {
     public func saturation() -> CGFloat {return hueSaturationBrightnessAndAlpha()?.s ?? 0}
     public func brightness() -> CGFloat {return hueSaturationBrightnessAndAlpha()?.b ?? 0}
     
-    public class func chooseColor(darker:Bool, color1 c1:UIColor, color2 c2:UIColor) -> UIColor {
+    public class func chooseColor(_ darker:Bool, color1 c1:UIColor, color2 c2:UIColor) -> UIColor {
         if let w1 = c1.whiteAndAlpha()?.w, let w2 = c2.whiteAndAlpha()?.w {
             if darker && w1 < w2 {return c1} else {return c2}
         } else if let b1 = c1.hueSaturationBrightnessAndAlpha()?.b, let b2 = c2.hueSaturationBrightnessAndAlpha()?.b {
@@ -89,7 +89,7 @@ public extension UIColor {
         return UIColor.oppositeColorOf(self)
     }
     
-    public class func oppositeColorOf(color:UIColor) -> UIColor {
+    public class func oppositeColorOf(_ color:UIColor) -> UIColor {
         let rgba = color.rgba() ?? (0,0,0,1)
         return UIColor(red: 1 - rgba.r, green: 1 - rgba.g, blue: 1 - rgba.b, alpha: rgba.a)
     }

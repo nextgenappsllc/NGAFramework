@@ -9,92 +9,92 @@
 import Foundation
 import UIKit
 
-public class NGACollectionViewController: NGAViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+open class NGACollectionViewController: NGAViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
-    public var collectionViewCellClass:AnyClass? {
+    open var collectionViewCellClass:AnyClass? {
         get {return NGACollectionViewCell.self}
     }
     
-    public var collectionViewHeaderClass:AnyClass? {
+    open var collectionViewHeaderClass:AnyClass? {
         get {return UICollectionReusableView.self}
     }
     
-    public var collectionViewFooterClass:AnyClass? {
+    open var collectionViewFooterClass:AnyClass? {
         get {return UICollectionReusableView.self}
     }
     
-    public lazy var collectionView:UICollectionView = {
+    open lazy var collectionView:UICollectionView = {
         var layout = UICollectionViewFlowLayout()
-        layout.scrollDirection = UICollectionViewScrollDirection.Vertical
+        layout.scrollDirection = UICollectionViewScrollDirection.vertical
         var temp = UICollectionView(frame: self.contentView.bounds, collectionViewLayout: layout)
         return temp
         }()
     
-    public override func viewWillAppear(animated: Bool) {
+    open override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         reloadCollectionViewOnMainThread()
     }
     
-    public override func setup() {
+    open override func setup() {
         super.setup()
         automaticallyAdjustsScrollViewInsets = false
-        contentView.backgroundColor = UIColor.whiteColor()
-        collectionView.backgroundColor = UIColor.whiteColor()
+        contentView.backgroundColor = UIColor.white
+        collectionView.backgroundColor = UIColor.white
         registerClasses()
         collectionView.delegate = self
         collectionView.dataSource = self
         
     }
     
-    public func registerClasses() {
-        collectionView.registerClass(collectionViewCellClass, forCellWithReuseIdentifier: "Cell")
-        collectionView.registerClass(collectionViewHeaderClass, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: "Header")
-        collectionView.registerClass(collectionViewFooterClass, forSupplementaryViewOfKind: UICollectionElementKindSectionFooter, withReuseIdentifier: "Footer")
+    open func registerClasses() {
+        collectionView.register(collectionViewCellClass, forCellWithReuseIdentifier: "Cell")
+        collectionView.register(collectionViewHeaderClass, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: "Header")
+        collectionView.register(collectionViewFooterClass, forSupplementaryViewOfKind: UICollectionElementKindSectionFooter, withReuseIdentifier: "Footer")
     }
     
-    public override func viewWillTransitionToSize(size: CGSize, withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator) {
+    open override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         collectionView.collectionViewLayout.invalidateLayout()
-        super.viewWillTransitionToSize(size, withTransitionCoordinator: coordinator)
+        super.viewWillTransition(to: size, with: coordinator)
     }
     
-    public override func setFramesForSubviews() {
+    open override func setFramesForSubviews() {
         super.setFramesForSubviews()
         setCollectionViewFrame()
         collectionView.reloadData()
     }
     
-    public func setCollectionViewFrame() {
+    open func setCollectionViewFrame() {
         collectionView.frame = contentView.bounds
         collectionView.centerInView(contentView)
         contentView.addSubviewIfNeeded(collectionView)
     }
     
-    public func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
+    open func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 0
     }
     
-    public func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    open func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return 0
     }
     
-    public func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCellWithReuseIdentifier(cellReuseIdentifierForIndexPath(indexPath), forIndexPath: indexPath) ?? NGACollectionViewCell()
+    open func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellReuseIdentifierForIndexPath(indexPath), for: indexPath) 
         return cell
     }
     
-    public func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
+    open func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return collectionView.frameSize
     }
     
     
-    public func reloadCollectionViewOnMainThread(collectionView:UICollectionView? = nil) {
+    open func reloadCollectionViewOnMainThread(_ collectionView:UICollectionView? = nil) {
         let temp = collectionView ?? self.collectionView
         NGAExecute.performOnMainThread(temp.reloadData)
 //        dispatch_async(dispatch_get_main_queue(), mainBlock)
     }
     
     
-    public func cellReuseIdentifierForIndexPath(indexPath:NSIndexPath) -> String {
+    open func cellReuseIdentifierForIndexPath(_ indexPath:IndexPath) -> String {
         return "Cell"
     }
     

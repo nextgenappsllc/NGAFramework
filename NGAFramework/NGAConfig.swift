@@ -18,13 +18,13 @@ import SystemConfiguration
 public struct NGADevice {
     public static var currentScreenBounds:CGRect {
         get {
-            return UIScreen.mainScreen().bounds
+            return UIScreen.main.bounds
         }
     }
     
     public static var portraitScreenBounds:CGRect {
         get {
-            return UIScreen.mainScreen().nativeBounds
+            return UIScreen.main.nativeBounds
         }
     }
     
@@ -46,12 +46,12 @@ public struct NGADevice {
     
     public static var window:UIWindow? {
         get{
-            guard let w = UIApplication.sharedApplication().delegate?.window else {return nil}
+            guard let w = UIApplication.shared.delegate?.window else {return nil}
             return w
         }
     }
     
-    public static var statusBarFrame:CGRect {get{return UIApplication.sharedApplication().statusBarFrame}}
+    public static var statusBarFrame:CGRect {get{return UIApplication.shared.statusBarFrame}}
     
     public static var windowShortSide:CGFloat {
         get {
@@ -72,8 +72,7 @@ public struct NGADevice {
         if netReachability != nil {
             SCNetworkReachabilityGetFlags(netReachability!, &flags)
         }
-        SCNetworkReachabilityFlags.IsWWAN
-        temp = (flags.rawValue & SCNetworkReachabilityFlags.IsWWAN.rawValue) != 0
+        temp = (flags.rawValue & SCNetworkReachabilityFlags.isWWAN.rawValue) != 0
         
         
         return temp
@@ -101,13 +100,13 @@ public struct NGADevice {
     
     public static var iPad:Bool {
         get {
-            return UIDevice.currentDevice().userInterfaceIdiom == UIUserInterfaceIdiom.Pad
+            return UIDevice.current.userInterfaceIdiom == UIUserInterfaceIdiom.pad
         }
     }
     
     public static var iPhone:Bool {
         get {
-            return UIDevice.currentDevice().userInterfaceIdiom == UIUserInterfaceIdiom.Phone
+            return UIDevice.current.userInterfaceIdiom == UIUserInterfaceIdiom.phone
         }
     }
     
@@ -129,10 +128,10 @@ public struct NGADevice {
             return remSizeFor(window.frameSize)
         }
     }
-    public static func remSizeFor(size:CGSize) -> CGFloat {
+    public static func remSizeFor(_ size:CGSize) -> CGFloat {
         return size.diagonalLength * 0.019
     }
-    public static func remSizeFor(view:UIView) -> CGFloat {
+    public static func remSizeFor(_ view:UIView) -> CGFloat {
         return remSizeFor(view.frameSize)
     }
 }
@@ -143,13 +142,13 @@ public struct NGADevice {
 
 //MARK: Thread handler
 
-public class NGAExecute {
-    public class func performOnMainThread(b:VoidBlock?) {
+open class NGAExecute {
+    open class func performOnMainThread(_ b:VoidBlock?) {
         if b == nil {return}
-        if NSThread.isMainThread() {
+        if Thread.isMainThread {
             b?()
         } else {
-            dispatch_async(dispatch_get_main_queue(), b!)
+            DispatchQueue.main.async(execute: b!)
         }
     }
 }

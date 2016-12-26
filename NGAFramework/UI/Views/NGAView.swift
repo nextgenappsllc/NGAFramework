@@ -9,17 +9,17 @@
 import Foundation
 import UIKit
 
-public class NGAView: UIView {
-    public override var frame: CGRect {didSet{if autoUpdateFrames && oldValue.size != frame.size {setFramesForSubviewsOnMainThread()}}}
-    public func setFramesForSubviews() {}
-    public func setFramesForSubviewsOnMainThread() {NGAExecute.performOnMainThread(setFramesForSubviews)}
+open class NGAView: UIView {
+    open override var frame: CGRect {didSet{if autoUpdateFrames && oldValue.size != frame.size {setFramesForSubviewsOnMainThread()}}}
+    open func setFramesForSubviews() {}
+    open func setFramesForSubviewsOnMainThread() {NGAExecute.performOnMainThread(setFramesForSubviews)}
     public override init(frame: CGRect) {
         super.init(frame: frame)
         postInit()
     }
     public convenience required init?(coder aDecoder: NSCoder) {self.init()}
-    public func postInit() {}
-    public var autoUpdateFrames:Bool = true {didSet{if autoUpdateFrames && !oldValue {setFramesForSubviewsOnMainThread()}}}
+    open func postInit() {}
+    open var autoUpdateFrames:Bool = true {didSet{if autoUpdateFrames && !oldValue {setFramesForSubviewsOnMainThread()}}}
     
 //    public override var frame: CGRect {didSet{if autoUpdateFrames && oldValue.size != frame.size {setNeedsLayout()}}}
 //    public func setFramesForSubviews() {}
@@ -38,21 +38,21 @@ public class NGAView: UIView {
     
 }
 
-public class NGACollectionViewCell: UICollectionViewCell {
-    public override var frame: CGRect {didSet{if autoUpdateFrames && oldValue.size != frame.size {setFramesForSubviewsOnMainThread()}}}
-    public func setFramesForSubviews() {}
-    public func setFramesForSubviewsOnMainThread() {NGAExecute.performOnMainThread(setFramesForSubviews)}
+open class NGACollectionViewCell: UICollectionViewCell {
+    open override var frame: CGRect {didSet{if autoUpdateFrames && oldValue.size != frame.size {setFramesForSubviewsOnMainThread()}}}
+    open func setFramesForSubviews() {}
+    open func setFramesForSubviewsOnMainThread() {NGAExecute.performOnMainThread(setFramesForSubviews)}
     public override init(frame: CGRect) {
         super.init(frame: frame)
         postInit()
     }
     public convenience required init?(coder aDecoder: NSCoder) {self.init()}
-    public func postInit() {}
-    public override func layoutSubviews() {
+    open func postInit() {}
+    open override func layoutSubviews() {
         super.layoutSubviews()
         setFramesForSubviews()
     }
-    public var autoUpdateFrames:Bool = true {didSet{if autoUpdateFrames && !oldValue {setFramesForSubviewsOnMainThread()}}}
+    open var autoUpdateFrames:Bool = true {didSet{if autoUpdateFrames && !oldValue {setFramesForSubviewsOnMainThread()}}}
     
 //    public override var frame: CGRect {didSet{if autoUpdateFrames && oldValue.size != frame.size {setNeedsLayout()}}}
 //    public func setFramesForSubviews() {}
@@ -70,53 +70,53 @@ public class NGACollectionViewCell: UICollectionViewCell {
 //    public var autoUpdateFrames:Bool = true {didSet{if autoUpdateFrames && !oldValue {setNeedsLayout()}}}
 }
 
-public class NGACollectionReusableView: UICollectionReusableView {
-    public override var frame: CGRect {didSet{if autoUpdateFrames && oldValue.size != frame.size {setFramesForSubviewsOnMainThread()}}}
-    public func setFramesForSubviews() {}
-    public func setFramesForSubviewsOnMainThread() {NGAExecute.performOnMainThread(setFramesForSubviews)}
+open class NGACollectionReusableView: UICollectionReusableView {
+    open override var frame: CGRect {didSet{if autoUpdateFrames && oldValue.size != frame.size {setFramesForSubviewsOnMainThread()}}}
+    open func setFramesForSubviews() {}
+    open func setFramesForSubviewsOnMainThread() {NGAExecute.performOnMainThread(setFramesForSubviews)}
     public override init(frame: CGRect) {
         super.init(frame: frame)
         postInit()
     }
     public convenience required init?(coder aDecoder: NSCoder) {self.init()}
-    public func postInit() {}
-    public override func layoutSubviews() {
+    open func postInit() {}
+    open override func layoutSubviews() {
         super.layoutSubviews()
         setFramesForSubviews()
     }
-    public var autoUpdateFrames:Bool = true {didSet{if autoUpdateFrames && !oldValue {setFramesForSubviewsOnMainThread()}}}
+    open var autoUpdateFrames:Bool = true {didSet{if autoUpdateFrames && !oldValue {setFramesForSubviewsOnMainThread()}}}
 }
 
-public class NGATableViewCell: UITableViewCell {
-    public override var frame: CGRect {didSet{if autoUpdateFrames && oldValue.size != frame.size {setFramesForSubviewsOnMainThread()}}}
-    public func setFramesForSubviews() {}
-    public func setFramesForSubviewsOnMainThread() {NGAExecute.performOnMainThread(setFramesForSubviews)}
+open class NGATableViewCell: UITableViewCell {
+    open override var frame: CGRect {didSet{if autoUpdateFrames && oldValue.size != frame.size {setFramesForSubviewsOnMainThread()}}}
+    open func setFramesForSubviews() {}
+    open func setFramesForSubviewsOnMainThread() {NGAExecute.performOnMainThread(setFramesForSubviews)}
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         postInit()
     }
     public convenience required init?(coder aDecoder: NSCoder) {self.init()}
-    public func postInit() {}
-    public override func layoutSubviews() {
+    open func postInit() {}
+    open override func layoutSubviews() {
         super.layoutSubviews()
         setFramesForSubviews()
     }
-    public var autoUpdateFrames:Bool = true {didSet{if autoUpdateFrames && !oldValue {setFramesForSubviewsOnMainThread()}}}
+    open var autoUpdateFrames:Bool = true {didSet{if autoUpdateFrames && !oldValue {setFramesForSubviewsOnMainThread()}}}
 }
 
 
 
-public class NGAScrollView: UIScrollView {
-    public override var frame: CGRect {didSet{if autoUpdateFrames && oldValue.size != frame.size {setFramesForSubviewsOnMainThread()}}}
-    public func setFramesForSubviews() {}
-    public func setFramesForSubviewsOnMainThread() {NGAExecute.performOnMainThread(setFramesForSubviews)}
+open class NGAScrollView: UIScrollView {
+    open override var frame: CGRect {didSet{if autoUpdateFrames && oldValue.size != frame.size {setFramesForSubviewsOnMainThread()}}}
+    open func setFramesForSubviews() {}
+    open func setFramesForSubviewsOnMainThread() {NGAExecute.performOnMainThread(setFramesForSubviews)}
     public override init(frame: CGRect) {
         super.init(frame: frame)
         postInit()
     }
     public convenience required init?(coder aDecoder: NSCoder) {self.init()}
-    public func postInit() {}
-    public var autoUpdateFrames:Bool = true {didSet{if autoUpdateFrames && !oldValue {setFramesForSubviewsOnMainThread()}}}
+    open func postInit() {}
+    open var autoUpdateFrames:Bool = true {didSet{if autoUpdateFrames && !oldValue {setFramesForSubviewsOnMainThread()}}}
     
 }
 

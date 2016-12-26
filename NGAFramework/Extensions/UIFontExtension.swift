@@ -12,51 +12,51 @@ public extension UIFont {
     
     @nonobjc public static let attributeKey = NSFontAttributeName
     
-    public func fitFontToSize(size:CGSize, forString string:String?) -> UIFont {
+    public func fitFontToSize(_ size:CGSize, forString string:String?) -> UIFont {
         if String.isEmptyOrNil(string) || size.width == 0 || size.height == 0 {
-            return self.fontWithSize(0)
+            return self.withSize(0)
         }
         let smallSide = size.shortSide
         let increment = smallSide / 100
         var fontSize:CGFloat = 0
-        var testSize = CGSizeZero
+        var testSize = CGSize.zero
         repeat {
             fontSize += increment
-            testSize =? string?.sizeWithAttributes([UIFont.attributeKey: fontWithSize(fontSize)])
+            testSize =? string?.size(attributes: [UIFont.attributeKey: withSize(fontSize)])
         } while testSize.height < size.height && testSize.width < size.width
         fontSize -= increment
-        return fontWithSize(fontSize)
+        return withSize(fontSize)
         
     }
     
-    public func fontIncreasedByAmount(i:CGFloat?) -> UIFont {
+    public func fontIncreasedByAmount(_ i:CGFloat?) -> UIFont {
         return fontChangeByAmount(i, inc: true)
     }
-    public func fontIncreasedByPercent(i:CGFloat?) -> UIFont {
+    public func fontIncreasedByPercent(_ i:CGFloat?) -> UIFont {
         return fontChangeByPercent(i, inc: true)
     }
-    public func fontDecreasedByAmount(i:CGFloat?) -> UIFont {
+    public func fontDecreasedByAmount(_ i:CGFloat?) -> UIFont {
         return fontChangeByAmount(i, inc: false)
     }
-    public func fontDecreasedByPercent(i:CGFloat?) -> UIFont {
+    public func fontDecreasedByPercent(_ i:CGFloat?) -> UIFont {
         return fontChangeByPercent(i, inc: false)
     }
-    private func fontChangeByAmount(i:CGFloat?, inc:Bool) -> UIFont {
+    fileprivate func fontChangeByAmount(_ i:CGFloat?, inc:Bool) -> UIFont {
         let diff = i ?? 0
         let size = inc ? pointSize + diff : pointSize - diff
-        return self.fontWithSize(size)
+        return self.withSize(size)
     }
     
-    private func fontChangeByPercent(i:CGFloat?, inc:Bool) -> UIFont {
+    fileprivate func fontChangeByPercent(_ i:CGFloat?, inc:Bool) -> UIFont {
         let r = i ?? 0
         let size = inc ? pointSize + (pointSize * r) : pointSize - (pointSize * r)
-        return self.fontWithSize(size)
+        return self.withSize(size)
     }
     
     public class func allFontNames() -> [String] {
         var temp:[String] = []
-        for family in UIFont.familyNames() {
-            for fontName in UIFont.fontNamesForFamilyName(family) {
+        for family in UIFont.familyNames {
+            for fontName in UIFont.fontNames(forFamilyName: family) {
                 temp.append(fontName)
             }
         }
@@ -64,9 +64,9 @@ public extension UIFont {
     }
     
     public class func printAllFonts() {
-        for family in UIFont.familyNames() {
+        for family in UIFont.familyNames {
             print("Family: \(family)")
-            for fontName in UIFont.fontNamesForFamilyName(family) {
+            for fontName in UIFont.fontNames(forFamilyName: family) {
                 print("\tFont: \(fontName)")
             }
         }

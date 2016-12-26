@@ -8,42 +8,42 @@
 
 import Foundation
 
-public class CompassView: NGAView {
-    public let mask = UIView()
-    public let nLabel = UILabel()
-    public let eLabel = UILabel()
-    public let sLabel = UILabel()
-    public let wLabel = UILabel()
-    public let pointer = UIView()
-    public let degreesLabel = UILabel()
-    public let titleLabel = UILabel()
-    public var title:String? {
+open class CompassView: NGAView {
+    open let viewMask = UIView()
+    open let nLabel = UILabel()
+    open let eLabel = UILabel()
+    open let sLabel = UILabel()
+    open let wLabel = UILabel()
+    open let pointer = UIView()
+    open let degreesLabel = UILabel()
+    open let titleLabel = UILabel()
+    open var title:String? {
         didSet {
             setFramesForSubviews()
         }
     }
     
-    public var errorColor:UIColor? = UIColor.redColor() {
+    open var errorColor:UIColor? = UIColor.red {
         didSet {
             if errorColor != oldValue {
                 if error { degreesLabel.textColor = errorColor }
             }
         }
     }
-    public var pointerColor:UIColor? = UIColor.blueColor() {
+    open var pointerColor:UIColor? = UIColor.blue {
         didSet {
             pointer.backgroundColor = pointerColor
         }
     }
-    public var degreesColor:UIColor? = UIColor.darkGrayColor() {
+    open var degreesColor:UIColor? = UIColor.darkGray {
         didSet {
             if degreesColor != oldValue {
                 if !error { degreesLabel.textColor = degreesColor }
             }
         }
     }
-    public var degreesLabelColor:UIColor? {get{return error ? errorColor : degreesColor}}
-    public var coordinateColor:UIColor? = UIColor.blackColor() {
+    open var degreesLabelColor:UIColor? {get{return error ? errorColor : degreesColor}}
+    open var coordinateColor:UIColor? = UIColor.black {
         didSet {
             if coordinateColor != oldValue {
                 for label in coordinateLabels {
@@ -53,19 +53,19 @@ public class CompassView: NGAView {
         }
     }
     
-    public var negativeValueError:Bool = true {didSet{if oldValue != negativeValueError {setMaskFrame()}}}
-    public var error:Bool {get{return negativeValueError ? radians < 0 : false}}
+    open var negativeValueError:Bool = true {didSet{if oldValue != negativeValueError {setMaskFrame()}}}
+    open var error:Bool {get{return negativeValueError ? radians < 0 : false}}
     
-    public var constrainDegreesTo360:Bool = true {didSet{if constrainDegreesTo360 != oldValue {setMaskFrame()}}}
+    open var constrainDegreesTo360:Bool = true {didSet{if constrainDegreesTo360 != oldValue {setMaskFrame()}}}
     
-    public var coordinateLabels:[UILabel] {get{ return [nLabel, eLabel, sLabel, wLabel]}}
-    public var font:UIFont? = UIFont(name: NGAFontNames.HelveticaNeueUltraLight, size: 12.0) {
+    open var coordinateLabels:[UILabel] {get{ return [nLabel, eLabel, sLabel, wLabel]}}
+    open var font:UIFont? = UIFont(name: NGAFontNames.HelveticaNeueUltraLight, size: 12.0) {
         didSet {
             if font != oldValue {setFramesForSubviews()}
         }
     }
     
-    public var degrees:CGFloat {
+    open var degrees:CGFloat {
         get {
             var d = (radians.toDouble() * 180 / M_PI).toCGFloat()
             if !constrainDegreesTo360 {return d}
@@ -74,7 +74,7 @@ public class CompassView: NGAView {
         }
         set {radians = (newValue.toDouble() * M_PI / 180).toCGFloat()}
     }
-    public var radians:CGFloat = 0 {
+    open var radians:CGFloat = 0 {
         didSet{
             if oldValue != radians {
                 setMaskFrame()
@@ -83,54 +83,54 @@ public class CompassView: NGAView {
     }
     
     
-    public override func postInit() {
+    open override func postInit() {
         super.postInit()
         nLabel.text = "N"
         eLabel.text = "E"
         sLabel.text = "S"
         wLabel.text = "W"
-        addSubview(mask)
+        addSubview(viewMask)
         for label in coordinateLabels {
             addSubview(label)
-            label.textAlignment = .Center
+            label.textAlignment = .center
             label.textColor = coordinateColor
         }
-        degreesLabel.textAlignment = .Center
+        degreesLabel.textAlignment = .center
         degreesLabel.textColor = degreesLabelColor
         titleLabel.textColor = degreesColor
         addSubview(degreesLabel)
-        titleLabel.textAlignment = .Center
+        titleLabel.textAlignment = .center
         addSubview(titleLabel)
-        mask.addSubview(pointer)
-        mask.backgroundColor = UIColor.clearColor()
+        viewMask.addSubview(pointer)
+        viewMask.backgroundColor = UIColor.clear
         pointer.backgroundColor = pointerColor
     }
     
-    public override func setFramesForSubviews() {
+    open override func setFramesForSubviews() {
         super.setFramesForSubviews()
         toCircle()
         let short = shortSide
         var s = short / 4
         for label in coordinateLabels {
             label.font = font
-            label.frameSize = CGSizeMake(s, s)
+            label.frameSize = CGSize(width: s, height: s)
             label.fitTextToSize()
         }
         for label in [eLabel, wLabel] {
-            label.placeViewInView(view: self, andPosition: .AlignCenterY)
+            label.placeViewInView(view: self, andPosition: .alignCenterY)
         }
         for label in [nLabel, sLabel] {
-            label.placeViewInView(view: self, andPosition: .AlignCenterX)
+            label.placeViewInView(view: self, andPosition: .alignCenterX)
         }
-        nLabel.placeViewInView(view: self, position: .AlignTop, andPadding: 0)
-        eLabel.placeViewInView(view: self, position: .AlignRight, andPadding: 0)
-        sLabel.placeViewInView(view: self, position: .AlignBottom, andPadding: 0)
-        wLabel.placeViewInView(view: self, position: .AlignLeft, andPadding: 0)
+        nLabel.placeViewInView(view: self, position: .alignTop, andPadding: 0)
+        eLabel.placeViewInView(view: self, position: .alignRight, andPadding: 0)
+        sLabel.placeViewInView(view: self, position: .alignBottom, andPadding: 0)
+        wLabel.placeViewInView(view: self, position: .alignLeft, andPadding: 0)
         
         
         s *= 2
 //        degreesLabel.fitViewInCiricleWithRadius(s)
-        degreesLabel.frameSize = CGSizeMake(s, s / 2)
+        degreesLabel.frameSize = CGSize(width: s, height: s / 2)
         degreesLabel.font = font
         let text = degreesLabel.text
         degreesLabel.text = "999..99°"
@@ -139,32 +139,32 @@ public class CompassView: NGAView {
         
         
         
-        titleLabel.frameSize = CGSizeMake(s, s / 2)
+        titleLabel.frameSize = CGSize(width: s, height: s / 2)
         titleLabel.numberOfLines = 0
 //        titleLabel.fitViewInCiricleWithRadius(s)
         titleLabel.font = font
         titleLabel.text = title
         titleLabel.fitTextToSize()
         titleLabel.sizeToFit()
-        titleLabel.placeViewInView(view: self, andPosition: .AlignCenterX)
-        titleLabel.placeViewInView(view: self, position: .AlignCenterY, andPadding: -titleLabel.frameHeight / 2)
+        titleLabel.placeViewInView(view: self, andPosition: .alignCenterX)
+        titleLabel.placeViewInView(view: self, position: .alignCenterY, andPadding: -titleLabel.frameHeight / 2)
         
         
         setMaskFrame()
         
     }
     
-    public func setMaskFrame() {
-        mask.transform = CGAffineTransformMakeRotation(0)
+    open func setMaskFrame() {
+        viewMask.transform = CGAffineTransform(rotationAngle: 0)
         let short = shortSide
-        mask.frameSize = frameSize
-        mask.cornerRadius = cornerRadius
+        viewMask.frameSize = frameSize
+        viewMask.cornerRadius = cornerRadius
         pointer.frameSize = (short / 4).toEqualSize()
         pointer.toCircle()
 //        pointer.placeViewInView(view: mask, position: .AlignTop, andPadding: 0)
-        pointer.placeViewInView(view: mask, position: .AlignCenterX, andPadding: 0)
+        pointer.placeViewInView(view: viewMask, position: .alignCenterX, andPadding: 0)
         pointer.alpha = error ? 0 : 1
-        mask.transform = CGAffineTransformMakeRotation(radians)
+        viewMask.transform = CGAffineTransform(rotationAngle: radians)
         let d = degrees
         degreesLabel.text = error ? "?" : d.rounded(2).toString().appendIfNotNil("°")
         degreesLabel.textColor = degreesLabelColor
@@ -173,8 +173,8 @@ public class CompassView: NGAView {
             degreesLabel.centerInView(self)
         } else {
             degreesLabel.sizeToFit()
-            degreesLabel.placeViewInView(view: self, andPosition: .AlignCenterX)
-            degreesLabel.placeViewInView(view: self, position: .AlignCenterY, andPadding: degreesLabel.frameHeight / 2)
+            degreesLabel.placeViewInView(view: self, andPosition: .alignCenterX)
+            degreesLabel.placeViewInView(view: self, position: .alignCenterY, andPadding: degreesLabel.frameHeight / 2)
         }
         
         titleLabel.textColor = degreesColor

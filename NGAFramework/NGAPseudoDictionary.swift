@@ -10,13 +10,13 @@ import Foundation
 
 
 
-public class NGAPseudoDictionary:SequenceType {
+open class NGAPseudoDictionary:Sequence {
     
-    private let valueKey = "v"
-    private let attributeKey = "a"
-    private var privateValues = [String: [String: AnyObject]]()
+    fileprivate let valueKey = "v"
+    fileprivate let attributeKey = "a"
+    fileprivate var privateValues = [String: [String: Any]]()
     public init() {}
-    public init(dictionary:[String: AnyObject]?){
+    public init(dictionary:[String: Any]?){
         if dictionary != nil {
             for (key, value) in dictionary! {
                 self[key] = value
@@ -24,28 +24,28 @@ public class NGAPseudoDictionary:SequenceType {
         }
         
     }
-    public subscript(key: String?) -> AnyObject? {
+    open subscript(key: String?) -> Any? {
         get {
             if key == nil {return nil}
             return privateValues[key!]?[valueKey]
         }
         set {
             if key == nil {return}
-            var dict = privateValues[key!] ?? [String: AnyObject]()
+            var dict = privateValues[key!] ?? [String: Any]()
             dict[valueKey] = newValue
             privateValues[key!] = dict
             
         }
     }
     
-    public func attributesForProperty(prop:String?) -> [String: AnyObject]? {
+    open func attributesForProperty(_ prop:String?) -> [String: Any]? {
         if prop == nil {return nil}
         var temp = privateValues[prop!]
         temp?[valueKey] = nil
         return temp
     }
     
-    public func setAttributes(attrs:[String: AnyObject]?, forPropertyNamed prop:String?) {
+    open func setAttributes(_ attrs:[String: Any]?, forPropertyNamed prop:String?) {
         if prop == nil {return}
         let temp = self[prop!]
         var new = attrs ?? Dictionary()
@@ -54,7 +54,7 @@ public class NGAPseudoDictionary:SequenceType {
 
     }
     
-    public func addAttributes(attrs:[String: AnyObject]?, forPropertyNamed prop:String?) {
+    open func addAttributes(_ attrs:[String: Any]?, forPropertyNamed prop:String?) {
         if prop == nil || attrs == nil{return}
         let old = self[prop!]
         var temp = privateValues[prop!]
@@ -66,16 +66,16 @@ public class NGAPseudoDictionary:SequenceType {
         
     }
     
-    public func setAttribute(attr:String?, toAttributeValue val:AnyObject?, forPropertyNamed prop:String?) {
+    open func setAttribute(_ attr:String?, toAttributeValue val:Any?, forPropertyNamed prop:String?) {
         if prop == nil || attr == nil {return}
         privateValues[prop!]?[attr!] = val
     }
     
     
-    public func generate() -> DictionaryGenerator<String, AnyObject> {
-        return privateValues.mapToNewDictionary { (key:String, value:[String: AnyObject]) -> AnyObject? in
+    open func makeIterator() -> DictionaryIterator<String, Any> {
+        return privateValues.mapToNewDictionary { (key:String, value:[String: Any]) -> Any? in
             return value[self.valueKey]
-        }.generate()
+        }.makeIterator()
     }
     
     

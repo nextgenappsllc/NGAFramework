@@ -258,7 +258,7 @@ public enum FontName:String {
     case ZapfDingbatsITC
     case Zapfino
     
-    public func fontWithSize(size:CGFloat) -> UIFont? {
+    public func fontWithSize(_ size:CGFloat) -> UIFont? {
         return UIFont(name: self, size: size)
     }
 }
@@ -269,12 +269,12 @@ public extension UIFont {
     }
     public class func printFontNameEnum() {
         print("public enum FontName:String {")
-        let familyNames = UIFont.familyNames().sort()
+        let familyNames = UIFont.familyNames.sorted()
         for family in familyNames {
-            let fontNames = UIFont.fontNamesForFamilyName(family).sort()
+            let fontNames = UIFont.fontNames(forFamilyName: family).sorted()
             for font in fontNames {
                 if font.containsString("-", caseInsensitive: false) {
-                    let f = font.stringByReplacingOccurrencesOfString("-", withString: "")
+                    let f = font.replacingOccurrences(of: "-", with: "")
                     print("case \(f) = \"\(font)\"")
                 } else {
                     print("case \(font)")

@@ -13,12 +13,12 @@ public extension UILabel {
 //        let textToSize = t ?? text
 //        font = font.fitFontToSize(frameSize, forString: textToSize)
 //    }
-    @nonobjc public func fitTextToSize(t:String? = nil) {
+    @nonobjc public func fitTextToSize(_ t:String? = nil) {
         let textToSize = t ?? text
         font = font.fitFontToSize(frameSize, forString: textToSize)
     }
     
-    @nonobjc public func sizeToFitY(t:String? = nil) {
+    @nonobjc public func sizeToFitY(_ t:String? = nil) {
         let l = UILabel()
         l.frame = frame
         l.font = font
@@ -33,15 +33,15 @@ public extension UILabel {
         frameHeight = l.frameHeight
     }
     
-    @nonobjc public func sizeToFitX(t:String? = nil) {
+    @nonobjc public func sizeToFitX(_ t:String? = nil) {
         frameWidth = UILabel.sizeToFitLabel(self, text: t).width
     }
     
-    public func sizeToFitText(t:String? = nil) {
+    public func sizeToFitText(_ t:String? = nil) {
         frameSize = UILabel.sizeToFitLabel(self, text: t)
     }
     
-    public class func sizeToFitLabel(label:UILabel, text:String? = nil) -> CGSize {
+    public class func sizeToFitLabel(_ label:UILabel, text:String? = nil) -> CGSize {
         let l = UILabel()
         l.frame = label.frame
         l.font = label.font
@@ -56,7 +56,7 @@ public extension UILabel {
         return l.frameSize
     }
     
-    public func fadeInText(txt:String? = nil) {
+    public func fadeInText(_ txt:String? = nil) {
         let t = txt ?? text; let tArray = t?.substrings; let count = tArray?.count ?? 0
         if count == 0 {return}
         text = nil
@@ -102,7 +102,7 @@ public extension UILabel {
         //        }
         //
         var i = 0
-        let timer = NSTimer.executeBlockWithDelay(0.2) { (timer:NSTimer?) -> Void in
+        let timer = Timer.executeBlockWithDelay(0.2) { (timer:Timer?) -> Void in
             print("timer fired \(i) of \(count)")
             if let s = tArray?.itemAtIndex(i) {currentText += s}
             let label = UILabel()
@@ -115,7 +115,7 @@ public extension UILabel {
             label.frame = self.bounds
             label.text = currentText
             self.addSubview(label)
-            UIView.animateWithDuration(0.25, animations: { () -> Void in
+            UIView.animate(withDuration: 0.25, animations: { () -> Void in
                 label.alpha = 1.0
                 }, completion: { (b:Bool) -> Void in
                     if label.text?.length ?? 0 > self.text?.length ?? 0 {

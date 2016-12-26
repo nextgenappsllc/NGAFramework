@@ -8,12 +8,12 @@
 
 import Foundation
 
-public extension NSTimer {
+public extension Timer {
     
-    public class func executeBlockWithDelay(delay:Double, block:(NSTimer?) -> Void) -> NSTimer {
+    public class func executeBlockWithDelay(_ delay:Double, block:@escaping (Timer?) -> Void) -> Timer {
         let executor = TimerExecutor()
         executor.block = block
-        let timer = NSTimer.scheduledTimerWithTimeInterval(delay, target: executor, selector: #selector(TimerExecutor.executeBlock), userInfo: executor, repeats: true)
+        let timer = Timer.scheduledTimer(timeInterval: delay, target: executor, selector: #selector(TimerExecutor.executeBlock), userInfo: executor, repeats: true)
         executor.timer = timer
         return timer
     }

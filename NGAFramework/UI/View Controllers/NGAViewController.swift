@@ -9,12 +9,12 @@
 import UIKit
 
 
-public class NGAViewController: UIViewController {
+open class NGAViewController: UIViewController {
     
     //MARK: Properties
-    public var adjustsForStatusBar:Bool = true {didSet{if oldValue != adjustsForStatusBar { setContentViewFrame()}}}
+    open var adjustsForStatusBar:Bool = true {didSet{if oldValue != adjustsForStatusBar { setContentViewFrame()}}}
     
-    public var adjustsForKeyboard = false {
+    open var adjustsForKeyboard = false {
         didSet{
             if oldValue != adjustsForKeyboard {
                 NGAExecute.performOnMainThread() {self.setupAdjustsForKeyboard(self.adjustsForKeyboard)}
@@ -22,52 +22,52 @@ public class NGAViewController: UIViewController {
         }
     }
     
-    public func setupAdjustsForKeyboard(newValue:Bool) {
-        let notificationCenter = NSNotificationCenter.defaultCenter()
+    open func setupAdjustsForKeyboard(_ newValue:Bool) {
+        let notificationCenter = NotificationCenter.default
         if newValue {
-            notificationCenter.addObserver(self, selector: #selector(keyboardDidShow(_:)), name: UIKeyboardWillShowNotification, object: nil)
-            notificationCenter.addObserver(self, selector: #selector(keyboardDidHide(_:)), name: UIKeyboardWillHideNotification, object: nil)
+            notificationCenter.addObserver(self, selector: #selector(keyboardDidShow(_:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+            notificationCenter.addObserver(self, selector: #selector(keyboardDidHide(_:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
         } else {
-            notificationCenter.removeObserver(self, name: UIKeyboardWillShowNotification, object: nil)
-            notificationCenter.removeObserver(self, name: UIKeyboardWillHideNotification, object: nil)
+            notificationCenter.removeObserver(self, name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+            notificationCenter.removeObserver(self, name: NSNotification.Name.UIKeyboardWillHide, object: nil)
         }
     }
     
     
-    public func keyboardDidShow(notification:NSNotification?) {
-        guard let kbFrame = getKeyboardRectFromNotification(notification), let r = currentFirstResponder(), let w = window where viewIsCurrentlyDisplayed else {return}
-        if !r.isDescendantOfView(contentView) {return}
+    open func keyboardDidShow(_ notification:Notification?) {
+        guard let kbFrame = getKeyboardRectFromNotification(notification), let r = currentFirstResponder(), let w = window , viewIsCurrentlyDisplayed else {return}
+        if !r.isDescendant(of: contentView) {return}
         let rFrame = r.frame
-        let absoluteRect = w.convertRect(rFrame, fromView: r.superview)
+        let absoluteRect = w.convert(rFrame, from: r.superview)
         let diff = (w.frameHeight - kbFrame.height) - (absoluteRect.origin.y + absoluteRect.height)
         if diff < 0 {contentView.top = contentViewFrame.origin.y + diff}
     }
     
-    public func keyboardDidHide(notification:NSNotification?) {setContentViewFrame()}
+    open func keyboardDidHide(_ notification:Notification?) {setContentViewFrame()}
     
-    private func getKeyboardRectFromNotification(notification:NSNotification?, beginFrame:Bool = false) -> CGRect? {
+    fileprivate func getKeyboardRectFromNotification(_ notification:Notification?, beginFrame:Bool = false) -> CGRect? {
         let key = beginFrame ? UIKeyboardFrameBeginUserInfoKey : UIKeyboardFrameEndUserInfoKey
-        return (notification?.userInfo?[key] as? NSValue)?.CGRectValue()
+        return ((notification as NSNotification?)?.userInfo?[key] as? NSValue)?.cgRectValue
     }
     
-    private func getKeyboardResponderFrame() -> CGRect? {
+    fileprivate func getKeyboardResponderFrame() -> CGRect? {
         return currentFirstResponder()?.frame
     }
     
-    private func currentFirstResponder() -> UIView? {
-        func firstResponderForSubviews(subviews:[UIView]) -> UIView? {
-            for v in subviews {if v.isFirstResponder() {return v} else if let responder = firstResponderForSubviews(v.subviews) {return responder}}
+    fileprivate func currentFirstResponder() -> UIView? {
+        func firstResponderForSubviews(_ subviews:[UIView]) -> UIView? {
+            for v in subviews {if v.isFirstResponder {return v} else if let responder = firstResponderForSubviews(v.subviews) {return responder}}
             return nil
         }
         return firstResponderForSubviews(view.subviews)
     }
     
-    public var firstResponders:[UIResponder] = []
+    open var firstResponders:[UIResponder] = []
     
-    public var hasFirstResponders:Bool {
+    open var hasFirstResponders:Bool {
         get {
             for object in self.firstResponders {
-                if object.isFirstResponder() {
+                if object.isFirstResponder {
                     return true
                 }
             }
@@ -75,35 +75,35 @@ public class NGAViewController: UIViewController {
         }
     }
     
-    public lazy var contentView:NGAContentView = {
+    open lazy var contentView:NGAContentView = {
         var temp = NGAContentView()
         temp.contentViewDelegate = self
         return temp
     }()
     
-    public var contentViewFrame:CGRect {
+    open var contentViewFrame:CGRect {
         get {
             let statusBarFrame = NGADevice.statusBarFrame
             let viewBounds = view.bounds
             var temp = viewBounds
-            if let navBar = navigationController?.navigationBar where navBar.translucent {temp.origin.y = navBar.bottom}
+            if let navBar = navigationController?.navigationBar , navBar.isTranslucent {temp.origin.y = navBar.bottom}
             else if navigationController == nil {temp.origin.y = adjustsForStatusBar ? statusBarFrame.size.height : 0}
-            if let tabBar = tabBarController?.tabBar where tabBar.translucent {temp.size.height = viewBounds.size.height - tabBar.frameHeight}
+            if let tabBar = tabBarController?.tabBar , tabBar.isTranslucent {temp.size.height = viewBounds.size.height - tabBar.frameHeight}
             temp.size.height = temp.size.height - temp.origin.y
             return temp
         }
         
     }
     
-    public var viewIsCurrentlyDisplayed:Bool {get {return isViewLoaded() && view.window != nil}}
+    open var viewIsCurrentlyDisplayed:Bool {get {return isViewLoaded && view.window != nil}}
     
-    public var landscape:Bool {get{return view.frameWidth > view.frameHeight}}
-    public var portrait:Bool {get{return view.frameWidth < view.frameHeight}}
-    public var square:Bool {get{return view.frameWidth == view.frameHeight}}
+    open var landscape:Bool {get{return view.frameWidth > view.frameHeight}}
+    open var portrait:Bool {get{return view.frameWidth < view.frameHeight}}
+    open var square:Bool {get{return view.frameWidth == view.frameHeight}}
     
     //MARK: View Cycle
     
-    public override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: NSBundle?) {
+    public override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
         postInit()
     }
@@ -112,12 +112,12 @@ public class NGAViewController: UIViewController {
         self.init()
     }
     
-    public override func loadView() {
+    open override func loadView() {
         super.loadView()
         postLoad()
     }
     
-    public override func viewDidLoad() {
+    open override func viewDidLoad() {
         super.viewDidLoad()
         self.automaticallyAdjustsScrollViewInsets = false
         self.setContentViewFrame()
@@ -126,97 +126,97 @@ public class NGAViewController: UIViewController {
         
     }
     
-    public override func viewWillAppear(animated: Bool) {
+    open override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         setupAdjustsForKeyboard(adjustsForKeyboard)
         
     }
     
-    public override func viewDidAppear(animated: Bool) {
+    open override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
     }
     
-    public override func viewWillDisappear(animated: Bool) {
+    open override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         setupAdjustsForKeyboard(false)
         
     }
     
-    public override func viewDidDisappear(animated: Bool) {
+    open override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         
     }
     
     
     //MARK: Memory Warning
-    public override func didReceiveMemoryWarning() {
+    open override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
     
     
     //MARK: Setup
     
-    public func postInit() {}
+    open func postInit() {}
     
-    public func postLoad() {}
+    open func postLoad() {}
     
-    public func setup(){}
+    open func setup(){}
     
     //MARK: Frames
-    public override func viewDidLayoutSubviews() {
+    open override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         self.setContentViewFrame()
     }
     
-    public func setContentViewFrame() {
+    open func setContentViewFrame() {
         let newContentViewFrame = contentViewFrame
         let updateSubViews = contentView.frameSize != newContentViewFrame.size
         contentView.frame = newContentViewFrame
         if updateSubViews {self.setFramesForSubviews()}
     }
     
-    public func setFramesForSubviews() {}
+    open func setFramesForSubviews() {}
     
     //MARK: Transition
     
-    public override func presentViewController(viewControllerToPresent: UIViewController, animated flag: Bool, completion: (() -> Void)?) {
+    open override func present(_ viewControllerToPresent: UIViewController, animated flag: Bool, completion: (() -> Void)?) {
         let block:VoidBlock = {
             if let presenter = self.tabBarController ?? self.navigationController {
-                presenter.presentViewController(viewControllerToPresent, animated: flag, completion: completion)
-            } else {super.presentViewController(viewControllerToPresent, animated: flag, completion: completion)}
+                presenter.present(viewControllerToPresent, animated: flag, completion: completion)
+            } else {super.present(viewControllerToPresent, animated: flag, completion: completion)}
         }
         NGAExecute.performOnMainThread(block)
     }
     
     
-    public func pushToViewController(viewController:UIViewController, animated:Bool = true) {
+    open func pushToViewController(_ viewController:UIViewController, animated:Bool = true) {
         NGAExecute.performOnMainThread() {self.navigationController?.pushViewController(viewController, animated: animated)}
         
     }
     
-    public func popViewController() {
-        NGAExecute.performOnMainThread() {self.navigationController?.popViewControllerAnimated(true)}
+    open func popViewController() {
+        NGAExecute.performOnMainThread() {let _=self.navigationController?.popViewController(animated: true)}
     }
     
-    public func resignAllFirstResponders() {
+    open func resignAllFirstResponders() {
         for object in firstResponders {object.resignFirstResponder()}
     }
     
-    public func addResponderToFirstResponders(object:UIResponder?) {
-        if !firstResponders.containsElement(object) {firstResponders.appendIfNotNil(object)}
+    open func addResponderToFirstResponders(_ object:UIResponder?) {
+        if !firstResponders.containsElement(object) {let _=firstResponders.appendIfNotNil(object)}
     }
     
-    public func removeResponderFromFirstResponders(object:UIResponder?) {
+    open func removeResponderFromFirstResponders(_ object:UIResponder?) {
         firstResponders.removeElement(object)
     }
     
-    public func addRespondersToFirstResponders(responders:[UIResponder]?) {
+    open func addRespondersToFirstResponders(_ responders:[UIResponder]?) {
         guard let responders = responders else {return}
         for responder in responders {self.addResponderToFirstResponders(responder)}
     }
     
-    public func removeRespondersToFirstResponders(responders:[UIResponder]?) {
+    open func removeRespondersToFirstResponders(_ responders:[UIResponder]?) {
         guard let responders = responders else {return}
         for responder in responders {self.removeResponderFromFirstResponders(responder)}
     }
@@ -249,58 +249,58 @@ public class NGAViewController: UIViewController {
 
 public extension UIViewController {
     //MARK: Pop up
-    public func flash(title title:String?, message:String?, cancelTitle:String?, actions:UIAlertAction?...) {
+    public func flash(title:String?, message:String?, cancelTitle:String?, actions:UIAlertAction?...) {
         NGAExecute.performOnMainThread() { () -> Void in
-            let alertController = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.Alert)
+            let alertController = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.alert)
             let cancelBlock:AlertActionBlock = {(action:UIAlertAction) -> Void in }
-            let cancelAction = UIAlertAction(title: cancelTitle, style: UIAlertActionStyle.Cancel, handler: cancelBlock)
+            let cancelAction = UIAlertAction(title: cancelTitle, style: UIAlertActionStyle.cancel, handler: cancelBlock)
             alertController.addAction(cancelAction)
             for action in actions {if let action = action {alertController.addAction(action)}}
-            self.presentViewController(alertController, animated: true, completion: nil)
+            self.present(alertController, animated: true, completion: nil)
         }
     }
     
-    public func flash(title title:String?, message:String?, cancelTitle:String?, actions:[UIAlertAction]) {
+    public func flash(title:String?, message:String?, cancelTitle:String?, actions:[UIAlertAction]) {
         NGAExecute.performOnMainThread() { () -> Void in
-            let alertController = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.Alert)
+            let alertController = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.alert)
             let cancelBlock:AlertActionBlock = {(action:UIAlertAction) -> Void in }
-            let cancelAction = UIAlertAction(title: cancelTitle, style: UIAlertActionStyle.Cancel, handler: cancelBlock)
+            let cancelAction = UIAlertAction(title: cancelTitle, style: UIAlertActionStyle.cancel, handler: cancelBlock)
             alertController.addAction(cancelAction)
             for action in actions {alertController.addAction(action)}
-            self.presentViewController(alertController, animated: true, completion: nil)
+            self.present(alertController, animated: true, completion: nil)
         }
     }
 }
 
 
-public class NGAContentView: NGAScrollView, UIGestureRecognizerDelegate {
+open class NGAContentView: NGAScrollView, UIGestureRecognizerDelegate {
     
-    public weak var contentViewDelegate:NGAViewController?
+    open weak var contentViewDelegate:NGAViewController?
     
-    public var willDynamicallyAdjustBottomBounds:Bool = false {
+    open var willDynamicallyAdjustBottomBounds:Bool = false {
         didSet {
             self.dynamicallyAdjustBottomBounds()
         }
     }
     
-    public var resignFirstResponderOnTap = true
-    public var resignFirstResponderOnBoundsChange = true
+    open var resignFirstResponderOnTap = true
+    open var resignFirstResponderOnBoundsChange = true
     
-    public lazy var tapRecognizer:UITapGestureRecognizer = {
+    open lazy var tapRecognizer:UITapGestureRecognizer = {
         var temp = UITapGestureRecognizer(target: self, action: #selector(userTapped))
         temp.delegate = self
         return temp
     }()
     
-    public var bottomPadding:CGFloat = 0 {didSet{if willDynamicallyAdjustBottomBounds && oldValue != bottomPadding {dynamicallyAdjustBottomBounds()}}}
+    open var bottomPadding:CGFloat = 0 {didSet{if willDynamicallyAdjustBottomBounds && oldValue != bottomPadding {dynamicallyAdjustBottomBounds()}}}
     
     
-    public override func postInit() {
+    open override func postInit() {
         super.postInit()
         self.addGestureRecognizer(tapRecognizer)
     }
     
-    public override var backgroundColor:UIColor? {
+    open override var backgroundColor:UIColor? {
         didSet {
             if self.backgroundColor != oldValue {
                 self.contentViewDelegate?.view.backgroundColor = self.backgroundColor
@@ -308,12 +308,12 @@ public class NGAContentView: NGAScrollView, UIGestureRecognizerDelegate {
         }
     }
     
-    public override func addSubview(view: UIView) {
+    open override func addSubview(_ view: UIView) {
         super.addSubview(view)
         dynamicallyAdjustBottomBounds()
     }
     
-    public override var frame:CGRect {
+    open override var frame:CGRect {
         didSet {
             if frame.size != oldValue.size {
                 dynamicallyAdjustBottomBounds()
@@ -321,9 +321,9 @@ public class NGAContentView: NGAScrollView, UIGestureRecognizerDelegate {
         }
     }
     
-    public override var bounds:CGRect {
+    open override var bounds:CGRect {
         didSet {
-            if self.scrollEnabled && self.resignFirstResponderOnBoundsChange {
+            if self.isScrollEnabled && self.resignFirstResponderOnBoundsChange {
                 self.contentViewDelegate?.resignAllFirstResponders()
             }
         }
@@ -331,7 +331,7 @@ public class NGAContentView: NGAScrollView, UIGestureRecognizerDelegate {
     
     
     
-    public func dynamicallyAdjustBottomBounds() {
+    open func dynamicallyAdjustBottomBounds() {
         guard willDynamicallyAdjustBottomBounds else {return}
         var newBounds = bounds
         let bottom = frameHeight
@@ -343,28 +343,28 @@ public class NGAContentView: NGAScrollView, UIGestureRecognizerDelegate {
 //        }
         lowestPoint += bottomPadding
         if lowestPoint > bottom {
-            self.scrollEnabled = true
+            self.isScrollEnabled = true
             newBounds.size.height = lowestPoint
         }
         else {
-            self.scrollEnabled = false
+            self.isScrollEnabled = false
             newBounds.size.height = bottom
         }
         contentSize = newBounds.size
     }
     
-    public func userTapped() {
+    open func userTapped() {
         if self.resignFirstResponderOnTap {
             self.contentViewDelegate?.resignAllFirstResponders()
         }
     }
     
-    public func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWithGestureRecognizer otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+    open func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
         let simutaneousRecognition = true
         return simutaneousRecognition
     }
     
-    public func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldReceiveTouch touch: UITouch) -> Bool {
+    open func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
         var receiveTouch = true
         if gestureRecognizer == self.tapRecognizer {
             receiveTouch = self.contentViewDelegate?.hasFirstResponders ?? true

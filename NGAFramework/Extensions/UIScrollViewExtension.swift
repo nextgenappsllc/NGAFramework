@@ -19,29 +19,29 @@ public extension UIScrollView {
         return temp
         }}
     // sees if scroll is past threshold amount
-    public func isAboveContentByMoreThan(y:CGFloat) -> Bool {
+    public func isAboveContentByMoreThan(_ y:CGFloat) -> Bool {
         return contentOffset.y < -y
     }
-    public func isBelowContentByMoreThan(y:CGFloat) -> Bool {
+    public func isBelowContentByMoreThan(_ y:CGFloat) -> Bool {
         return contentOffset.y > y + bottomOffsetY
     }
-    public func isLeftOfContentByMoreThan(x:CGFloat) -> Bool {
+    public func isLeftOfContentByMoreThan(_ x:CGFloat) -> Bool {
         return contentOffset.x < -x
     }
-    public func isRightOfContentByMoreThan(x:CGFloat) -> Bool {
+    public func isRightOfContentByMoreThan(_ x:CGFloat) -> Bool {
         return contentOffset.x > x + rightOffsetX
     }
     // sees if scroll is past threshold ratio
-    public func isAboveContentByMoreThanRatio(yRatio:CGFloat) -> Bool {
+    public func isAboveContentByMoreThanRatio(_ yRatio:CGFloat) -> Bool {
         return isAboveContentByMoreThan(frameHeight * yRatio)
     }
-    public func isBelowContentByMoreThanRatio(yRatio:CGFloat) -> Bool {
+    public func isBelowContentByMoreThanRatio(_ yRatio:CGFloat) -> Bool {
         return isBelowContentByMoreThan(frameHeight * yRatio)
     }
-    public func isLeftOfContentByMoreRatio(xRatio:CGFloat) -> Bool {
+    public func isLeftOfContentByMoreRatio(_ xRatio:CGFloat) -> Bool {
         return isLeftOfContentByMoreThan(frameWidth * xRatio)
     }
-    public func isRightOfContentByMoreThanRatio(xRatio:CGFloat) -> Bool {
+    public func isRightOfContentByMoreThanRatio(_ xRatio:CGFloat) -> Bool {
         return isRightOfContentByMoreThan(frameWidth * xRatio)
     }
     

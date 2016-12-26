@@ -8,54 +8,28 @@
 
 import Foundation
 
-public extension NSDate {
-    class func dateFromString(dateString:String?, withFormat formatString:String) -> NSDate?{
-        if dateString == nil {return nil}
-        let dateFormatter = NSDateFormatter()
+public extension Date {
+    public static var defaultDateFormat = "yyyy-MM-dd HH:mm:ss.SSS Z"
+    
+    public static func date(from dateString:String?, withFormat formatString:String) -> Date?{
+        guard let dateString = dateString else {return nil}
+        let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = formatString
-        return dateFormatter.dateFromString(dateString!)
+        return dateFormatter.date(from: dateString)
     }
     
     
-    func toString(format:String?) -> String? {
-        if format == nil {return nil}
-        let dateFormatter = NSDateFormatter()
-        dateFormatter.dateFormat = format
-        return dateFormatter.stringFromDate(self)
+    public func toString(format:String? = nil) -> String? {
+//        if format == nil {return description}
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = format ?? Date.defaultDateFormat
+        return dateFormatter.string(from: self)
     }
     
-    func toStyledString(dateStyle ds:NSDateFormatterStyle? = nil, timeStyle ts:NSDateFormatterStyle? = nil) -> String? {
-        
-        if ds != nil && ts != nil {
-            return NSDateFormatter.localizedStringFromDate(self, dateStyle: ds!, timeStyle: ts!)
-        } else if let s = ds {
-            let dateFormatter = NSDateFormatter()
-            dateFormatter.dateStyle = s
-            return dateFormatter.stringFromDate(self)
-        } else if let s = ts {
-            let dateFormatter = NSDateFormatter()
-            dateFormatter.timeStyle = s
-            return dateFormatter.stringFromDate(self)
-        }
-        return nil
+    public func toStyledString(dateStyle ds:DateFormatter.Style = .medium, timeStyle ts:DateFormatter.Style = .medium) -> String? {
+        return DateFormatter.localizedString(from: self, dateStyle: ds, timeStyle: ts)
     }
     
-    func dateFromString(dateString:String?, withFormat formatString:String) -> NSDate?{
-        if dateString == nil {return nil}
-        let dateFormatter = NSDateFormatter()
-        dateFormatter.dateFormat = formatString
-        return dateFormatter.dateFromString(dateString!)
-    }
 }
 
 
-
-public func ==(lhs: NSDate, rhs: NSDate) -> Bool {
-    return lhs === rhs || lhs.compare(rhs) == .OrderedSame
-}
-
-public func <(lhs: NSDate, rhs: NSDate) -> Bool {
-    return lhs.compare(rhs) == .OrderedAscending
-}
-
-extension NSDate: Comparable { }

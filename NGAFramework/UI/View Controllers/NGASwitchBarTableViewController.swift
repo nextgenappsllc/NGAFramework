@@ -10,19 +10,19 @@ import Foundation
 import UIKit
 
 
-public class NGASwitchBarTableViewController: NGATableViewController, NGASwitchBarDelegate {
+open class NGASwitchBarTableViewController: NGATableViewController, NGASwitchBarDelegate {
     
-    public var switchBar = NGASwitchBar()
+    open var switchBar = NGASwitchBar()
     
-    public var switchBarIndex:Int {
+    open var switchBarIndex:Int {
         get {
             return self.switchBar.index
         }
     }
     
-    public var switchBarRatio:CGFloat = 0.08 {didSet{dispatch_async(dispatch_get_main_queue(), self.setFramesForSubviews)}}
+    open var switchBarRatio:CGFloat = 0.08 {didSet{DispatchQueue.main.async(execute: self.setFramesForSubviews)}}
     
-    public var mainTableViewFrame:CGRect {
+    open var mainTableViewFrame:CGRect {
         get {
             let longSide = self.contentView.longSide * (1 - switchBarRatio)
             var tableViewFrame = self.contentView.bounds
@@ -41,20 +41,20 @@ public class NGASwitchBarTableViewController: NGATableViewController, NGASwitchB
     
     
     //MARK: Setup
-    public override func setup() {
+    open override func setup() {
         super.setup()
-        self.contentView.scrollEnabled = false
+        self.contentView.isScrollEnabled = false
         self.switchBar.delegate = self
     }
     
     
     //MARK: Frames
-    public override func setFramesForSubviews() {
+    open override func setFramesForSubviews() {
         self.setSwitchBarFrame()
         super.setFramesForSubviews()
     }
     
-    public func setSwitchBarFrame() {
+    open func setSwitchBarFrame() {
         
         let longSide = self.contentView.longSide * switchBarRatio
         var switchBarFrame = self.contentView.bounds
@@ -65,14 +65,14 @@ public class NGASwitchBarTableViewController: NGATableViewController, NGASwitchB
         self.contentView.addSubview(switchBar)
     }
     
-    public override func setTableViewFrame() {
+    open override func setTableViewFrame() {
         super.setTableViewFrame()
         self.tableView.frame = self.mainTableViewFrame
         
     }
     
-    public func frameForTableview(tableView:UITableView) -> CGRect {
-        let temp = CGRectZero
+    open func frameForTableview(_ tableView:UITableView) -> CGRect {
+        let temp = CGRect.zero
         let longSide = self.contentView.longSide * 0.9
         var tableViewFrame = self.contentView.bounds
         if landscape {
@@ -88,7 +88,7 @@ public class NGASwitchBarTableViewController: NGATableViewController, NGASwitchB
     
     
     //MARK: Switch Bar Delegate
-    public func switchBarIndexChangedTo(index: Int) {
+    open func switchBarIndexChangedTo(_ index: Int) {
 //        self.loadFoldersAndFilesInBackground()
         
         let startFrame1 = self.mainTableViewFrame
@@ -110,22 +110,22 @@ public class NGASwitchBarTableViewController: NGATableViewController, NGASwitchB
             endFrame1 = startFrame2
             startFrame2 = temp1
         }
-        UIView.animateWithDuration(0.1, animations: { () -> Void in
+        UIView.animate(withDuration: 0.1, animations: { () -> Void in
             self.tableView.frame = endFrame1
-            }) { (completed:Bool) -> Void in
+            }, completion: { (completed:Bool) -> Void in
                 self.tableView.reloadData()
                 self.tableView.frame = startFrame2
-                if self.tableView.numberOfSections > 0 && self.tableView.numberOfRowsInSection(0) > 0 {
-                    self.tableView.scrollToRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 0), atScrollPosition: UITableViewScrollPosition.Top, animated: false)
+                if self.tableView.numberOfSections > 0 && self.tableView.numberOfRows(inSection: 0) > 0 {
+                    self.tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: UITableViewScrollPosition.top, animated: false)
                     
                 }
-                UIView.animateWithDuration(0.1, animations: { () -> Void in
+                UIView.animate(withDuration: 0.1, animations: { () -> Void in
                     self.tableView.frame = endFrame2
                     }, completion: { (completed:Bool) -> Void in
                         
                 })
                 
-        }
+        }) 
     }
     
 }

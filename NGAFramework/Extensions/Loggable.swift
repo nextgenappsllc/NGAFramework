@@ -41,11 +41,11 @@ private protocol UnWrappable {
     func unwrap() -> Any?
 }
 extension Optional:UnWrappable {
-    private func unwrap() -> Any? {
+    fileprivate func unwrap() -> Any? {
         switch self {
-        case .None:
+        case .none:
             return nil
-        case .Some(let v):
+        case .some(let v):
             if let v = v as? UnWrappable {
                 return v.unwrap()
             } else {return v}

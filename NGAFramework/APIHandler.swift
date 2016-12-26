@@ -8,7 +8,7 @@
 
 import Foundation
 
-public class APIHandler: NSObject, NSURLSessionDelegate, NSURLSessionDownloadDelegate, NSURLSessionTaskDelegate, NSURLSessionDataDelegate {
+open class APIHandler: NSObject, URLSessionDelegate, URLSessionDownloadDelegate, URLSessionTaskDelegate, URLSessionDataDelegate {
     
     /**
      Adds values to the url string with the format key=value and url encodes the values.
@@ -18,11 +18,11 @@ public class APIHandler: NSObject, NSURLSessionDelegate, NSURLSessionDownloadDel
      
      - Parameter url: The url to send the request to as a String.
      
-     - Parameter parameters: A dictionary ([NSObject:AnyObject]) containing the key value pairs to add.
+     - Parameter parameters: A dictionary ([AnyHashable:Any]) containing the key value pairs to add.
      
      - Returns: A string containing the base url with the parameters added to it.
      */
-    public class func urlStringWithParameters(url:String, parameters:SwiftDictionary?) -> String {
+    open class func urlStringWithParameters(_ url:String, parameters:SwiftDictionary?) -> String {
         var r = url
         guard let params = parameters else {return r}
         var i = 0
@@ -47,33 +47,33 @@ public class APIHandler: NSObject, NSURLSessionDelegate, NSURLSessionDownloadDel
      
      - Parameter boundary: The boundary as a string. It should be a long alphanumeric string.
      
-     - Parameter parameters: A dictionary ([NSObject:AnyObject]) containing the key value pairs to add.
+     - Parameter parameters: A dictionary ([AnyHashable:Any]) containing the key value pairs to add.
      
      - Returns: The multiform data comprised of the key value pairs in the dictionary.
      */
-    public class func createMultiFormData(boundary:String, parameters:SwiftDictionary?) -> NSData? {
+    open class func createMultiFormData(_ boundary:String, parameters:SwiftDictionary?) -> Data? {
         guard var params = parameters else {return nil}
         let startSeperator = "--\(boundary)\r\n"
         let endSeperator = "--\(boundary)--\r\n"
         let body = NSMutableData()
-        let fileNames = params.mapToNewDictionary(){(key, value) -> AnyObject? in return parameters?["\(key)-filename"]}
+        let fileNames = params.mapToNewDictionary(){(key, value) -> Any? in return parameters?["\(key)-filename"]}
         for key in Array(fileNames.keys) { params["\(key)-filename"] = nil }
-        func appendStringToData(str:String?) {
-            if let d = str?.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: true) {body.appendData(d)}
+        func appendStringToData(_ str:String?) {
+            if let d = str?.data(using: String.Encoding.utf8, allowLossyConversion: true) {body.append(d)}
         }
         for (key, value) in params {
             appendStringToData(startSeperator)
-            let fileName = fileNames.stringForKey(key) ?? key
+            let fileName = fileNames.stringForKey(key) ?? key as? String
             var contentDispositionString = "Content-Disposition: form-data; name=\"\(key)\""
-            contentDispositionString += value is NSData ? "; filename=\"\(fileName)\"\r\n" : "\r\n"
+            contentDispositionString += value is Data ? "; filename=\"\(fileName)\"\r\n" : "\r\n"
             appendStringToData(contentDispositionString)
-            let contentTypeString = value is NSData ? "Content-Type: application/octet-stream\r\n\r\n" : "Content-Type: text/plain\r\n\r\n"
+            let contentTypeString = value is Data ? "Content-Type: application/octet-stream\r\n\r\n" : "Content-Type: text/plain\r\n\r\n"
             appendStringToData(contentTypeString)
-            if let d = value as? NSData { body.appendData(d) } else { appendStringToData("\(value)")}
+            if let d = value as? Data { body.append(d) } else { appendStringToData("\(value)")}
             appendStringToData("\r\n")
         }
         if params.count > 0 {appendStringToData(endSeperator)}
-        return body.copy() as? NSData
+        return body.copy() as? Data
     }
 
     /**
@@ -89,24 +89,27 @@ public class APIHandler: NSObject, NSURLSessionDelegate, NSURLSessionDownloadDel
      
      - Parameter multiFormParameters: A dictionary containing paramters you wish to be added to form for PUT, PATCH, or POST.
      
+     - Parameter headerFields: A dictionary containing the header field as the key and the desired value.
+     
      - Parameter progressBlock: A block that will be passed the progress of the download or upload. Default is nil.
      
      - Parameter completionBlock: A block that will be passed the result of the request upon completion.
      */
-    public func sendRequestTo(url:String, method:HTTPMethod = .GET, urlParameters:SwiftDictionary? = nil, multiFormParameters:SwiftDictionary? = nil, progressBlock:DataProgressBlock? = nil, completionBlock:NetworkResponseBlock?) -> NSURLSessionTask? {
-        let urlString = self.dynamicType.urlStringWithParameters(url, parameters: urlParameters)
-        guard let request = urlString.url?.toMutableRequest() else {return nil}
-        request.HTTPMethod = method.rawValue
+    @discardableResult open func sendRequestTo(_ url:String, method:HTTPMethod = .GET, urlParameters:SwiftDictionary? = nil, multiFormParameters:SwiftDictionary? = nil, headerFields:[String:String]? = nil, progressBlock:DataProgressBlock? = nil, completionBlock:NetworkResponseBlock?) -> URLSessionTask? {
+        let urlString = type(of: self).urlStringWithParameters(url, parameters: urlParameters)
+        guard var request = urlString.url?.toRequest() else {return nil}
+        request.httpMethod = method.rawValue
+        if let h = headerFields{for (k,v) in h{request.setValue(v, forHTTPHeaderField: k)}}
         let nullBlock:NetworkResponseBlock = {(d,r,e) in }
-        let finalBlock = completionBlock == nil ? nullBlock : completionBlock!
-        let task:NSURLSessionTask
-        if let data = self.dynamicType.createMultiFormData(multiFormBoundary, parameters: multiFormParameters) {
+        let finalBlock = completionBlock ?? nullBlock
+        let task:URLSessionTask
+        if let data = type(of: self).createMultiFormData(multiFormBoundary, parameters: multiFormParameters) {
             request.setValue("multipart/form-data; boundary=\(multiFormBoundary)", forHTTPHeaderField: HTTPHeaderField.ContentType.rawValue)
-            request.setValue(data.length.toString(), forHTTPHeaderField: HTTPHeaderField.ContentLength.rawValue)
-            task = defaultDataSession.uploadTaskWithRequest(request, fromData: data, completionHandler: finalBlock)
+            request.setValue(data.count.toString(), forHTTPHeaderField: HTTPHeaderField.ContentLength.rawValue)
+            task = defaultDataSession.uploadTask(with: request, from: data, completionHandler: finalBlock)
         }else{
-            if progressBlock == nil {task = defaultDataSession.dataTaskWithRequest(request, completionHandler: finalBlock)} else {
-                task = defaultDataSession.dataTaskWithRequest(request)
+            if progressBlock == nil {task = defaultDataSession.dataTask(with: request, completionHandler: finalBlock)} else {
+                task = defaultDataSession.dataTask(with: request)
                 dataTaskUpdateBlock = progressBlock
                 dataTaskCompletionBlock = completionBlock
             }
@@ -119,87 +122,100 @@ public class APIHandler: NSObject, NSURLSessionDelegate, NSURLSessionDownloadDel
     
     //MARK: Properties
     
-    public lazy var defaultDataSession:NSURLSession = {
-        let urlSessionConfig = NSURLSessionConfiguration.defaultSessionConfiguration()
-        let urlSession = NSURLSession(configuration: urlSessionConfig, delegate: self, delegateQueue: nil)
+    /**
+     A NSURLSession object with the default session configuration with the delegate set to the APIHandler object.
+     */
+    open lazy var defaultDataSession:Foundation.URLSession = {
+        let urlSessionConfig = URLSessionConfiguration.default
+        let urlSession = Foundation.URLSession(configuration: urlSessionConfig, delegate: self, delegateQueue: nil)
         return urlSession
     }()
     
-    public var multiFormBoundary = "4737809831466499882746641449"
-    public var mutableDataTaskData:NSMutableData?
-    public var dataTaskURLResponse:NSURLResponse?
-    public var dataTaskError:NSError?
-    public var dataTaskCompletionBlock:NetworkResponseBlock?
-    public var dataTaskUpdateBlock:DataProgressBlock?
+    /**
+     A string to be used in the multiform as a boundary. It should be a long random number.
+     */
+    open var multiFormBoundary = "4737809831466499882746641449"
+    open var mutableDataTaskData:NSMutableData?
+    open var dataTaskURLResponse:URLResponse?
+    open var dataTaskError:NSError?
+    open var dataTaskCompletionBlock:NetworkResponseBlock?
+    open var dataTaskUpdateBlock:DataProgressBlock?
     
-    public var trustedHosts:[String] = []
+    /**
+     An array of trusted domain strings here to automatically trust hosts during authentication challanges.
+     */
+    open var trustedHosts:[String] = []
     
     //MARK: Session delegate
-    public func URLSession(session: NSURLSession, didBecomeInvalidWithError error: NSError?) {print("session became invalid with error \(error)")}
-    public func URLSession(session: NSURLSession, didReceiveChallenge challenge: NSURLAuthenticationChallenge, completionHandler: (NSURLSessionAuthChallengeDisposition, NSURLCredential?) -> Void) {
+    open func urlSession(_ session: URLSession, didBecomeInvalidWithError error: Error?) {print("session became invalid with error \(error)")}
+    open func urlSession(_ session: URLSession, didReceive challenge: URLAuthenticationChallenge, completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) {
         var trusted = false
         for host in trustedHosts {if challenge.protectionSpace.host.containsString(host, caseInsensitive: true) {trusted = true;break}}
-        let disposition = trusted ? NSURLSessionAuthChallengeDisposition.UseCredential : NSURLSessionAuthChallengeDisposition.PerformDefaultHandling
-        let credential = trusted && challenge.protectionSpace.serverTrust != nil ? NSURLCredential(forTrust: challenge.protectionSpace.serverTrust!)  : challenge.proposedCredential
+        let disposition = trusted ? Foundation.URLSession.AuthChallengeDisposition.useCredential : Foundation.URLSession.AuthChallengeDisposition.performDefaultHandling
+        let credential = trusted && challenge.protectionSpace.serverTrust != nil ? URLCredential(trust: challenge.protectionSpace.serverTrust!)  : challenge.proposedCredential
         completionHandler(disposition, credential)
     }
-    public func URLSessionDidFinishEventsForBackgroundURLSession(session: NSURLSession) {print("session did finish background")}
+    open func urlSessionDidFinishEvents(forBackgroundURLSession session: URLSession) {print("session did finish background")}
     
     //MARK: Session Task Delegate
-    public func URLSession(session: NSURLSession, task: NSURLSessionTask, didCompleteWithError error: NSError?) {
-        print("completed :: error = \(error?.description)")
+    open func urlSession(_ session: URLSession, task: URLSessionTask, didCompleteWithError error: Error?) {
+        print("completed :: error = \(error)")
         if let completionBlock = dataTaskCompletionBlock {
-            completionBlock(mutableDataTaskData?.copy() as? NSData, dataTaskURLResponse, error)
+            completionBlock(mutableDataTaskData?.copy() as? Data, dataTaskURLResponse, error)
         }
         mutableDataTaskData = nil
         dataTaskURLResponse = nil
         dataTaskUpdateBlock = nil
-        session.resetWithCompletionHandler { }
+        session.reset { }
     }
-    public func URLSession(session: NSURLSession, task: NSURLSessionTask, didReceiveChallenge challenge: NSURLAuthenticationChallenge, completionHandler: (NSURLSessionAuthChallengeDisposition, NSURLCredential?) -> Void) {print("did receive auth challenge")}
-    public func URLSession(session: NSURLSession, task: NSURLSessionTask, didSendBodyData bytesSent: Int64, totalBytesSent: Int64, totalBytesExpectedToSend: Int64) {
+    open func urlSession(_ session: URLSession, task: URLSessionTask, didReceive challenge: URLAuthenticationChallenge, completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) {
+        
+    }
+//    open func urlSession(_ session: URLSession, didReceive challenge: URLAuthenticationChallenge, completionHandler: @escaping(URLSession.AuthChallengeDisposition, URLCredential?) -> Void)  {print("did receive auth challenge")}
+    
+    open func urlSession(_ session: URLSession, task: URLSessionTask, didSendBodyData bytesSent: Int64, totalBytesSent: Int64, totalBytesExpectedToSend: Int64) {
         let size = Int(bytesSent) ; let expectedSize = Int(totalBytesExpectedToSend)
         let mainBlock:VoidBlock = {
             self.dataTaskUpdateBlock?(size, expectedSize, task)
         }
-        dispatch_async(dispatch_get_main_queue(), mainBlock)
+        DispatchQueue.main.async(execute: mainBlock)
     }
-    public func URLSession(session: NSURLSession, task: NSURLSessionTask, needNewBodyStream completionHandler: (NSInputStream?) -> Void) {print("url session needs new body stream")}
-    public func URLSession(session: NSURLSession, task: NSURLSessionTask, willPerformHTTPRedirection response: NSHTTPURLResponse, newRequest request: NSURLRequest, completionHandler: (NSURLRequest?) -> Void) {
+    open func urlSession(_ session: URLSession, task: URLSessionTask, needNewBodyStream completionHandler: @escaping (InputStream?) -> Void) {print("url session needs new body stream")}
+    open func urlSession(_ session: URLSession, task: URLSessionTask, willPerformHTTPRedirection response: HTTPURLResponse, newRequest request: URLRequest, completionHandler: @escaping (URLRequest?) -> Void) {
         print("url session is redirecting")
     }
     
     //MARK: Session Download delegate
-    public func URLSession(session: NSURLSession, downloadTask: NSURLSessionDownloadTask, didFinishDownloadingToURL location: NSURL) {print("finished download!")}
-    public func URLSession(session: NSURLSession, downloadTask: NSURLSessionDownloadTask, didResumeAtOffset fileOffset: Int64, expectedTotalBytes: Int64) {print("resumed at offset")}
-    public func URLSession(session: NSURLSession, downloadTask: NSURLSessionDownloadTask, didWriteData bytesWritten: Int64, totalBytesWritten: Int64, totalBytesExpectedToWrite: Int64) {
+    open func urlSession(_ session: URLSession, downloadTask: URLSessionDownloadTask, didFinishDownloadingTo location: URL) {print("finished download!")}
+    open func urlSession(_ session: URLSession, downloadTask: URLSessionDownloadTask, didResumeAtOffset fileOffset: Int64, expectedTotalBytes: Int64) {print("resumed at offset")}
+    open func urlSession(_ session: URLSession, downloadTask: URLSessionDownloadTask, didWriteData bytesWritten: Int64, totalBytesWritten: Int64, totalBytesExpectedToWrite: Int64) {
         print("Wrote data!")
         let size = Int(bytesWritten) ; let expectedSize = Int(totalBytesExpectedToWrite)
         let mainBlock:VoidBlock = {
             self.dataTaskUpdateBlock?(size, expectedSize, downloadTask)
         }
-        dispatch_async(dispatch_get_main_queue(), mainBlock)
+        DispatchQueue.main.async(execute: mainBlock)
     }
     
     //MARK: Session Data delegate
-    public func URLSession(session: NSURLSession, dataTask: NSURLSessionDataTask, didBecomeDownloadTask downloadTask: NSURLSessionDownloadTask) {print("became download task")}
-    public func URLSession(session: NSURLSession, dataTask: NSURLSessionDataTask, didReceiveData data: NSData) {
+    open func urlSession(_ session: URLSession, dataTask: URLSessionDataTask, didBecome downloadTask: URLSessionDownloadTask) {print("became download task")}
+    open func urlSession(_ session: URLSession, dataTask: URLSessionDataTask, didReceive data: Data) {
         if mutableDataTaskData == nil {mutableDataTaskData = NSMutableData()}
-        mutableDataTaskData?.appendData(data)
+        mutableDataTaskData?.append(data)
         if let block = dataTaskUpdateBlock {
-            let size = data.length
+            let size = data.count
             let mainBlock:VoidBlock = {
                 block(size, -1, dataTask)
             }
-            dispatch_async(dispatch_get_main_queue(), mainBlock)
+            DispatchQueue.main.async(execute: mainBlock)
         }
     }
-    public func URLSession(session: NSURLSession, dataTask: NSURLSessionDataTask, didReceiveResponse response: NSURLResponse, completionHandler: (NSURLSessionResponseDisposition) -> Void) {
+    open func urlSession(_ session: URLSession, dataTask: URLSessionDataTask, didReceive response: URLResponse, completionHandler: @escaping (URLSession.ResponseDisposition) -> Void) {
         dataTaskURLResponse = response
-        let responseDisposition = NSURLSessionResponseDisposition.Allow
+        let responseDisposition = Foundation.URLSession.ResponseDisposition.allow
         completionHandler(responseDisposition)
     }
-    public func URLSession(session: NSURLSession, dataTask: NSURLSessionDataTask, willCacheResponse proposedResponse: NSCachedURLResponse, completionHandler: (NSCachedURLResponse?) -> Void) {
+    open func urlSession(_ session: URLSession, dataTask: URLSessionDataTask, willCacheResponse proposedResponse: CachedURLResponse, completionHandler: @escaping (CachedURLResponse?) -> Void) {
         print("will cache response!")
         completionHandler(proposedResponse)
     }

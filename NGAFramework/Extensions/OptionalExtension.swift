@@ -18,7 +18,7 @@ public extension Optional {
         get {return !isNil}
     }
     
-    public func or(nonNilValue:Wrapped) -> Wrapped {
+    public func or(_ nonNilValue:Wrapped) -> Wrapped {
         return self ?? nonNilValue
     }
     

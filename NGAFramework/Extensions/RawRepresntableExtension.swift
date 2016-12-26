@@ -10,7 +10,7 @@ import Foundation
 
 public extension RawRepresentable {
     public init?(raw:RawValue?) {
-        guard let raw = raw, val = Self(rawValue: raw) else {return nil}
+        guard let raw = raw, let val = Self(rawValue: raw) else {return nil}
         self = val
     }
 }

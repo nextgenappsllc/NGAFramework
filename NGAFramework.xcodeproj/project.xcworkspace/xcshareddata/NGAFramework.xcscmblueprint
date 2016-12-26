@@ -1,0 +1,30 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "20BE215277809299BD4C0B8876897228C0CA92A6",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "20BE215277809299BD4C0B8876897228C0CA92A6" : 9223372036854775807,
+    "83BADBC5501CE21C43EFAD0B4239602133296C18" : 9223372036854775807
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "FCAB2ED8-2889-4760-BF2C-1EBF11072596",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "20BE215277809299BD4C0B8876897228C0CA92A6" : "NGAFramework\/",
+    "83BADBC5501CE21C43EFAD0B4239602133296C18" : "Eureka\/"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "NGAFramework",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "NGAFramework.xcodeproj",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/nextgenappsllc\/NGAFramework.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "20BE215277809299BD4C0B8876897228C0CA92A6"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/xmartlabs\/Eureka.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "83BADBC5501CE21C43EFAD0B4239602133296C18"
+    }
+  ]
+}

@@ -10,44 +10,44 @@ import Foundation
 import UIKit
 
 public protocol NGASwitchBarDelegate: class {
-    func switchBarIndexChangedTo(index:Int)
+    func switchBarIndexChangedTo(_ index:Int)
 }
 
 
 
-public class NGASwitchBar: UIView, NGASwitchBarItemDelegate {
+open class NGASwitchBar: UIView, NGASwitchBarItemDelegate {
     
     
-    public weak var delegate:NGASwitchBarDelegate?
+    open weak var delegate:NGASwitchBarDelegate?
     
-    public var dropShadow:Bool = true {didSet{setFrames()}}
+    open var dropShadow:Bool = true {didSet{setFrames()}}
     
-    public func addDropShadow(b:Bool = true) {
+    open func addDropShadow(_ b:Bool = true) {
         if !b {removeShadow()}
         else {
-            let offset = vertical ? CGSizeMake(1, 0) : CGSizeMake(0, 1)
-            addShadowWith(radius: 1, offset: offset, opacity: 0.7, color: UIColor.blackColor(), path: UIBezierPath(rect: bounds))
+            let offset = vertical ? CGSize(width: 1, height: 0) : CGSize(width: 0, height: 1)
+            addShadowWith(radius: 1, offset: offset, opacity: 0.7, color: UIColor.black, path: UIBezierPath(rect: bounds))
         }
     }
     
-    public var vertical:Bool = false {
+    open var vertical:Bool = false {
         didSet {
             self.setFrames()
             
         }
     }
     
-    public var index:Int = 0 {
+    open var index:Int = 0 {
         didSet {
-            UIView.animateWithDuration(0.1, animations: { () -> Void in
+            UIView.animate(withDuration: 0.1, animations: { () -> Void in
                 self.setIndicatorFrame()
-                }) { (completed:Bool) -> Void in
+                }, completion: { (completed:Bool) -> Void in
                     
-            }
+            }) 
         }
     }
     
-    public var buttonTitles:[String]? {
+    open var buttonTitles:[String]? {
         didSet {
             if buttonTitles != nil && oldValue != nil {
                 if buttonTitles!.count > oldValue!.count {
@@ -55,7 +55,7 @@ public class NGASwitchBar: UIView, NGASwitchBarItemDelegate {
                     var i = 0
                     var numberFound = 0
                     for title in buttonTitles! {
-                        if !objCArray.containsObject(title) {
+                        if !objCArray.contains(title) {
                             let button = NGASwitchBarItem()
                             button.tag = i
                             button.vertical = vertical
@@ -63,12 +63,12 @@ public class NGASwitchBar: UIView, NGASwitchBarItemDelegate {
                             if let image = imageDictionary[title] as? UIImage {
                                 button.image = image
                             }
-                            button.label.font = self.textFont?.fontWithSize(self.fontSize)
+                            button.label.font = self.textFont?.withSize(self.fontSize)
                             button.label.textColor = self.textColor
                             button.delegate = self
                             button.imageView.tintColor = self.textColor
                             //                        self.buttonArray.addObject(button)
-                            self.buttonArray.insertObject(button, atIndex: i)
+                            self.buttonArray.insert(button, at: i)
                             numberFound += 1
                             if i <= index {
                                 index += 1
@@ -91,12 +91,12 @@ public class NGASwitchBar: UIView, NGASwitchBarItemDelegate {
                     var numberFound = 0
 //                    var buttonCount = buttonArray.count
                     for title in oldValue! {
-                        if !objCArray.containsObject(title) {
+                        if !objCArray.contains(title) {
 //                            println("removing object at index \(i)")
                             if let button = buttonArray[i] as? NGASwitchBarItem {
                                 button.removeFromSuperview()
                             }
-                            self.buttonArray.removeObjectAtIndex(i)
+                            self.buttonArray.removeObject(at: i)
 //                            println("removed object at index \(i)")
                             numberFound += 1
                             if i == index {
@@ -139,8 +139,8 @@ public class NGASwitchBar: UIView, NGASwitchBarItemDelegate {
         }
     }
     
-    public var buttonArray = NSMutableArray()
-    public var imageDictionary:NSDictionary = NSDictionary() {
+    open var buttonArray = NSMutableArray()
+    open var imageDictionary:NSDictionary = NSDictionary() {
         didSet {
             for object in buttonArray {
                 if let switchBarItem = object as? NGASwitchBarItem {
@@ -157,7 +157,7 @@ public class NGASwitchBar: UIView, NGASwitchBarItemDelegate {
         }
     }
     
-    override public var frame:CGRect {
+    override open var frame:CGRect {
         get {
             return super.frame
         }
@@ -169,9 +169,9 @@ public class NGASwitchBar: UIView, NGASwitchBarItemDelegate {
         }
     }
     
-    public var indicator = UIView()
+    open var indicator = UIView()
     
-    public var textColor:UIColor = UIColor.blackColor() {
+    open var textColor:UIColor = UIColor.black {
         didSet {
             self.setup()
             for button in buttonArray {
@@ -183,15 +183,15 @@ public class NGASwitchBar: UIView, NGASwitchBarItemDelegate {
         }
     }
     
-    public var fontSize:CGFloat = 20.0 {
+    open var fontSize:CGFloat = 20.0 {
         didSet {
             if fontSize != oldValue {
-                self.textFont = self.textFont?.fontWithSize(fontSize)
+                self.textFont = self.textFont?.withSize(fontSize)
             }
         }
     }
     
-    public var textFont:UIFont? = UIFont(name: "ArialRoundedMTBold", size: 20.0) {
+    open var textFont:UIFont? = UIFont(name: "ArialRoundedMTBold", size: 20.0) {
         didSet {
             if textFont != oldValue && textFont != nil {
                 for button in buttonArray {
@@ -203,7 +203,7 @@ public class NGASwitchBar: UIView, NGASwitchBarItemDelegate {
         }
     }
     
-    public var indicatorColor:UIColor = UIColor.blackColor() {
+    open var indicatorColor:UIColor = UIColor.black {
         didSet {
             if indicatorColor != oldValue {
                 indicator.backgroundColor = indicatorColor
@@ -212,7 +212,7 @@ public class NGASwitchBar: UIView, NGASwitchBarItemDelegate {
         }
     }
     
-    public var buttonWidth:CGFloat {
+    open var buttonWidth:CGFloat {
         get {
             if self.buttonArray.count > 0{
                 let buttonCount = self.buttonArray.count
@@ -226,7 +226,7 @@ public class NGASwitchBar: UIView, NGASwitchBarItemDelegate {
         }
     }
     
-    public var buttonHeight:CGFloat {
+    open var buttonHeight:CGFloat {
         get {
             if self.buttonArray.count > 0{
                 let buttonCount = self.buttonArray.count
@@ -240,7 +240,7 @@ public class NGASwitchBar: UIView, NGASwitchBarItemDelegate {
         }
     }
     
-    public var selectedTitle:String? {
+    open var selectedTitle:String? {
         get {
             var temp:String?
             if buttonTitles != nil {
@@ -253,7 +253,7 @@ public class NGASwitchBar: UIView, NGASwitchBarItemDelegate {
         }
     }
     
-    public var behaveLikeRegularBar = false {
+    open var behaveLikeRegularBar = false {
         didSet {
             if behaveLikeRegularBar {
                 indicator.alpha = 0
@@ -275,12 +275,12 @@ public class NGASwitchBar: UIView, NGASwitchBarItemDelegate {
 //        self.setFrames()
     }
     
-    public func removeAllButtons() {
+    open func removeAllButtons() {
         for object in buttonArray.copy() as! NSArray {
             if let button = object as? NGASwitchBarItem {
                 button.removeFromSuperview()
             }
-            buttonArray.removeObject(object)
+            buttonArray.remove(object)
         }
         if self.subviews.count > 0 {
             for object in self.subviews {
@@ -292,7 +292,7 @@ public class NGASwitchBar: UIView, NGASwitchBarItemDelegate {
     }
     
     
-    public func setup() {
+    open func setup() {
 //        self.backgroundColor = UIColor.whiteColor()
         
         self.removeAllButtons()
@@ -301,7 +301,7 @@ public class NGASwitchBar: UIView, NGASwitchBarItemDelegate {
         self.setFrames()
     }
     
-    public func setupButtons() {
+    open func setupButtons() {
         var index = 0
         if buttonTitles != nil {
             for title in buttonTitles! {
@@ -313,12 +313,12 @@ public class NGASwitchBar: UIView, NGASwitchBarItemDelegate {
                 if let image = imageDictionary[title] as? UIImage {
                     button.image = image
                 }
-                button.label.font = self.textFont?.fontWithSize(self.fontSize)
+                button.label.font = self.textFont?.withSize(self.fontSize)
                 button.label.textColor = self.textColor
                 button.delegate = self
                 button.imageView.tintColor = self.textColor
-                self.buttonArray.addObject(button)
-                button.backgroundColor = UIColor.clearColor()
+                self.buttonArray.add(button)
+                button.backgroundColor = UIColor.clear
                 index += 1
             }
         }
@@ -328,11 +328,11 @@ public class NGASwitchBar: UIView, NGASwitchBarItemDelegate {
         
     }
     
-    public func setupIndicator() {
+    open func setupIndicator() {
         self.indicator.backgroundColor = self.indicatorColor
     }
     
-    public func setFrames() {
+    open func setFrames() {
         
         setButtonFrames()
         setIndicatorFrame()
@@ -341,7 +341,7 @@ public class NGASwitchBar: UIView, NGASwitchBarItemDelegate {
         
     }
     
-    public func setButtonFrames() {
+    open func setButtonFrames() {
         let viewBounds = self.bounds
         var i = 0
         for object in self.buttonArray.copy() as! NSArray {
@@ -359,7 +359,7 @@ public class NGASwitchBar: UIView, NGASwitchBarItemDelegate {
                     buttonFrame.size.width = self.buttonWidth
                 }
                 button.frame = buttonFrame
-                if !button.isDescendantOfView(self) {
+                if !button.isDescendant(of: self) {
                     self.addSubview(button)
                 }
 //                println("setting frame for button with title \(button.title)")
@@ -369,7 +369,7 @@ public class NGASwitchBar: UIView, NGASwitchBarItemDelegate {
         }
     }
     
-    public func setIndicatorFrame() {
+    open func setIndicatorFrame() {
         let viewBounds = self.bounds
         var indicatorFrame = viewBounds
         if vertical {
@@ -379,7 +379,7 @@ public class NGASwitchBar: UIView, NGASwitchBarItemDelegate {
             
             indicatorFrame.origin.y = self.buttonHeight * CGFloat(self.index) + indicatorYInset
             indicatorFrame.origin.x = viewBounds.size.width - indicatorWidth
-            indicatorFrame.size = CGSizeMake(indicatorWidth, indicatorHeight)
+            indicatorFrame.size = CGSize(width: indicatorWidth, height: indicatorHeight)
         }
         else {
             let indicatorWidth = self.buttonWidth * 0.8
@@ -387,7 +387,7 @@ public class NGASwitchBar: UIView, NGASwitchBarItemDelegate {
             let indicatorHeight = viewBounds.size.height * 0.1
             indicatorFrame.origin.x = self.buttonWidth * CGFloat(self.index) + indicatorXInset
             indicatorFrame.origin.y = viewBounds.size.height - indicatorHeight
-            indicatorFrame.size = CGSizeMake(indicatorWidth, indicatorHeight)
+            indicatorFrame.size = CGSize(width: indicatorWidth, height: indicatorHeight)
         }
         
         self.indicator.frame = indicatorFrame
@@ -397,7 +397,7 @@ public class NGASwitchBar: UIView, NGASwitchBarItemDelegate {
     
     
     
-    public func buttonPressed(button:NGASwitchBarItem) {
+    open func buttonPressed(_ button:NGASwitchBarItem) {
         let buttonIndex = button.tag
         if self.index != buttonIndex || behaveLikeRegularBar {
             self.index = buttonIndex
@@ -407,29 +407,29 @@ public class NGASwitchBar: UIView, NGASwitchBarItemDelegate {
     }
     
     
-    public func addTitle(title:String, toIndex index:Int) {
+    open func addTitle(_ title:String, toIndex index:Int) {
         var titles = self.buttonTitles
         if titles == nil {
             titles = []
         }
         let oldTitle = self.titleAtIndex(self.index)
         
-        titles?.insert(title, atIndex: index)
-        UIView.animateWithDuration(0.1, animations: { () -> Void in
+        titles?.insert(title, at: index)
+        UIView.animate(withDuration: 0.1, animations: { () -> Void in
             self.buttonTitles = titles
             if oldTitle != nil {
                 self.selectIndexOfTitle(oldTitle!)
             }
             
-            }) { (completed:Bool) -> Void in
+            }, completion: { (completed:Bool) -> Void in
                 
-        }
+        }) 
         
         
         
     }
     
-    public func addTitle(title:String) {
+    open func addTitle(_ title:String) {
         var index = 0
         if self.buttonTitles != nil {
             index = self.buttonTitles!.count
@@ -439,19 +439,19 @@ public class NGASwitchBar: UIView, NGASwitchBarItemDelegate {
         
     }
     
-    public func removeTitle(title:String) {
+    open func removeTitle(_ title:String) {
         if let index = self.indexOfTitle(title) {
             self.removeTitleAtIndex(index)
             self.removeImageForTitle(title)
         }
     }
     
-    public func removeTitleAtIndex(index:Int) {
+    open func removeTitleAtIndex(_ index:Int) {
         if var titles = buttonTitles {
-            titles.removeAtIndex(index)
-            UIView.animateWithDuration(0.1, animations: { () -> Void in
+            titles.remove(at: index)
+            UIView.animate(withDuration: 0.1, animations: { () -> Void in
                 self.buttonTitles = titles
-                }) { (completed:Bool) -> Void in
+                }, completion: { (completed:Bool) -> Void in
                     if self.buttonTitles != nil {
                         if index <= self.buttonTitles!.count - 1 {
                             self.index = index
@@ -463,12 +463,12 @@ public class NGASwitchBar: UIView, NGASwitchBarItemDelegate {
                     else {
                         self.index = 0
                     }
-            }
+            }) 
         }
     }
     
     
-    public func selectIndexOfTitle(title:String) {
+    open func selectIndexOfTitle(_ title:String) {
         if let nonNilIndex = self.indexOfTitle(title) {
             self.index = nonNilIndex
         }
@@ -476,7 +476,7 @@ public class NGASwitchBar: UIView, NGASwitchBarItemDelegate {
     }
     
     
-    public func addImage(image:UIImage?, forTitle title:String) {
+    open func addImage(_ image:UIImage?, forTitle title:String) {
         if image != nil {
             let mutableDictionary = imageDictionary.mutableCopy() as! NSMutableDictionary
             mutableDictionary.setValue(image, forKey: title)
@@ -484,17 +484,17 @@ public class NGASwitchBar: UIView, NGASwitchBarItemDelegate {
         }
     }
     
-    public func removeImageForTitle(title:String?) {
+    open func removeImageForTitle(_ title:String?) {
         if title != nil {
             let mutableDictionary = imageDictionary.mutableCopy() as! NSMutableDictionary
-            mutableDictionary.removeObjectForKey(title!)
+            mutableDictionary.removeObject(forKey: title!)
             imageDictionary = mutableDictionary.copy() as! NSDictionary
         }
     }
     
     //MARK: Helper Mehods
     
-    public func titleAtIndex(index:Int) -> String? {
+    open func titleAtIndex(_ index:Int) -> String? {
         var temp:String?
         if buttonTitles != nil {
             if index <= buttonTitles!.count - 1 {
@@ -505,12 +505,12 @@ public class NGASwitchBar: UIView, NGASwitchBarItemDelegate {
         return temp
     }
     
-    public func indexOfTitle(title:String) -> Int? {
+    open func indexOfTitle(_ title:String) -> Int? {
         var temp:Int?
         if buttonTitles != nil {
             var i = 0
             for buttonTitle in buttonTitles! {
-                if buttonTitle.lowercaseString == title.lowercaseString {
+                if buttonTitle.lowercased() == title.lowercased() {
                     temp = i
                     break
                 }
@@ -523,12 +523,12 @@ public class NGASwitchBar: UIView, NGASwitchBarItemDelegate {
         return temp
     }
     
-    public func titleExists(title:String) -> Bool {
+    open func titleExists(_ title:String) -> Bool {
         let temp = (self.indexOfTitle(title) != nil)
         return temp
     }
     
-    public func selectedTitleIs(title:String) -> Bool {
+    open func selectedTitleIs(_ title:String) -> Bool {
         var temp = false
         if self.selectedTitle != nil && self.selectedTitle == title {
             temp = true
@@ -545,16 +545,16 @@ public class NGASwitchBar: UIView, NGASwitchBarItemDelegate {
 
 
 public protocol NGASwitchBarItemDelegate: class {
-    func buttonPressed(button:NGASwitchBarItem)
+    func buttonPressed(_ button:NGASwitchBarItem)
 }
 
 
 
 
-public class NGASwitchBarItem: UIView {
+open class NGASwitchBarItem: UIView {
     
-    public weak var delegate:NGASwitchBarItemDelegate?
-    public var title:String? {
+    open weak var delegate:NGASwitchBarItemDelegate?
+    open var title:String? {
         didSet {
             let canCreateImage = title != nil && image != nil
             let shouldCreateImage = canCreateImage && (!captionedImagePresent || title != oldValue)
@@ -567,7 +567,7 @@ public class NGASwitchBarItem: UIView {
             }
         }
     }
-    public var image:UIImage? {
+    open var image:UIImage? {
         didSet {
             let canCreateImage = title != nil && image != nil
             let shouldCreateImage = canCreateImage && (!captionedImagePresent || image != oldValue)
@@ -577,23 +577,23 @@ public class NGASwitchBarItem: UIView {
             }
         }
     }
-    public lazy var imageView:UIImageView = {
+    open lazy var imageView:UIImageView = {
        var temp = UIImageView()
-        temp.contentMode = UIViewContentMode.ScaleAspectFit
+        temp.contentMode = UIViewContentMode.scaleAspectFit
         return temp
     }()
-    public lazy var label:UILabel = {
+    open lazy var label:UILabel = {
         var temp = UILabel()
-        temp.textAlignment = NSTextAlignment.Center
+        temp.textAlignment = NSTextAlignment.center
         return temp
     }()
-    public var captionedImagePresent = false
-    public lazy var tapGestureRecognizer:UITapGestureRecognizer = {
+    open var captionedImagePresent = false
+    open lazy var tapGestureRecognizer:UITapGestureRecognizer = {
         var temp = UITapGestureRecognizer(target: self, action: #selector(switchBarItemTapped))
         return temp
     }()
     
-    public var vertical:Bool = false {
+    open var vertical:Bool = false {
         didSet {
             if vertical != oldValue {
                 setFrames()
@@ -601,7 +601,7 @@ public class NGASwitchBarItem: UIView {
         }
     }
     
-    public override var frame:CGRect {
+    open override var frame:CGRect {
         didSet {
             if frame.size != oldValue.size {
                 setFrames()
@@ -609,7 +609,7 @@ public class NGASwitchBarItem: UIView {
         }
     }
     
-    public func switchBarItemTapped() {
+    open func switchBarItemTapped() {
         if delegate != nil {
             delegate?.buttonPressed(self)
         }
@@ -626,17 +626,17 @@ public class NGASwitchBarItem: UIView {
         self.setFrames()
     }
     
-    public func createCaptionedImage() {
+    open func createCaptionedImage() {
         if var imageSize = image?.size {
             let shortSide = imageSize.width > imageSize.height ? imageSize.height : imageSize.width
             if shortSide == 0 {return}
             let factor = 200 / shortSide
-            if factor > 1 {imageSize = CGSizeMake(imageSize.width * factor, imageSize.height * factor)}
+            if factor > 1 {imageSize = CGSize(width: imageSize.width * factor, height: imageSize.height * factor)}
             
 //            var captionedImage = image?.captionedImageWith(caption: title)
             let captionedImage = image?.captionedImageWith(caption: title, size: imageSize, andFont: nil)
             if captionedImage != nil {
-                imageView.image = captionedImage?.imageWithRenderingMode(UIImageRenderingMode.AlwaysTemplate)
+                imageView.image = captionedImage?.withRenderingMode(UIImageRenderingMode.alwaysTemplate)
                 captionedImagePresent = true
                 if vertical {
                     label.alpha = 0
@@ -650,13 +650,13 @@ public class NGASwitchBarItem: UIView {
         
     }
     
-    public func setFrames() {
+    open func setFrames() {
         label.sizeToFit()
         label.centerInView(self)
         self.addSubview(label)
         self.imageView.frame = self.bounds
         self.imageView.longSide = self.shortSide
-        self.imageView.placeViewInView(view: self, andPosition: NGARelativeViewPosition.AlignCenter)
+        self.imageView.placeViewInView(view: self, andPosition: NGARelativeViewPosition.alignCenter)
         self.addSubview(imageView)
         
         if vertical && imageView.image != nil {
@@ -686,39 +686,39 @@ public class NGASwitchBarItem: UIView {
 
 //MARK: Scrolling Bar
 
-public class NGAScrollingSwitchBar: UIScrollView, NGASwitchBarItemDelegate {
+open class NGAScrollingSwitchBar: UIScrollView, NGASwitchBarItemDelegate {
     
     
-    public weak var barDelegate:NGASwitchBarDelegate?
+    open weak var barDelegate:NGASwitchBarDelegate?
     
-    public var dropShadow:Bool = true {didSet{setFramesOnMainThread()}}
+    open var dropShadow:Bool = true {didSet{setFramesOnMainThread()}}
     
-    public func addDropShadow(b:Bool = true) {
+    open func addDropShadow(_ b:Bool = true) {
         if !b {removeShadow()}
         else {
-            let offset = vertical ? CGSizeMake(1.5, 0) : CGSizeMake(0, 1.5)
-            addShadowWith(radius: 1.5, offset: offset, opacity: 0.8, color: UIColor.blackColor(), path: UIBezierPath(rect: bounds))
+            let offset = vertical ? CGSize(width: 1.5, height: 0) : CGSize(width: 0, height: 1.5)
+            addShadowWith(radius: 1.5, offset: offset, opacity: 0.8, color: UIColor.black, path: UIBezierPath(rect: bounds))
         }
     }
     
-    public var vertical:Bool = false {
+    open var vertical:Bool = false {
         didSet {
             self.setFramesOnMainThread()
             
         }
     }
     
-    public var index:Int = 0 {
+    open var index:Int = 0 {
         didSet {
-            UIView.animateWithDuration(0.1, animations: { () -> Void in
+            UIView.animate(withDuration: 0.1, animations: { () -> Void in
                 self.setIndicatorFrame()
-                }) { (completed:Bool) -> Void in
+                }, completion: { (completed:Bool) -> Void in
                     
-            }
+            }) 
         }
     }
     
-    public var buttonTitles:[String]? {
+    open var buttonTitles:[String]? {
         didSet {
             if buttonTitles != nil && oldValue != nil {
                 if buttonTitles!.count > oldValue!.count {
@@ -726,7 +726,7 @@ public class NGAScrollingSwitchBar: UIScrollView, NGASwitchBarItemDelegate {
                     var i = 0
                     var numberFound = 0
                     for title in buttonTitles! {
-                        if !objCArray.containsObject(title) {
+                        if !objCArray.contains(title) {
                             let button = NGASwitchBarItem()
                             button.tag = i
                             button.vertical = vertical
@@ -734,12 +734,12 @@ public class NGAScrollingSwitchBar: UIScrollView, NGASwitchBarItemDelegate {
                             if let image = imageDictionary[title] as? UIImage {
                                 button.image = image
                             }
-                            button.label.font = self.textFont?.fontWithSize(self.fontSize)
+                            button.label.font = self.textFont?.withSize(self.fontSize)
                             button.label.textColor = self.textColor
                             button.delegate = self
                             button.imageView.tintColor = self.textColor
                             //                        self.buttonArray.addObject(button)
-                            self.buttonArray.insertObject(button, atIndex: i)
+                            self.buttonArray.insert(button, at: i)
                             numberFound += 1
                             if i <= index {
                                 index += 1
@@ -762,12 +762,12 @@ public class NGAScrollingSwitchBar: UIScrollView, NGASwitchBarItemDelegate {
                     var numberFound = 0
                     //                    var buttonCount = buttonArray.count
                     for title in oldValue! {
-                        if !objCArray.containsObject(title) {
+                        if !objCArray.contains(title) {
                             //                            println("removing object at index \(i)")
                             if let button = buttonArray[i] as? NGASwitchBarItem {
                                 button.removeFromSuperview()
                             }
-                            self.buttonArray.removeObjectAtIndex(i)
+                            self.buttonArray.removeObject(at: i)
                             //                            println("removed object at index \(i)")
                             numberFound += 1
                             if i == index {
@@ -810,8 +810,8 @@ public class NGAScrollingSwitchBar: UIScrollView, NGASwitchBarItemDelegate {
         }
     }
     
-    public var buttonArray = NSMutableArray()
-    public var imageDictionary:NSDictionary = NSDictionary() {
+    open var buttonArray = NSMutableArray()
+    open var imageDictionary:NSDictionary = NSDictionary() {
         didSet {
             for object in buttonArray {
                 if let switchBarItem = object as? NGASwitchBarItem {
@@ -828,15 +828,15 @@ public class NGAScrollingSwitchBar: UIScrollView, NGASwitchBarItemDelegate {
         }
     }
     
-    public override var frame:CGRect {didSet{
+    open override var frame:CGRect {didSet{
         if frame != oldValue {
             setFramesOnMainThread()
         }
         }}
     
-    public var indicator = UIView()
+    open var indicator = UIView()
     
-    public var textColor:UIColor = UIColor.blackColor() {
+    open var textColor:UIColor = UIColor.black {
         didSet {
             self.setup()
             for button in buttonArray {
@@ -848,15 +848,15 @@ public class NGAScrollingSwitchBar: UIScrollView, NGASwitchBarItemDelegate {
         }
     }
     
-    public var fontSize:CGFloat = 20.0 {
+    open var fontSize:CGFloat = 20.0 {
         didSet {
             if fontSize != oldValue {
-                self.textFont = self.textFont?.fontWithSize(fontSize)
+                self.textFont = self.textFont?.withSize(fontSize)
             }
         }
     }
     
-    public var textFont:UIFont? = UIFont(name: "ArialRoundedMTBold", size: 20.0) {
+    open var textFont:UIFont? = UIFont(name: "ArialRoundedMTBold", size: 20.0) {
         didSet {
             if textFont != oldValue && textFont != nil {
                 for button in buttonArray {
@@ -868,7 +868,7 @@ public class NGAScrollingSwitchBar: UIScrollView, NGASwitchBarItemDelegate {
         }
     }
     
-    public var indicatorColor:UIColor = UIColor.blackColor() {
+    open var indicatorColor:UIColor = UIColor.black {
         didSet {
             if indicatorColor != oldValue {
                 indicator.backgroundColor = indicatorColor
@@ -878,12 +878,12 @@ public class NGAScrollingSwitchBar: UIScrollView, NGASwitchBarItemDelegate {
     }
     
     
-    public var allowsScrolling:Bool = true {didSet{scrollEnabled = allowsScrolling;if allowsScrolling != oldValue{setFramesOnMainThread()}}}
+    open var allowsScrolling:Bool = true {didSet{isScrollEnabled = allowsScrolling;if allowsScrolling != oldValue{setFramesOnMainThread()}}}
     
-    public var buttonsPerFrame:CGFloat = 3 {didSet{if buttonsPerFrame != oldValue{setFramesOnMainThread()}}}
+    open var buttonsPerFrame:CGFloat = 3 {didSet{if buttonsPerFrame != oldValue{setFramesOnMainThread()}}}
     
     
-    public var buttonWidth:CGFloat {
+    open var buttonWidth:CGFloat {
         get {
             if self.buttonArray.count > 0{
                 let buttonCount = self.buttonArray.count
@@ -897,7 +897,7 @@ public class NGAScrollingSwitchBar: UIScrollView, NGASwitchBarItemDelegate {
         }
     }
     
-    public var buttonHeight:CGFloat {
+    open var buttonHeight:CGFloat {
         get {
             if self.buttonArray.count > 0{
                 let buttonCount = self.buttonArray.count
@@ -911,7 +911,7 @@ public class NGAScrollingSwitchBar: UIScrollView, NGASwitchBarItemDelegate {
         }
     }
     
-    public var selectedTitle:String? {
+    open var selectedTitle:String? {
         get {
             var temp:String?
             if buttonTitles != nil {
@@ -924,7 +924,7 @@ public class NGAScrollingSwitchBar: UIScrollView, NGASwitchBarItemDelegate {
         }
     }
     
-    public var behaveLikeRegularBar = false {
+    open var behaveLikeRegularBar = false {
         didSet {
             if behaveLikeRegularBar {
                 indicator.alpha = 0
@@ -942,20 +942,20 @@ public class NGAScrollingSwitchBar: UIScrollView, NGASwitchBarItemDelegate {
     public override init(frame: CGRect) {
         super.init(frame: frame)
         //        println("init with frame")
-        scrollEnabled = allowsScrolling
-        userInteractionEnabled = true
+        isScrollEnabled = allowsScrolling
+        isUserInteractionEnabled = true
         self.setup()
         showsHorizontalScrollIndicator = false
         showsVerticalScrollIndicator = false
         //        self.setFrames()
     }
     
-    public func removeAllButtons() {
+    open func removeAllButtons() {
         for object in buttonArray.copy() as! NSArray {
             if let button = object as? NGASwitchBarItem {
                 button.removeFromSuperview()
             }
-            buttonArray.removeObject(object)
+            buttonArray.remove(object)
         }
         if self.subviews.count > 0 {
             for object in self.subviews {
@@ -967,7 +967,7 @@ public class NGAScrollingSwitchBar: UIScrollView, NGASwitchBarItemDelegate {
     }
     
     
-    public func setup() {
+    open func setup() {
         //        self.backgroundColor = UIColor.whiteColor()
         
         self.removeAllButtons()
@@ -976,7 +976,7 @@ public class NGAScrollingSwitchBar: UIScrollView, NGASwitchBarItemDelegate {
         self.setFrames()
     }
     
-    public func setupButtons() {
+    open func setupButtons() {
         var index = 0
         if buttonTitles != nil {
             for title in buttonTitles! {
@@ -988,12 +988,12 @@ public class NGAScrollingSwitchBar: UIScrollView, NGASwitchBarItemDelegate {
                 if let image = imageDictionary[title] as? UIImage {
                     button.image = image
                 }
-                button.label.font = self.textFont?.fontWithSize(self.fontSize)
+                button.label.font = self.textFont?.withSize(self.fontSize)
                 button.label.textColor = self.textColor
                 button.delegate = self
                 button.imageView.tintColor = self.textColor
-                self.buttonArray.addObject(button)
-                button.backgroundColor = UIColor.clearColor()
+                self.buttonArray.add(button)
+                button.backgroundColor = UIColor.clear
                 index += 1
             }
         }
@@ -1003,11 +1003,11 @@ public class NGAScrollingSwitchBar: UIScrollView, NGASwitchBarItemDelegate {
         
     }
     
-    public func setupIndicator() {
+    open func setupIndicator() {
         self.indicator.backgroundColor = self.indicatorColor
     }
     
-    public func setFrames() {
+    open func setFrames() {
         
         setButtonFrames()
         setIndicatorFrame()
@@ -1016,7 +1016,7 @@ public class NGAScrollingSwitchBar: UIScrollView, NGASwitchBarItemDelegate {
         
     }
     
-    public func setButtonFrames() {
+    open func setButtonFrames() {
         let viewBounds = self.frame
         var i = 0
         let arr = self.buttonArray.toArray()
@@ -1040,7 +1040,7 @@ public class NGAScrollingSwitchBar: UIScrollView, NGASwitchBarItemDelegate {
                 }
 
                 button.frame = buttonFrame
-                if !button.isDescendantOfView(self) {
+                if !button.isDescendant(of: self) {
                     self.addSubview(button)
                 }
                 //                println("setting frame for button with title \(button.title)")
@@ -1051,7 +1051,7 @@ public class NGAScrollingSwitchBar: UIScrollView, NGASwitchBarItemDelegate {
         }
         if vertical {sRight = viewBounds.width} else {sBottom = viewBounds.height}
         
-        contentSize = CGSizeMake(sRight - sLeft, sBottom - sTop)
+        contentSize = CGSize(width: sRight - sLeft, height: sBottom - sTop)
 //        print(contentSize)
 //        var b = bounds
 //        b.size = contentSize
@@ -1059,11 +1059,11 @@ public class NGAScrollingSwitchBar: UIScrollView, NGASwitchBarItemDelegate {
         
     }
     
-    public func setFramesOnMainThread() {
-        dispatch_async(dispatch_get_main_queue(), setFrames)
+    open func setFramesOnMainThread() {
+        DispatchQueue.main.async(execute: setFrames)
     }
     
-    public func setIndicatorFrame() {
+    open func setIndicatorFrame() {
         let viewBounds = self.bounds
         var indicatorFrame = viewBounds
         if vertical {
@@ -1073,7 +1073,7 @@ public class NGAScrollingSwitchBar: UIScrollView, NGASwitchBarItemDelegate {
             
             indicatorFrame.origin.y = self.buttonHeight * CGFloat(self.index) + indicatorYInset
             indicatorFrame.origin.x = viewBounds.size.width - indicatorWidth
-            indicatorFrame.size = CGSizeMake(indicatorWidth, indicatorHeight)
+            indicatorFrame.size = CGSize(width: indicatorWidth, height: indicatorHeight)
         }
         else {
             let indicatorWidth = self.buttonWidth * 0.8
@@ -1081,7 +1081,7 @@ public class NGAScrollingSwitchBar: UIScrollView, NGASwitchBarItemDelegate {
             let indicatorHeight = viewBounds.size.height * 0.1
             indicatorFrame.origin.x = self.buttonWidth * CGFloat(self.index) + indicatorXInset
             indicatorFrame.origin.y = viewBounds.size.height - indicatorHeight
-            indicatorFrame.size = CGSizeMake(indicatorWidth, indicatorHeight)
+            indicatorFrame.size = CGSize(width: indicatorWidth, height: indicatorHeight)
         }
         
         self.indicator.frame = indicatorFrame
@@ -1091,7 +1091,7 @@ public class NGAScrollingSwitchBar: UIScrollView, NGASwitchBarItemDelegate {
     
     
     
-    public func buttonPressed(button:NGASwitchBarItem) {
+    open func buttonPressed(_ button:NGASwitchBarItem) {
         let buttonIndex = button.tag
         if self.index != buttonIndex || behaveLikeRegularBar {
             self.index = buttonIndex
@@ -1101,29 +1101,29 @@ public class NGAScrollingSwitchBar: UIScrollView, NGASwitchBarItemDelegate {
     }
     
     
-    public func addTitle(title:String, toIndex index:Int) {
+    open func addTitle(_ title:String, toIndex index:Int) {
         var titles = self.buttonTitles
         if titles == nil {
             titles = []
         }
         let oldTitle = self.titleAtIndex(self.index)
         
-        titles?.insert(title, atIndex: index)
-        UIView.animateWithDuration(0.1, animations: { () -> Void in
+        titles?.insert(title, at: index)
+        UIView.animate(withDuration: 0.1, animations: { () -> Void in
             self.buttonTitles = titles
             if oldTitle != nil {
                 self.selectIndexOfTitle(oldTitle!)
             }
             
-            }) { (completed:Bool) -> Void in
+            }, completion: { (completed:Bool) -> Void in
                 
-        }
+        }) 
         
         
         
     }
     
-    public func addTitle(title:String) {
+    open func addTitle(_ title:String) {
         var index = 0
         if self.buttonTitles != nil {
             index = self.buttonTitles!.count
@@ -1133,19 +1133,19 @@ public class NGAScrollingSwitchBar: UIScrollView, NGASwitchBarItemDelegate {
         
     }
     
-    public func removeTitle(title:String) {
+    open func removeTitle(_ title:String) {
         if let index = self.indexOfTitle(title) {
             self.removeTitleAtIndex(index)
             self.removeImageForTitle(title)
         }
     }
     
-    public func removeTitleAtIndex(index:Int) {
+    open func removeTitleAtIndex(_ index:Int) {
         if var titles = buttonTitles {
-            titles.removeAtIndex(index)
-            UIView.animateWithDuration(0.1, animations: { () -> Void in
+            titles.remove(at: index)
+            UIView.animate(withDuration: 0.1, animations: { () -> Void in
                 self.buttonTitles = titles
-                }) { (completed:Bool) -> Void in
+                }, completion: { (completed:Bool) -> Void in
                     if self.buttonTitles != nil {
                         if index <= self.buttonTitles!.count - 1 {
                             self.index = index
@@ -1157,12 +1157,12 @@ public class NGAScrollingSwitchBar: UIScrollView, NGASwitchBarItemDelegate {
                     else {
                         self.index = 0
                     }
-            }
+            }) 
         }
     }
     
     
-    public func selectIndexOfTitle(title:String) {
+    open func selectIndexOfTitle(_ title:String) {
         if let nonNilIndex = self.indexOfTitle(title) {
             self.index = nonNilIndex
         }
@@ -1170,7 +1170,7 @@ public class NGAScrollingSwitchBar: UIScrollView, NGASwitchBarItemDelegate {
     }
     
     
-    public func addImage(image:UIImage?, forTitle title:String) {
+    open func addImage(_ image:UIImage?, forTitle title:String) {
         if image != nil {
             let mutableDictionary = imageDictionary.mutableCopy() as! NSMutableDictionary
             mutableDictionary.setValue(image, forKey: title)
@@ -1178,17 +1178,17 @@ public class NGAScrollingSwitchBar: UIScrollView, NGASwitchBarItemDelegate {
         }
     }
     
-    public func removeImageForTitle(title:String?) {
+    open func removeImageForTitle(_ title:String?) {
         if title != nil {
             let mutableDictionary = imageDictionary.mutableCopy() as! NSMutableDictionary
-            mutableDictionary.removeObjectForKey(title!)
+            mutableDictionary.removeObject(forKey: title!)
             imageDictionary = mutableDictionary.copy() as! NSDictionary
         }
     }
     
     //MARK: Helper Mehods
     
-    public func titleAtIndex(index:Int) -> String? {
+    open func titleAtIndex(_ index:Int) -> String? {
         var temp:String?
         if buttonTitles != nil {
             if index <= buttonTitles!.count - 1 {
@@ -1199,12 +1199,12 @@ public class NGAScrollingSwitchBar: UIScrollView, NGASwitchBarItemDelegate {
         return temp
     }
     
-    public func indexOfTitle(title:String) -> Int? {
+    open func indexOfTitle(_ title:String) -> Int? {
         var temp:Int?
         if buttonTitles != nil {
             var i = 0
             for buttonTitle in buttonTitles! {
-                if buttonTitle.lowercaseString == title.lowercaseString {
+                if buttonTitle.lowercased() == title.lowercased() {
                     temp = i
                     break
                 }
@@ -1217,12 +1217,12 @@ public class NGAScrollingSwitchBar: UIScrollView, NGASwitchBarItemDelegate {
         return temp
     }
     
-    public func titleExists(title:String) -> Bool {
+    open func titleExists(_ title:String) -> Bool {
         let temp = (self.indexOfTitle(title) != nil)
         return temp
     }
     
-    public func selectedTitleIs(title:String) -> Bool {
+    open func selectedTitleIs(_ title:String) -> Bool {
         var temp = false
         if self.selectedTitle != nil && self.selectedTitle == title {
             temp = true

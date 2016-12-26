@@ -11,7 +11,7 @@ import Foundation
 public extension CGRect {
     
     // see if this is better than just length / 2
-    public mutating func fitRectInCiricleWithRadius(radius:CGFloat, xInset:CGFloat = 0, yInset:CGFloat = 0) {
+    public mutating func fitRectInCiricleWithRadius(_ radius:CGFloat, xInset:CGFloat = 0, yInset:CGFloat = 0) {
         self.size.fitInCircleWithRadius(radius, xInset:xInset, yInset:yInset)
     }
     

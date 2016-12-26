@@ -12,44 +12,44 @@ import UIKit
 
 
 
-public class NGATextCollectionViewController: NGACollectionViewController {
+open class NGATextCollectionViewController: NGACollectionViewController {
     
     
     
     
-    public override var collectionViewCellClass:AnyClass? {
+    open override var collectionViewCellClass:AnyClass? {
         get {return LabelCollectionViewCell.self}
     }
     
-    public override var collectionViewHeaderClass:AnyClass? {
+    open override var collectionViewHeaderClass:AnyClass? {
         get {return LabelCollectionHeaderView.self}
     }
     
-    public override func viewDidLoad() {
+    open override func viewDidLoad() {
         super.viewDidLoad()
         collectionView.alwaysBounceVertical = true
-        cellRightTextColor = UIColor.blackColor()
+        cellRightTextColor = UIColor.black
     }
     
-    public override func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
+    open override func numberOfSections(in collectionView: UICollectionView) -> Int {
         return sectionArray.count
     }
     
-    public override func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    open override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return rowsForSection(section).count
     }
     
-    public override func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
+    open override func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let label = UILabel()
         label.numberOfLines = 0
         let width = contentView.frameWidth * cellXRatio
         label.frameWidth = width * cellLabelXRatio
         label.attributedText = attributedTextForIndexPath(indexPath)
         label.sizeToFit()
-        return CGSizeMake(width, label.frameHeight)
+        return CGSize(width: width, height: label.frameHeight)
     }
     
-    public func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
+    open func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
         let text = textForHeaderForSection(section)
         let label = UILabel()
         label.text = text
@@ -58,13 +58,13 @@ public class NGATextCollectionViewController: NGACollectionViewController {
         label.frameWidth = width * headerLabelXRatio
         label.font = headerFont
         label.sizeToFit()
-        return CGSizeMake(width, label.frameHeight)
+        return CGSize(width: width, height: label.frameHeight)
     }
     
-    public override func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        let cell = super.collectionView(collectionView, cellForItemAtIndexPath: indexPath)
+    open override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = super.collectionView(collectionView, cellForItemAt: indexPath)
         if let c = cell as? LabelCollectionViewCell {
-            c.label.textAlignment = .Left
+            c.label.textAlignment = .left
 //            c.label.text = textForIndexPath(indexPath)
 //            c.label.font = cellFont
             c.label.attributedText = attributedTextForIndexPath(indexPath)
@@ -75,10 +75,10 @@ public class NGATextCollectionViewController: NGACollectionViewController {
         return cell
     }
     
-    public func collectionView(collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, atIndexPath indexPath: NSIndexPath) -> UICollectionReusableView {
-        let temp = collectionView.dequeueReusableSupplementaryViewOfKind(kind, withReuseIdentifier: "Header", forIndexPath: indexPath)
+    open func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, atIndexPath indexPath: IndexPath) -> UICollectionReusableView {
+        let temp = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "Header", for: indexPath)
         if let v = temp as? LabelCollectionHeaderView {
-            v.label.text = textForHeaderForSection(indexPath.section)
+            v.label.text = textForHeaderForSection((indexPath as NSIndexPath).section)
             v.backgroundColor = headerBackgroundColor
             v.label.textColor = headerTextColor
             v.label.font = headerFont
@@ -91,36 +91,36 @@ public class NGATextCollectionViewController: NGACollectionViewController {
     
     //MARK: Text Source
     
-    public var cellFont:UIFont? = UIFont(name: NGAFontNames.HelveticaNeueLight, size: 16.0) {didSet{reloadCollectionViewOnMainThread()}}
-    public var cellLeftFont:UIFont? {didSet{reloadCollectionViewOnMainThread()}}
-    public var cellRightFont:UIFont? {didSet{reloadCollectionViewOnMainThread()}}
-    public var headerFont:UIFont? = UIFont(name: NGAFontNames.HelveticaNeue, size: 18.0) {didSet{reloadCollectionViewOnMainThread()}}
+    open var cellFont:UIFont? = UIFont(name: NGAFontNames.HelveticaNeueLight, size: 16.0) {didSet{reloadCollectionViewOnMainThread()}}
+    open var cellLeftFont:UIFont? {didSet{reloadCollectionViewOnMainThread()}}
+    open var cellRightFont:UIFont? {didSet{reloadCollectionViewOnMainThread()}}
+    open var headerFont:UIFont? = UIFont(name: NGAFontNames.HelveticaNeue, size: 18.0) {didSet{reloadCollectionViewOnMainThread()}}
     
-    public var cellXRatio:CGFloat = 1 {didSet{reloadCollectionViewOnMainThread()}}
-    public var headerXRatio:CGFloat = 1 {didSet{reloadCollectionViewOnMainThread()}}
-    public var cellLabelXRatio:CGFloat = 0.95 {didSet{reloadCollectionViewOnMainThread()}}
-    public var headerLabelXRatio:CGFloat = 0.98 {didSet{reloadCollectionViewOnMainThread()}}
+    open var cellXRatio:CGFloat = 1 {didSet{reloadCollectionViewOnMainThread()}}
+    open var headerXRatio:CGFloat = 1 {didSet{reloadCollectionViewOnMainThread()}}
+    open var cellLabelXRatio:CGFloat = 0.95 {didSet{reloadCollectionViewOnMainThread()}}
+    open var headerLabelXRatio:CGFloat = 0.98 {didSet{reloadCollectionViewOnMainThread()}}
     
-    public var headerBackgroundColor:UIColor = UIColor.darkGrayColor() {didSet{reloadCollectionViewOnMainThread()}}
-    public var headerTextColor:UIColor = UIColor.whiteColor() {didSet{reloadCollectionViewOnMainThread()}}
-    public var cellBackgroundColor:UIColor = UIColor.whiteColor() {didSet{reloadCollectionViewOnMainThread()}}
-    public var cellTextColor:UIColor = UIColor.darkGrayColor() {didSet{reloadCollectionViewOnMainThread()}}
-    public var cellLeftTextColor:UIColor? {didSet{reloadCollectionViewOnMainThread()}}
-    public var cellRightTextColor:UIColor? {didSet{reloadCollectionViewOnMainThread()}}
+    open var headerBackgroundColor:UIColor = UIColor.darkGray {didSet{reloadCollectionViewOnMainThread()}}
+    open var headerTextColor:UIColor = UIColor.white {didSet{reloadCollectionViewOnMainThread()}}
+    open var cellBackgroundColor:UIColor = UIColor.white {didSet{reloadCollectionViewOnMainThread()}}
+    open var cellTextColor:UIColor = UIColor.darkGray {didSet{reloadCollectionViewOnMainThread()}}
+    open var cellLeftTextColor:UIColor? {didSet{reloadCollectionViewOnMainThread()}}
+    open var cellRightTextColor:UIColor? {didSet{reloadCollectionViewOnMainThread()}}
     
     
-    public func setTextArray(a:[AnyObject]?) {
+    open func setTextArray(_ a:SwiftArray?) {
         if let textArray = a {
-            sectionArray = textArray.collect(initialValue: []) { (t:[[NSObject:AnyObject]], element:AnyObject) -> [[NSObject:AnyObject]] in
+            sectionArray = textArray.collect(initialValue: []) { (t:[[AnyHashable: Any]], element:Any) -> [[AnyHashable: Any]] in
                 var total = t
-                if let dict = element as? [NSObject:AnyObject] {
+                if let dict = element as? [AnyHashable: Any] {
                     var sectionDictionary = total.last ?? [:]
-                    var rows = sectionDictionary["rows"] as? [AnyObject] ?? []
-                    rows.append(dict)
+                    var rows = sectionDictionary["rows"] as? SwiftArray ?? []
+                    rows.append(dict as Any)
                     sectionDictionary["rows"] = rows
-                    total.safeSet(total.count - 1, toElement: sectionDictionary)
+                    let _=total.safeSet(total.count - 1, toElement: sectionDictionary)
                 } else {
-                    var sectionDictionary:[NSObject:AnyObject] = [:]
+                    var sectionDictionary:[AnyHashable: Any] = [:]
                     sectionDictionary["header"] = element
                     total.append(sectionDictionary)
                 }
@@ -131,8 +131,8 @@ public class NGATextCollectionViewController: NGACollectionViewController {
         
     }
     
-    public func attributedTextForIndexPath(indexPath:NSIndexPath) -> NSAttributedString? {
-        if let dict = rowsForSection(indexPath.section).itemAtIndex(indexPath.row) as? [NSObject:AnyObject] {
+    open func attributedTextForIndexPath(_ indexPath:IndexPath) -> NSAttributedString? {
+        if let dict = rowsForSection((indexPath as NSIndexPath).section).itemAtIndex((indexPath as NSIndexPath).row) as? [AnyHashable: Any] {
             let key = dict.keys.first; let value = dict.values.first
             var temp = NSAttributedString()
             if let k = key {
@@ -158,20 +158,20 @@ public class NGATextCollectionViewController: NGACollectionViewController {
     }
     
     
-    public func textForHeaderForSection(section:Int) -> String? {
+    open func textForHeaderForSection(_ section:Int) -> String? {
         if let temp = headerObjectForSection(section) {return "\(temp)"}
         return nil
     }
     
-    public func rowsForSection(section:Int) -> [AnyObject] {
+    open func rowsForSection(_ section:Int) -> SwiftArray {
         return sectionArray.itemAtIndex(section)?.arrayForKey("rows") ?? []
     }
-    public func headerObjectForSection(section:Int) -> AnyObject? {
+    open func headerObjectForSection(_ section:Int) -> Any? {
         return sectionArray.itemAtIndex(section)?.valueForKey("header")
     }
     
     
-    public var sectionArray:[[NSObject:AnyObject]] = [[:]] {
+    open var sectionArray:[[AnyHashable: Any]] = [[:]] {
         didSet{
             reloadCollectionViewOnMainThread()
             print(sectionArray)
@@ -191,9 +191,9 @@ private class LabelCollectionViewCell: UICollectionViewCell {
     var xRatio:CGFloat = 1.0 {didSet{setFramesOnMainThread()}}
     override var frame:CGRect {didSet{if oldValue.size != frame.size {setFramesOnMainThread()}}}
     override func layoutSubviews() {super.layoutSubviews(); setFramesOnMainThread()}
-    func setFramesOnMainThread() {dispatch_async(dispatch_get_main_queue(), setFrames)}
+    func setFramesOnMainThread() {DispatchQueue.main.async(execute: setFrames)}
     convenience required init?(coder aDecoder: NSCoder) {
-        self.init(frame: CGRectZero)
+        self.init(frame: CGRect.zero)
         setup()
     }
     override init(frame: CGRect) {
@@ -221,9 +221,9 @@ private class LabelCollectionHeaderView: UICollectionReusableView {
     var xRatio:CGFloat = 1.0 {didSet{setFramesOnMainThread()}}
     override var frame:CGRect {didSet{if oldValue.size != frame.size {setFramesOnMainThread()}}}
     override func layoutSubviews() {super.layoutSubviews(); setFramesOnMainThread()}
-    func setFramesOnMainThread() {dispatch_async(dispatch_get_main_queue(), setFrames)}
+    func setFramesOnMainThread() {DispatchQueue.main.async(execute: setFrames)}
     convenience required init?(coder aDecoder: NSCoder) {
-        self.init(frame: CGRectZero)
+        self.init(frame: CGRect.zero)
         setup()
     }
     override init(frame: CGRect) {

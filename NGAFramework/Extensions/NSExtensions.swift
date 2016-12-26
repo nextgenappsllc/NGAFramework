@@ -14,27 +14,27 @@ import Foundation
 extension NSString {
     
     
-    class func stringFromHTMLString(htmlEncodedString:NSString) -> NSString {
+    class func stringFromHTMLString(_ htmlEncodedString:NSString) -> NSString {
         var temp = htmlEncodedString
         let attributedOptions = [NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType]
         let attributedString = NSAttributedString(string: htmlEncodedString as String, attributes: attributedOptions)
-        temp = attributedString.string
+        temp = attributedString.string as NSString
         
         return temp
     }
     
-    class func stringForURLFromString(stringToEncode:NSString) -> NSString {
+    class func stringForURLFromString(_ stringToEncode:NSString) -> NSString {
         var temp = stringToEncode
         let charactersToEscape = "\\!*'();:@&=+$,/?%#[]\" "
-        let allowedCharacters = NSCharacterSet(charactersInString: charactersToEscape).invertedSet
-        let encodedString = stringToEncode.stringByAddingPercentEncodingWithAllowedCharacters(allowedCharacters)
+        let allowedCharacters = CharacterSet(charactersIn: charactersToEscape).inverted
+        let encodedString = stringToEncode.addingPercentEncoding(withAllowedCharacters: allowedCharacters)
         if encodedString != nil {
-            temp = encodedString!
+            temp = encodedString! as NSString
         }
         return temp
     }
     
-    class func hashStringFromString(string:String) -> String?{
+    class func hashStringFromString(_ string:String) -> String?{
         let temp:String? = string.crc32CheckSum()
         //        if let data = string.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: true) {
         //            let length = data.length
@@ -47,28 +47,28 @@ extension NSString {
     }
 }
 
-public extension NSURL {
-    public func toRequest() -> NSURLRequest {
-        return NSURLRequest(URL: self)
+public extension URL {
+    public func toRequest() -> URLRequest {
+        return URLRequest(url: self)
     }
     
     public func toMutableRequest() -> NSMutableURLRequest {
-        return NSMutableURLRequest(URL: self)
+        return NSMutableURLRequest(url: self)
     }
 }
 
 
 public extension NSAttributedString {
-//    public class func compoundAttributedStringFrom(str1:String, withAttributes attr1:[String : AnyObject]?, andStr2 str2:String, withAttributes attr2:[String : AnyObject]?, andConnector connector:String? = nil) -> NSAttributedString? {
+//    public class func compoundAttributedStringFrom(str1:String, withAttributes attr1:[String : Any]?, andStr2 str2:String, withAttributes attr2:[String : Any]?, andConnector connector:String? = nil) -> NSAttributedString? {
 //        let firstString = connector == nil ? str1 : str1 + connector!
 //        let mutableString = NSMutableAttributedString(string: firstString, attributes: attr1)
 //        mutableString.appendAttributedString(NSAttributedString(string: str2, attributes: attr2))
 //        return mutableString.copy() as? NSAttributedString
 //    }
     
-    public func append(attStr:NSAttributedString?) -> NSAttributedString {
+    public func append(_ attStr:NSAttributedString?) -> NSAttributedString {
         let mutSelf = toMutableAttributedString()
-        if let s = attStr {mutSelf.appendAttributedString(s)}
+        if let s = attStr {mutSelf.append(s)}
         return mutSelf.toAttributedString()
     }
     
@@ -95,9 +95,9 @@ public extension NSArray {
         return NSArray(array: self)
     }
     
-    public func containsIfNotNil(element:AnyObject?) -> Bool {
+    public func containsIfNotNil(_ element:Any?) -> Bool {
         if element == nil {return false}
-        return self.containsObject(element!)
+        return self.contains(element!)
     }
     
 }
@@ -113,37 +113,29 @@ public extension NSDictionary {
 }
 
 
-public extension NSData {
-    public func toMutableData() -> NSMutableData {
-        return self.mutableCopy() as! NSMutableData
+public extension Data {
+    
+    public func append(_ data:Data?) -> Data {
+        var d = self
+        guard let data = data else {return d}
+        d.append(data)
+        return d
     }
     
-    public func append(data:NSData?) -> NSData {
-        if let d = data {
-            let mut = d.toMutableData()
-            mut.appendData(d)
-            return mut.toData()
-        } else {
-            return self
-        }
+    public init?(filePath:String?) {
+        self.init(url: filePath?.fileUrl)
     }
     
-    public convenience init?(filePath:String?) {
-        guard let filePath = filePath else {return nil}
-        self.init(contentsOfFile: filePath)
-    }
-}
-
-public extension NSMutableData {
-    func toData() -> NSData {
-        return self.copy() as! NSData
+    public init?(url: URL?) {
+        guard let url = url, let d = try? Data(contentsOf: url) else {return nil}
+        self = d
     }
 }
 
 
 
 public extension Equatable {
-    public func isEqualTo<T>(other:T?) -> Bool {
+    public func isEqualTo<T>(_ other:T?) -> Bool {
         return self == other as? Self
     }
 }

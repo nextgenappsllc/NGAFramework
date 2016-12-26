@@ -15,10 +15,10 @@ import MapKit
 
 
 
-public class TimerExecutor {
-    public var block:((NSTimer?) -> Void)?
-    public var timer:NSTimer?
-    @objc public func executeBlock() {
+open class TimerExecutor {
+    open var block:((Timer?) -> Void)?
+    open var timer:Timer?
+    @objc open func executeBlock() {
         block?(timer)
     }
     public init() {}
@@ -33,20 +33,20 @@ public func ==(lhs: CLLocationCoordinate2D, rhs: CLLocationCoordinate2D) -> Bool
 extension CLLocationCoordinate2D : Equatable {}
 
 // Deprecate
-extension NSArray {
-    func arrayWithObjectRemoved(object:AnyObject?) -> NSArray {
-        var temp = self
-        if let obj:AnyObject = object {
-            if let mut = temp.mutableCopy() as? NSMutableArray {
-                mut.removeObject(obj)
-                if let array = mut.copy() as? NSArray {
-                    temp = array
-                }
-            }
-        }
-        return temp
-    }
-}
+//extension NSArray {
+//    func arrayWithObjectRemoved(_ object:Any?) -> NSArray {
+//        var temp = self
+//        if let obj = object {
+//            if let mut = temp.mutableCopy() as? NSMutableArray {
+//                mut.remove(obj)
+//                if let array = mut.copy() as? NSArray {
+//                    temp = array
+//                }
+//            }
+//        }
+//        return temp
+//    }
+//}
 
 
 

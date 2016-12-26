@@ -60,9 +60,11 @@
 		829993491CAA02BC002ABDDE /* NGAView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 829993481CAA02BC002ABDDE /* NGAView.swift */; };
 		82AAD9391CA0D03000587401 /* XMLParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82AAD9381CA0D03000587401 /* XMLParser.swift */; };
 		82E3A3421CB43C47008F7E15 /* IntExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82E3A3411CB43C47008F7E15 /* IntExtension.swift */; };
+		D8405EE18C54B49DED7D01AC /* Pods_NGAFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A099B45E3517ABD12FD43585 /* Pods_NGAFramework.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		231DBBF115B36BA2B09BA598 /* Pods-NGAFramework.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NGAFramework.debug.xcconfig"; path = "Pods/Target Support Files/Pods-NGAFramework/Pods-NGAFramework.debug.xcconfig"; sourceTree = "<group>"; };
 		821662FF1C9611B900493594 /* NGAFontNames.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NGAFontNames.swift; sourceTree = "<group>"; };
 		821663001C9611B900493594 /* NGATypeAliases.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NGATypeAliases.swift; sourceTree = "<group>"; };
 		821663011C9611B900493594 /* NGAExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NGAExtensions.swift; sourceTree = "<group>"; };
@@ -121,6 +123,8 @@
 		82AAD9381CA0D03000587401 /* XMLParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XMLParser.swift; sourceTree = "<group>"; };
 		82C43B8A1D861FEC00C10FC8 /* NGAFramework.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = NGAFramework.playground; sourceTree = "<group>"; };
 		82E3A3411CB43C47008F7E15 /* IntExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IntExtension.swift; sourceTree = "<group>"; };
+		9B9E4D313060FB89C85138F4 /* Pods-NGAFramework.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NGAFramework.release.xcconfig"; path = "Pods/Target Support Files/Pods-NGAFramework/Pods-NGAFramework.release.xcconfig"; sourceTree = "<group>"; };
+		A099B45E3517ABD12FD43585 /* Pods_NGAFramework.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_NGAFramework.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -128,6 +132,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D8405EE18C54B49DED7D01AC /* Pods_NGAFramework.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -232,6 +237,7 @@
 				828DAE951C96075400EEDE1B /* Products */,
 				8274A58B1C9C99C200CAC913 /* README.md */,
 				829666321D861CFA00FA64D6 /* Frameworks */,
+				D153A8887A81168CBA8ECA2B /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -266,8 +272,18 @@
 			isa = PBXGroup;
 			children = (
 				829666331D861CFA00FA64D6 /* UIKit.framework */,
+				A099B45E3517ABD12FD43585 /* Pods_NGAFramework.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		D153A8887A81168CBA8ECA2B /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				231DBBF115B36BA2B09BA598 /* Pods-NGAFramework.debug.xcconfig */,
+				9B9E4D313060FB89C85138F4 /* Pods-NGAFramework.release.xcconfig */,
+			);
+			name = Pods;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -288,10 +304,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 828DAE9C1C96075400EEDE1B /* Build configuration list for PBXNativeTarget "NGAFramework" */;
 			buildPhases = (
+				14859E30890057875FD1CD41 /* [CP] Check Pods Manifest.lock */,
 				828DAE8F1C96075400EEDE1B /* Sources */,
 				828DAE901C96075400EEDE1B /* Frameworks */,
 				828DAE911C96075400EEDE1B /* Headers */,
 				828DAE921C96075400EEDE1B /* Resources */,
+				B76A4F0CDA7541CDEF4D937E /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -343,6 +361,39 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		14859E30890057875FD1CD41 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		B76A4F0CDA7541CDEF4D937E /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-NGAFramework/Pods-NGAFramework-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		828DAE8F1C96075400EEDE1B /* Sources */ = {
@@ -503,6 +554,7 @@
 		};
 		828DAE9D1C96075400EEDE1B /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 231DBBF115B36BA2B09BA598 /* Pods-NGAFramework.debug.xcconfig */;
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = NO;
 				CLANG_ENABLE_MODULES = YES;
@@ -526,6 +578,7 @@
 		};
 		828DAE9E1C96075400EEDE1B /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 9B9E4D313060FB89C85138F4 /* Pods-NGAFramework.release.xcconfig */;
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = NO;
 				CLANG_ENABLE_MODULES = YES;

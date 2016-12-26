@@ -33,7 +33,6 @@
 		8216634C1C965A8E00493594 /* DictionaryExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8216634B1C965A8E00493594 /* DictionaryExtension.swift */; };
 		82237F9E1C98DF3B0069153C /* Formable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82237F9D1C98DF3B0069153C /* Formable.swift */; };
 		822B45351CDA90FD007C1431 /* RawRepresntableExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 822B45341CDA90FD007C1431 /* RawRepresntableExtension.swift */; };
-		825447191DDD60AB00F227CF /* CryptoSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 825447181DDD60AB00F227CF /* CryptoSwift.framework */; };
 		826DE6BF1CAAC79300F7323D /* CompassView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 826DE6BE1CAAC79300F7323D /* CompassView.swift */; };
 		8273F1781CAED62C00F1A45C /* CoreLocationExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8273F1771CAED62C00F1A45C /* CoreLocationExtensions.swift */; };
 		827518121CC85EFD0039289D /* StandardObjects.swift in Sources */ = {isa = PBXBuildFile; fileRef = 827518111CC85EFD0039289D /* StandardObjects.swift */; };
@@ -90,7 +89,6 @@
 		8216634B1C965A8E00493594 /* DictionaryExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DictionaryExtension.swift; sourceTree = "<group>"; };
 		82237F9D1C98DF3B0069153C /* Formable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Formable.swift; sourceTree = "<group>"; };
 		822B45341CDA90FD007C1431 /* RawRepresntableExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RawRepresntableExtension.swift; sourceTree = "<group>"; };
-		825447181DDD60AB00F227CF /* CryptoSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CryptoSwift.framework; path = "../../../../Library/Developer/Xcode/DerivedData/MCM-hdvbadrkvzbubffemhnuukrlxrmi/Build/Products/Debug-iphoneos/CryptoSwift.framework"; sourceTree = "<group>"; };
 		826DE6BE1CAAC79300F7323D /* CompassView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CompassView.swift; sourceTree = "<group>"; };
 		8273F1771CAED62C00F1A45C /* CoreLocationExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreLocationExtensions.swift; sourceTree = "<group>"; };
 		8274A58B1C9C99C200CAC913 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
@@ -130,7 +128,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				825447191DDD60AB00F227CF /* CryptoSwift.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -268,7 +265,6 @@
 		829666321D861CFA00FA64D6 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				825447181DDD60AB00F227CF /* CryptoSwift.framework */,
 				829666331D861CFA00FA64D6 /* UIKit.framework */,
 			);
 			name = Frameworks;

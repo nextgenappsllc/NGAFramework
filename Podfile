@@ -7,3 +7,10 @@ target 'NGAFramework' do
   pod 'CryptoSwift', '~> 0.6'
 
 end
+
+target 'NGAFrameworkTests' do
+    use_frameworks!
+    
+    pod 'CryptoSwift', '~> 0.6'
+    
+end

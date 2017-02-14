@@ -255,7 +255,7 @@ public extension String {
      
      - Returns: A tuple containing the hex string values on the initialization vector and the encrypted data.
      */
-    func AES256Encrypt(key:String)->(iv:String, encrypted:String?){
+    public func AES256Encrypt(key:String)->(iv:String, encrypted:String?){
         let _key = key.utf8.map{$0}
         let _iv = AES.randomIV(AES.blockSize)
         var t:(iv:String, encrypted:String?) = (_iv.toHexString(), nil)
@@ -280,14 +280,15 @@ public extension String {
      
      - Returns: A decrypted string if successful
      */
-    func AES256Decrypt(key:String, iv:String) -> String?{
+    public func AES256Decrypt(key:String, iv:String) -> String?{
         let _key = key.utf8.map{$0}
         let _iv = iv.convertFromHex()
         guard _key.count == 32, let aes = try? AES(key: _key, iv: _iv), let decrypted = try? aes.decrypt(self.convertFromHex()) else {return nil}
         return String(data: Data(decrypted), encoding: .utf8)
     }
     
-    /**
+    /*
+     Deprecating due to optimazation - New method is 10x+ faster!
      Converts the string into an array of numbers corresponding to the hex value of character pairs.
      
      So the string "ff00" would get broken up into pairs so "ff" and "00" and then converted to numbers.
@@ -295,19 +296,92 @@ public extension String {
      
      - Returns: An array of 8 bit unsigned integers.
      */
-    func convertFromHex() -> [UInt8]{
-        var values:[UInt8] = []
-        var chars = characters
-        var pair = ""
-        while let char = chars.popFirst() {
-            pair = "\(pair)\(char)"
-            if pair.characters.count > 1 {
-                if let value = UInt8(pair, radix: 16){values.append(value)}
-                pair = ""
+//    public func convertFromHexString() -> [UInt8]{
+//        var values:[UInt8] = []
+//        var chars = characters
+//        var pair = ""
+//        while let char = chars.popFirst() {
+//            pair = "\(pair)\(char)"
+//            if pair.characters.count > 1 {
+//                if let value = UInt8(pair, radix: 16){values.append(value)}
+//                pair = ""
+//            }
+//        }
+//        return values
+//    }
+//    
+//    // testing for performance
+//    public func convertFromHex() -> [UInt8]{
+//        var values:[UInt8] = []
+//        var buffer:UInt8?
+//        for char in characters.lazy {
+//            guard let value = UInt8(String(char), radix: 16) else {return []}
+//            if let b = buffer {
+//                values.append(b << 4 | value)
+//                buffer = nil
+//            } else {
+//                buffer = value
+//            }
+//        }
+//        return values
+//    }
+//    
+//    static var hexHash:[Character:UInt8] = ["0":0,"1":1,"2":2,"3":3,"4":4,"5":5,"6":6,"7":7,"8":8,"9":9,"a":10,"b":11,"c":12,"d":13,"e":14,"f":15]
+//    public func convertFromHexHash() -> [UInt8]{
+//        var values:[UInt8] = []
+//        var buffer:UInt8?
+//        for char in characters.lazy {
+//            guard let value = String.hexHash[char] else {return []}
+//            if let b = buffer {
+//                values.append(b << 4 | value)
+//                buffer = nil
+//            } else {
+//                buffer = value
+//            }
+//        }
+//        return values
+//    }
+//    
+//    public func convertFromUnicodeHex() -> [UInt8]{
+//        var values:[UInt8] = []
+//        var buffer:UInt8?
+//        for char in unicodeScalars.lazy {
+//            let value = UInt8.init(ascii: char)
+//            if let b = buffer {
+//                values.append(b << 4 | value)
+//                buffer = nil
+//            } else {
+//                buffer = value
+//            }
+//        }
+//        return values
+//    }
+    
+    
+    /**
+     Converts the string into an array of numbers corresponding to the hex value.
+     
+     So the string "ff00" would get converted to [255, 0].
+     
+     - Returns: An array of 8 bit unsigned integers (bytes).
+     */
+    static var unicodeHexMap:[UnicodeScalar:UInt8] = ["0":0,"1":1,"2":2,"3":3,"4":4,"5":5,"6":6,"7":7,"8":8,"9":9,"a":10,"b":11,"c":12,"d":13,"e":14,"f":15]
+    public func convertFromHex() -> [UInt8]{
+        var bytes:[UInt8] = []
+        var buffer:UInt8?
+        for char in unicodeScalars.lazy {
+            guard let value = String.unicodeHexMap[char] else {return []}
+            if let b = buffer {
+                bytes.append(b << 4 | value)
+                buffer = nil
+            } else {
+                buffer = value
             }
         }
-        return values
+        if let b = buffer{bytes.append(b)}
+        return bytes
     }
+    
     
     
 }

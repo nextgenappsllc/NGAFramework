@@ -14,9 +14,19 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>Pods-NGAFrameworkTests.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
+		<key>4696DD9455FA9FBFBA03EF1FD38E1144</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>6BB1C1403B2419F911818DA8413FDA07</key>
 		<dict>
 			<key>primary</key>

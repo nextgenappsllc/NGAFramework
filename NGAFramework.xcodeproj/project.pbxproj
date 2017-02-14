@@ -33,6 +33,9 @@
 		8216634C1C965A8E00493594 /* DictionaryExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8216634B1C965A8E00493594 /* DictionaryExtension.swift */; };
 		82237F9E1C98DF3B0069153C /* Formable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82237F9D1C98DF3B0069153C /* Formable.swift */; };
 		822B45351CDA90FD007C1431 /* RawRepresntableExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 822B45341CDA90FD007C1431 /* RawRepresntableExtension.swift */; };
+		82332D461E528DA60007CB52 /* BoolExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82332D451E528DA60007CB52 /* BoolExtension.swift */; };
+		82332D4E1E52C4F80007CB52 /* NGAFrameworkTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82332D4D1E52C4F80007CB52 /* NGAFrameworkTests.swift */; };
+		82332D501E52C4F80007CB52 /* NGAFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 828DAE941C96075400EEDE1B /* NGAFramework.framework */; };
 		826DE6BF1CAAC79300F7323D /* CompassView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 826DE6BE1CAAC79300F7323D /* CompassView.swift */; };
 		8273F1781CAED62C00F1A45C /* CoreLocationExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8273F1771CAED62C00F1A45C /* CoreLocationExtensions.swift */; };
 		827518121CC85EFD0039289D /* StandardObjects.swift in Sources */ = {isa = PBXBuildFile; fileRef = 827518111CC85EFD0039289D /* StandardObjects.swift */; };
@@ -61,10 +64,22 @@
 		82AAD9391CA0D03000587401 /* XMLParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82AAD9381CA0D03000587401 /* XMLParser.swift */; };
 		82E3A3421CB43C47008F7E15 /* IntExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82E3A3411CB43C47008F7E15 /* IntExtension.swift */; };
 		D8405EE18C54B49DED7D01AC /* Pods_NGAFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A099B45E3517ABD12FD43585 /* Pods_NGAFramework.framework */; };
+		DAD9E0CE855D62C3469978DE /* Pods_NGAFrameworkTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 61F6BCFCDB9852BC09C154BE /* Pods_NGAFrameworkTests.framework */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		82332D511E52C4F80007CB52 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 828DAE8B1C96075400EEDE1B /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 828DAE931C96075400EEDE1B;
+			remoteInfo = NGAFramework;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		231DBBF115B36BA2B09BA598 /* Pods-NGAFramework.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NGAFramework.debug.xcconfig"; path = "Pods/Target Support Files/Pods-NGAFramework/Pods-NGAFramework.debug.xcconfig"; sourceTree = "<group>"; };
+		61F6BCFCDB9852BC09C154BE /* Pods_NGAFrameworkTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_NGAFrameworkTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		821662FF1C9611B900493594 /* NGAFontNames.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NGAFontNames.swift; sourceTree = "<group>"; };
 		821663001C9611B900493594 /* NGATypeAliases.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NGATypeAliases.swift; sourceTree = "<group>"; };
 		821663011C9611B900493594 /* NGAExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NGAExtensions.swift; sourceTree = "<group>"; };
@@ -91,6 +106,10 @@
 		8216634B1C965A8E00493594 /* DictionaryExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DictionaryExtension.swift; sourceTree = "<group>"; };
 		82237F9D1C98DF3B0069153C /* Formable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Formable.swift; sourceTree = "<group>"; };
 		822B45341CDA90FD007C1431 /* RawRepresntableExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RawRepresntableExtension.swift; sourceTree = "<group>"; };
+		82332D451E528DA60007CB52 /* BoolExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BoolExtension.swift; sourceTree = "<group>"; };
+		82332D4B1E52C4F70007CB52 /* NGAFrameworkTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NGAFrameworkTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		82332D4D1E52C4F80007CB52 /* NGAFrameworkTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NGAFrameworkTests.swift; sourceTree = "<group>"; };
+		82332D4F1E52C4F80007CB52 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		826DE6BE1CAAC79300F7323D /* CompassView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CompassView.swift; sourceTree = "<group>"; };
 		8273F1771CAED62C00F1A45C /* CoreLocationExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreLocationExtensions.swift; sourceTree = "<group>"; };
 		8274A58B1C9C99C200CAC913 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
@@ -125,9 +144,20 @@
 		82E3A3411CB43C47008F7E15 /* IntExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IntExtension.swift; sourceTree = "<group>"; };
 		9B9E4D313060FB89C85138F4 /* Pods-NGAFramework.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NGAFramework.release.xcconfig"; path = "Pods/Target Support Files/Pods-NGAFramework/Pods-NGAFramework.release.xcconfig"; sourceTree = "<group>"; };
 		A099B45E3517ABD12FD43585 /* Pods_NGAFramework.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_NGAFramework.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		B1625404066A257036268AFE /* Pods-NGAFrameworkTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NGAFrameworkTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-NGAFrameworkTests/Pods-NGAFrameworkTests.debug.xcconfig"; sourceTree = "<group>"; };
+		C2DA2BAEADB143C5E4E8EA07 /* Pods-NGAFrameworkTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NGAFrameworkTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-NGAFrameworkTests/Pods-NGAFrameworkTests.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		82332D481E52C4F70007CB52 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				82332D501E52C4F80007CB52 /* NGAFramework.framework in Frameworks */,
+				DAD9E0CE855D62C3469978DE /* Pods_NGAFrameworkTests.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		828DAE901C96075400EEDE1B /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -181,6 +211,7 @@
 				829047191C96801500EF27F5 /* CGSizeExtension.swift */,
 				8273F1771CAED62C00F1A45C /* CoreLocationExtensions.swift */,
 				8216634B1C965A8E00493594 /* DictionaryExtension.swift */,
+				82332D451E528DA60007CB52 /* BoolExtension.swift */,
 				82E3A3411CB43C47008F7E15 /* IntExtension.swift */,
 				828817981CC8197100602B7E /* Loggable.swift */,
 				821663011C9611B900493594 /* NGAExtensions.swift */,
@@ -228,12 +259,22 @@
 			name = API;
 			sourceTree = "<group>";
 		};
+		82332D4C1E52C4F80007CB52 /* NGAFrameworkTests */ = {
+			isa = PBXGroup;
+			children = (
+				82332D4D1E52C4F80007CB52 /* NGAFrameworkTests.swift */,
+				82332D4F1E52C4F80007CB52 /* Info.plist */,
+			);
+			path = NGAFrameworkTests;
+			sourceTree = "<group>";
+		};
 		828DAE8A1C96075400EEDE1B = {
 			isa = PBXGroup;
 			children = (
 				82C43B8A1D861FEC00C10FC8 /* NGAFramework.playground */,
 				828DAE961C96075400EEDE1B /* NGAFramework */,
 				8216633B1C9615F500493594 /* Private */,
+				82332D4C1E52C4F80007CB52 /* NGAFrameworkTests */,
 				828DAE951C96075400EEDE1B /* Products */,
 				8274A58B1C9C99C200CAC913 /* README.md */,
 				829666321D861CFA00FA64D6 /* Frameworks */,
@@ -245,6 +286,7 @@
 			isa = PBXGroup;
 			children = (
 				828DAE941C96075400EEDE1B /* NGAFramework.framework */,
+				82332D4B1E52C4F70007CB52 /* NGAFrameworkTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -273,6 +315,7 @@
 			children = (
 				829666331D861CFA00FA64D6 /* UIKit.framework */,
 				A099B45E3517ABD12FD43585 /* Pods_NGAFramework.framework */,
+				61F6BCFCDB9852BC09C154BE /* Pods_NGAFrameworkTests.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -282,6 +325,8 @@
 			children = (
 				231DBBF115B36BA2B09BA598 /* Pods-NGAFramework.debug.xcconfig */,
 				9B9E4D313060FB89C85138F4 /* Pods-NGAFramework.release.xcconfig */,
+				B1625404066A257036268AFE /* Pods-NGAFrameworkTests.debug.xcconfig */,
+				C2DA2BAEADB143C5E4E8EA07 /* Pods-NGAFrameworkTests.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -300,6 +345,27 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
+		82332D4A1E52C4F70007CB52 /* NGAFrameworkTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 82332D531E52C4F80007CB52 /* Build configuration list for PBXNativeTarget "NGAFrameworkTests" */;
+			buildPhases = (
+				37E8E030E780419D1ECEA2B4 /* [CP] Check Pods Manifest.lock */,
+				82332D471E52C4F70007CB52 /* Sources */,
+				82332D481E52C4F70007CB52 /* Frameworks */,
+				82332D491E52C4F70007CB52 /* Resources */,
+				D60778043B5FE36A1B641BDE /* [CP] Embed Pods Frameworks */,
+				0F604C89084F35E9188091FE /* [CP] Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				82332D521E52C4F80007CB52 /* PBXTargetDependency */,
+			);
+			name = NGAFrameworkTests;
+			productName = NGAFrameworkTests;
+			productReference = 82332D4B1E52C4F70007CB52 /* NGAFrameworkTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		828DAE931C96075400EEDE1B /* NGAFramework */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 828DAE9C1C96075400EEDE1B /* Build configuration list for PBXNativeTarget "NGAFramework" */;
@@ -326,9 +392,15 @@
 		828DAE8B1C96075400EEDE1B /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				LastSwiftUpdateCheck = 0820;
 				LastUpgradeCheck = 0800;
 				ORGANIZATIONNAME = "NextGen Apps LLC";
 				TargetAttributes = {
+					82332D4A1E52C4F70007CB52 = {
+						CreatedOnToolsVersion = 8.2.1;
+						DevelopmentTeam = DBEN48MJ4X;
+						ProvisioningStyle = Automatic;
+					};
 					828DAE931C96075400EEDE1B = {
 						CreatedOnToolsVersion = 7.2.1;
 						LastSwiftMigration = 0820;
@@ -348,11 +420,19 @@
 			projectRoot = "";
 			targets = (
 				828DAE931C96075400EEDE1B /* NGAFramework */,
+				82332D4A1E52C4F70007CB52 /* NGAFrameworkTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		82332D491E52C4F70007CB52 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		828DAE921C96075400EEDE1B /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -363,7 +443,37 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		0F604C89084F35E9188091FE /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-NGAFrameworkTests/Pods-NGAFrameworkTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		14859E30890057875FD1CD41 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		37E8E030E780419D1ECEA2B4 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -393,9 +503,32 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-NGAFramework/Pods-NGAFramework-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
+		D60778043B5FE36A1B641BDE /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-NGAFrameworkTests/Pods-NGAFrameworkTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		82332D471E52C4F70007CB52 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				82332D4E1E52C4F80007CB52 /* NGAFrameworkTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		828DAE8F1C96075400EEDE1B /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -404,6 +537,7 @@
 				821663211C9611B900493594 /* NGAWKWebViewController.swift in Sources */,
 				8216632D1C9611D400493594 /* NGASwitchBarTableViewController.swift in Sources */,
 				829047181C96800400EF27F5 /* CGRectExtension.swift in Sources */,
+				82332D461E528DA60007CB52 /* BoolExtension.swift in Sources */,
 				829046FD1C965DDD00EF27F5 /* UINavigationControllerExtension.swift in Sources */,
 				82E3A3421CB43C47008F7E15 /* IntExtension.swift in Sources */,
 				829047201C9682F700EF27F5 /* BasicConversionExtensions.swift in Sources */,
@@ -457,7 +591,48 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		82332D521E52C4F80007CB52 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 828DAE931C96075400EEDE1B /* NGAFramework */;
+			targetProxy = 82332D511E52C4F80007CB52 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin XCBuildConfiguration section */
+		82332D541E52C4F80007CB52 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = B1625404066A257036268AFE /* Pods-NGAFrameworkTests.debug.xcconfig */;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				DEVELOPMENT_TEAM = DBEN48MJ4X;
+				INFOPLIST_FILE = NGAFrameworkTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.nextgenapps.jose.NGAFrameworkTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_VERSION = 3.0;
+			};
+			name = Debug;
+		};
+		82332D551E52C4F80007CB52 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = C2DA2BAEADB143C5E4E8EA07 /* Pods-NGAFrameworkTests.release.xcconfig */;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				DEVELOPMENT_TEAM = DBEN48MJ4X;
+				INFOPLIST_FILE = NGAFrameworkTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.nextgenapps.jose.NGAFrameworkTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+			};
+			name = Release;
+		};
 		828DAE9A1C96075400EEDE1B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -602,6 +777,14 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		82332D531E52C4F80007CB52 /* Build configuration list for PBXNativeTarget "NGAFrameworkTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				82332D541E52C4F80007CB52 /* Debug */,
+				82332D551E52C4F80007CB52 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
 		828DAE8E1C96075400EEDE1B /* Build configuration list for PBXProject "NGAFramework" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

@@ -292,6 +292,12 @@ fileprivate func equals<T>(l:T,r:T) -> Bool{
     
 }
 
+//public extension Array where Element:UInt8 {
+//    public func toData() -> Data{
+//        return Data(bytes: self)
+//    }
+//}
+
 
 
 

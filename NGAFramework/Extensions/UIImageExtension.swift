@@ -66,7 +66,7 @@ public extension UIImage {
         return captionedImage!
     }
     
-    
+
     public func roundedImage(_ radius:CGFloat? = nil) -> UIImage {
         let smallSide = size.height > size.width ? size.width : size.height
         let r = radius ?? smallSide / 30

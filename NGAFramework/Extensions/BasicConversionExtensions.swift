@@ -40,7 +40,7 @@ extension Int:ToClassType {
         return "\(self)"
     }
     public func toBool() -> Bool {
-        return toString().toBool() ?? false
+        return Bool(hashable: self)
     }
     
     public typealias ThisClass = Int
@@ -90,7 +90,7 @@ extension Double:ToClassType {
     }
     
     public func toBool() -> Bool {
-        return toString().toBool() ?? false
+        return Bool(hashable: self)
     }
     
     public typealias ThisClass = Double
@@ -149,7 +149,7 @@ extension Float:ToClassType {
     }
 
     public func toBool() -> Bool {
-        return toString().toBool() ?? false
+        return Bool(hashable: self)
     }
     
     public typealias ThisClass = Float
@@ -236,7 +236,7 @@ extension CGFloat:ToClassType {
 
     
     public func toBool() -> Bool {
-        return toString().toBool() ?? false
+        return Bool(hashable: self)
     }
     
     public typealias ThisClass = CGFloat
@@ -347,8 +347,8 @@ extension String:ToClassType {
         return toDouble()?.toCGFloat() ?? nilValue
     }
     
-    public func toBool(_ nilValue:Bool? = nil) -> Bool? {
-        return Bool(str: self.trim().lowercased() == "si" ? "true" : self)
+    public func toBool() -> Bool {
+        return Bool(hashable: self)
     }
     
     public func toData(_ encoding: String.Encoding = String.Encoding.utf8, allowLossyConversion: Bool = true) -> Data? {

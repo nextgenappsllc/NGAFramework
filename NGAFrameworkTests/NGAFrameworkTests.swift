@@ -17,7 +17,7 @@ class NGAFrameworkTests: XCTestCase {
         15.times {_ in
             base += base
         }
-        hexString = base
+        hexString = "0x" + base
     }
     
     override func tearDown() {
@@ -29,9 +29,44 @@ class NGAFrameworkTests: XCTestCase {
     func testConvertFromHexPerformance() {
         var result:[UInt8]?
         self.measure {
-            result = self.hexString?.convertFromHex()
+            guard let hexString = self.hexString else {print("SKIPPING");return}
+            result = hexString.convertFromHex()
         }
         print(result?.count ?? 0)
     }
+    
+    
+    func testArrayFromHexPerformance() {
+        var result:[UInt8]?
+        self.measure {
+            guard let hexString = self.hexString else {print("SKIPPING");return}
+            result = Array<UInt8>(hex: hexString)
+        }
+        print(result?.count ?? 0)
+    }
+    
+//    func testArrayFromUtf8HexPerformance() {
+//        var result:[UInt8]?
+//        self.measure {
+//            guard let hexString = self.hexString else {print("SKIPPING");return}
+//            result = Array(hexString.utf8)
+//        }
+//        print(result?.count ?? 0)
+//    }
+    
+//    func testRegexPerformance() {
+//        let str = "72"
+//        measure {
+//            let range = Range<String.Index>(uncheckedBounds: (lower: str.startIndex, upper: str.endIndex))
+//            self.hexString?.range(of: "72", options: .regularExpression, range: range, locale: nil)
+//        }
+//        
+//    }
+//    func testHasPrefixPerformance(){
+//        let str = "72"
+//        measure {
+//            self.hexString?.hasPrefix(str)
+//        }
+//    }
     
 }

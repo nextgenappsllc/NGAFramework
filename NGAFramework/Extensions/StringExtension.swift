@@ -369,7 +369,9 @@ public extension String {
     public func convertFromHex() -> [UInt8]{
         var bytes:[UInt8] = []
         var buffer:UInt8?
+        var skip = self.hasPrefix("0x") ? 2 : 0
         for char in unicodeScalars.lazy {
+            guard skip == 0 else {skip -= 1;continue}
             guard let value = String.unicodeHexMap[char] else {return []}
             if let b = buffer {
                 bytes.append(b << 4 | value)
@@ -381,6 +383,7 @@ public extension String {
         if let b = buffer{bytes.append(b)}
         return bytes
     }
+    
     
     
     

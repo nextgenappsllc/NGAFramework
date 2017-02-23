@@ -13,7 +13,7 @@ class NGAFrameworkTests: XCTestCase {
     var hexString:String?
     override func setUp() {
         super.setUp()
-        var base = "725754036feabc21387430"
+        var base = "725754036feAbc21387430"
         15.times {_ in
             base += base
         }
@@ -26,6 +26,14 @@ class NGAFrameworkTests: XCTestCase {
     }
     
     
+    func testHexFunctionsEqual() {
+        let result1 = hexString!.convertFromHex()
+        let result3 = Array<UInt8>(hex: hexString!)
+        
+        XCTAssert(result1 == result3, "Something isnt right!")
+        
+    }
+    
     func testConvertFromHexPerformance() {
         var result:[UInt8]?
         self.measure {
@@ -36,6 +44,15 @@ class NGAFrameworkTests: XCTestCase {
     }
     
     
+    func testHexToBytesPerformance() {
+        var result:[UInt8]?
+        self.measure {
+            guard let hexString = self.hexString else {print("SKIPPING");return}
+            result = hexString.hexToBytes()
+        }
+        print(result?.count ?? 0)
+    }
+    
     func testArrayFromHexPerformance() {
         var result:[UInt8]?
         self.measure {
@@ -45,28 +62,14 @@ class NGAFrameworkTests: XCTestCase {
         print(result?.count ?? 0)
     }
     
-//    func testArrayFromUtf8HexPerformance() {
+//    func testArrayFromHex2Performance() {
 //        var result:[UInt8]?
 //        self.measure {
 //            guard let hexString = self.hexString else {print("SKIPPING");return}
-//            result = Array(hexString.utf8)
+//            result = Array<UInt8>(hex2: hexString)
 //        }
 //        print(result?.count ?? 0)
 //    }
     
-//    func testRegexPerformance() {
-//        let str = "72"
-//        measure {
-//            let range = Range<String.Index>(uncheckedBounds: (lower: str.startIndex, upper: str.endIndex))
-//            self.hexString?.range(of: "72", options: .regularExpression, range: range, locale: nil)
-//        }
-//        
-//    }
-//    func testHasPrefixPerformance(){
-//        let str = "72"
-//        measure {
-//            self.hexString?.hasPrefix(str)
-//        }
-//    }
     
 }

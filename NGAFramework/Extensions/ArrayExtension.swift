@@ -292,15 +292,18 @@ fileprivate func equals<T>(l:T,r:T) -> Bool{
     
 }
 
-//public protocol DataConvertible: Collection{}
-//
-//extension Array<UInt8>{
-//    
-//}
 
-//public extension ByteArray where Iterator.Element == UInt8 {
-//    public func toData() -> Data{
-//        return Data(bytes: self)
+//public extension Array where Element:Integer, Element.IntegerLiteralType == UInt8 {
+//    init(hex2: String){
+//        self.init()
+//        self.reserveCapacity(hex2.unicodeScalars.lazy.underestimatedCount)
+//        do{
+//            try hex2.streamHexBytes{ byte in
+//                self.append(byte as! Element)
+//            }
+//        } catch _ {
+//            self.removeAll()
+//        }
 //    }
 //}
 

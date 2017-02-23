@@ -52,7 +52,6 @@
 		8290470E1C9678DD00EF27F5 /* NSTimerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8290470D1C9678DD00EF27F5 /* NSTimerExtension.swift */; };
 		829047101C9678F200EF27F5 /* UIAlertControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8290470F1C9678F200EF27F5 /* UIAlertControllerExtension.swift */; };
 		829047121C967D9E00EF27F5 /* UIButtonExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 829047111C967D9E00EF27F5 /* UIButtonExtension.swift */; };
-		829047141C967DB400EF27F5 /* UIntExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 829047131C967DB400EF27F5 /* UIntExtension.swift */; };
 		829047161C967DEA00EF27F5 /* UIScrollViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 829047151C967DEA00EF27F5 /* UIScrollViewExtension.swift */; };
 		829047181C96800400EF27F5 /* CGRectExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 829047171C96800400EF27F5 /* CGRectExtension.swift */; };
 		8290471A1C96801500EF27F5 /* CGSizeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 829047191C96801500EF27F5 /* CGSizeExtension.swift */; };
@@ -129,7 +128,6 @@
 		8290470D1C9678DD00EF27F5 /* NSTimerExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSTimerExtension.swift; sourceTree = "<group>"; };
 		8290470F1C9678F200EF27F5 /* UIAlertControllerExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIAlertControllerExtension.swift; sourceTree = "<group>"; };
 		829047111C967D9E00EF27F5 /* UIButtonExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIButtonExtension.swift; sourceTree = "<group>"; };
-		829047131C967DB400EF27F5 /* UIntExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIntExtension.swift; sourceTree = "<group>"; };
 		829047151C967DEA00EF27F5 /* UIScrollViewExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIScrollViewExtension.swift; sourceTree = "<group>"; };
 		829047171C96800400EF27F5 /* CGRectExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CGRectExtension.swift; sourceTree = "<group>"; };
 		829047191C96801500EF27F5 /* CGSizeExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CGSizeExtension.swift; sourceTree = "<group>"; };
@@ -233,7 +231,6 @@
 				829047151C967DEA00EF27F5 /* UIScrollViewExtension.swift */,
 				8276F0211CB59FA80070FDC6 /* UIViewControllerExtension.swift */,
 				829047031C96600200EF27F5 /* UIViewExtension.swift */,
-				829047131C967DB400EF27F5 /* UIntExtension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -554,7 +551,6 @@
 				829047121C967D9E00EF27F5 /* UIButtonExtension.swift in Sources */,
 				8290471C1C96808D00EF27F5 /* NSExtensions.swift in Sources */,
 				8216632C1C9611D400493594 /* NGAConfig.swift in Sources */,
-				829047141C967DB400EF27F5 /* UIntExtension.swift in Sources */,
 				82237F9E1C98DF3B0069153C /* Formable.swift in Sources */,
 				821663161C9611B900493594 /* NGAContainerViews.swift in Sources */,
 				828817991CC8197100602B7E /* Loggable.swift in Sources */,
@@ -784,6 +780,7 @@
 				82332D551E52C4F80007CB52 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		828DAE8E1C96075400EEDE1B /* Build configuration list for PBXProject "NGAFramework" */ = {
 			isa = XCConfigurationList;

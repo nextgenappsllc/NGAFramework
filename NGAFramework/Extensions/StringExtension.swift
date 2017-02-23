@@ -287,75 +287,6 @@ public extension String {
         return String(data: Data(decrypted), encoding: .utf8)
     }
     
-    /*
-     Deprecating due to optimazation - New method is 10x+ faster!
-     Converts the string into an array of numbers corresponding to the hex value of character pairs.
-     
-     So the string "ff00" would get broken up into pairs so "ff" and "00" and then converted to numbers.
-     The returned array would be [255, 0].
-     
-     - Returns: An array of 8 bit unsigned integers.
-     */
-//    public func convertFromHexString() -> [UInt8]{
-//        var values:[UInt8] = []
-//        var chars = characters
-//        var pair = ""
-//        while let char = chars.popFirst() {
-//            pair = "\(pair)\(char)"
-//            if pair.characters.count > 1 {
-//                if let value = UInt8(pair, radix: 16){values.append(value)}
-//                pair = ""
-//            }
-//        }
-//        return values
-//    }
-//    
-//    // testing for performance
-//    public func convertFromHex() -> [UInt8]{
-//        var values:[UInt8] = []
-//        var buffer:UInt8?
-//        for char in characters.lazy {
-//            guard let value = UInt8(String(char), radix: 16) else {return []}
-//            if let b = buffer {
-//                values.append(b << 4 | value)
-//                buffer = nil
-//            } else {
-//                buffer = value
-//            }
-//        }
-//        return values
-//    }
-//    
-//    static var hexHash:[Character:UInt8] = ["0":0,"1":1,"2":2,"3":3,"4":4,"5":5,"6":6,"7":7,"8":8,"9":9,"a":10,"b":11,"c":12,"d":13,"e":14,"f":15]
-//    public func convertFromHexHash() -> [UInt8]{
-//        var values:[UInt8] = []
-//        var buffer:UInt8?
-//        for char in characters.lazy {
-//            guard let value = String.hexHash[char] else {return []}
-//            if let b = buffer {
-//                values.append(b << 4 | value)
-//                buffer = nil
-//            } else {
-//                buffer = value
-//            }
-//        }
-//        return values
-//    }
-//    
-//    public func convertFromUnicodeHex() -> [UInt8]{
-//        var values:[UInt8] = []
-//        var buffer:UInt8?
-//        for char in unicodeScalars.lazy {
-//            let value = UInt8.init(ascii: char)
-//            if let b = buffer {
-//                values.append(b << 4 | value)
-//                buffer = nil
-//            } else {
-//                buffer = value
-//            }
-//        }
-//        return values
-//    }
     
     
     /**
@@ -365,27 +296,92 @@ public extension String {
      
      - Returns: An array of 8 bit unsigned integers (bytes).
      */
-    static var unicodeHexMap:[UnicodeScalar:UInt8] = ["0":0,"1":1,"2":2,"3":3,"4":4,"5":5,"6":6,"7":7,"8":8,"9":9,"a":10,"b":11,"c":12,"d":13,"e":14,"f":15]
+    
+    //DEPRECATE
     public func convertFromHex() -> [UInt8]{
+        return hexToBytes()
+    }
+
+    
+    /**
+     Converts the a hexadecimal string to a corresponding array of bytes.
+     
+     So the string "ff00" would get converted to [255, 0].
+     Supports odd number of characters by interpreting the last character as its' hex value ("f" produces [16] as if it was "0f").
+     
+     - Returns: An array of 8 bit unsigned integers (bytes).
+     */
+    public func hexToBytes() -> [UInt8]{
         var bytes:[UInt8] = []
-        var buffer:UInt8?
-        var skip = self.hasPrefix("0x") ? 2 : 0
-        for char in unicodeScalars.lazy {
-            guard skip == 0 else {skip -= 1;continue}
-            guard let value = String.unicodeHexMap[char] else {return []}
-            if let b = buffer {
-                bytes.append(b << 4 | value)
-                buffer = nil
-            } else {
-                buffer = value
+        do{
+            try self.streamHexBytes { (byte) in
+                bytes.append(byte)
             }
+        }catch _{
+            return []
         }
-        if let b = buffer{bytes.append(b)}
         return bytes
     }
     
+    // Allows str.hexToBytes() and Array<UInt8>(hex: str) to share the same code
+    // Old functionality returns a blank array upon encountering a non hex character so this method must throw in order to replicate that in methods relying on this method. (ex. "ffn" should return [] instead of [255])
+    // Changed NSError to custom Error enum
+    public func streamHexBytes(_ block:(UInt8)->Void) throws{
+        var buffer:UInt8?
+        var skip = hasPrefix("0x") ? 2 : 0
+        for char in unicodeScalars.lazy {
+            guard skip == 0 else {
+                skip -= 1
+                continue
+            }
+            guard char.value >= 48 && char.value <= 102 else {throw HexError.invalidCharacter}
+            let v:UInt8
+            let c:UInt8 = UInt8(char.value)
+            switch c{
+            case let c where c <= 57:
+                v = c - 48
+            case let c where c >= 65 && c <= 70:
+                v = c - 55
+            case let c where c >= 97:
+                v = c - 87
+            default:
+                throw HexError.invalidCharacter
+            }
+            if let b = buffer {
+                block(b << 4 | v)
+                buffer = nil
+            } else {
+                buffer = v
+            }
+        }
+        if let b = buffer{block(b)}
+    }
     
+//    public func streamHexBytes(_ block:(UInt8)->Void) throws{
+//        let unicodeHexMap:[UnicodeScalar:UInt8] = ["0":0,"1":1,"2":2,"3":3,"4":4,"5":5,"6":6,"7":7,"8":8,"9":9,"a":10,"b":11,"c":12,"d":13,"e":14,"f":15,"A":10,"B":11,"C":12,"D":13,"E":14,"F":15]
+//        var buffer:UInt8?
+//        var skip = hasPrefix("0x") ? 2 : 0
+//        for char in unicodeScalars.lazy {
+//            guard skip == 0 else {
+//                skip -= 1
+//                continue
+//            }
+//            guard let value = unicodeHexMap[char] else {
+//                throw HexError.invalidCharacter
+//            }
+//            if let b = buffer {
+//                block(b << 4 | value)
+//                buffer = nil
+//            } else {
+//                buffer = value
+//            }
+//        }
+//        if let b = buffer{block(b)}
+//    }
     
+    private enum HexError:Error {
+        case invalidCharacter
+    }
     
 }
 

@@ -48,7 +48,7 @@ class NGAFrameworkTests: XCTestCase {
         var result:[UInt8]?
         self.measure {
             guard let hexString = self.hexString else {print("SKIPPING");return}
-            result = hexString.hexToBytes()
+            result = hexString.hexToBytes(reverse: true)
         }
         print(result?.count ?? 0)
     }

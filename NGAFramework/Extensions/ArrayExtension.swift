@@ -159,7 +159,7 @@ public extension Array {
         return temp
     }
     
-    @discardableResult public mutating func mapInPlace(iteratorBlock b:(_ element:Element) -> Element?) {
+    public mutating func mapInPlace(iteratorBlock b:(_ element:Element) -> Element?) {
         var vCount = count
         var i = 0
         while i < vCount {
@@ -265,7 +265,7 @@ public extension Array where Element : Equatable {
         return false
     }
     
-    @discardableResult public mutating func removeElement(_ e:Element?) {
+    public mutating func removeElement(_ e:Element?) {
         if e == nil {return}
         if let i = index(of: e!) {
             remove(at: i)

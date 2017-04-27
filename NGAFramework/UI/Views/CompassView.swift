@@ -67,12 +67,12 @@ open class CompassView: NGAView {
     
     open var degrees:CGFloat {
         get {
-            var d = (radians.toDouble() * 180 / M_PI).toCGFloat()
+            var d = (radians.toDouble() * 180 / .pi).toCGFloat()
             if !constrainDegreesTo360 {return d}
             while d > 360 {d -= 360}
             return d
         }
-        set {radians = (newValue.toDouble() * M_PI / 180).toCGFloat()}
+        set {radians = (newValue.toDouble() * .pi / 180).toCGFloat()}
     }
     open var radians:CGFloat = 0 {
         didSet{

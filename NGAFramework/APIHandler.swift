@@ -65,7 +65,7 @@ open class APIHandler: NSObject, URLSessionDelegate, URLSessionDownloadDelegate,
             appendStringToData(startSeperator)
             let fileName = fileNames.stringForKey(key) ?? key as? String
             var contentDispositionString = "Content-Disposition: form-data; name=\"\(key)\""
-            contentDispositionString += value is Data ? "; filename=\"\(fileName)\"\r\n" : "\r\n"
+            contentDispositionString += value is Data ? "; filename=\"\(String(describing: fileName))\"\r\n" : "\r\n"
             appendStringToData(contentDispositionString)
             let contentTypeString = value is Data ? "Content-Type: application/octet-stream\r\n\r\n" : "Content-Type: text/plain\r\n\r\n"
             appendStringToData(contentTypeString)
@@ -147,7 +147,7 @@ open class APIHandler: NSObject, URLSessionDelegate, URLSessionDownloadDelegate,
     open var trustedHosts:[String] = []
     
     //MARK: Session delegate
-    open func urlSession(_ session: URLSession, didBecomeInvalidWithError error: Error?) {print("session became invalid with error \(error)")}
+    open func urlSession(_ session: URLSession, didBecomeInvalidWithError error: Error?) {print("session became invalid with error \(String(describing: error))")}
     open func urlSession(_ session: URLSession, didReceive challenge: URLAuthenticationChallenge, completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) {
         var trusted = false
         for host in trustedHosts {if challenge.protectionSpace.host.containsString(host, caseInsensitive: true) {trusted = true;break}}
@@ -159,7 +159,7 @@ open class APIHandler: NSObject, URLSessionDelegate, URLSessionDownloadDelegate,
     
     //MARK: Session Task Delegate
     open func urlSession(_ session: URLSession, task: URLSessionTask, didCompleteWithError error: Error?) {
-        print("completed :: error = \(error)")
+        print("completed :: error = \(String(describing: error))")
         if let completionBlock = dataTaskCompletionBlock {
             completionBlock(mutableDataTaskData?.copy() as? Data, dataTaskURLResponse, error)
         }

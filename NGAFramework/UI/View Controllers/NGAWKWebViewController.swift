@@ -122,7 +122,7 @@ open class NGAWKWebViewController: NGAViewController, WKNavigationDelegate, WKUI
         let url = navigationAction.request.url
         let banned = self.isURLBanned(url!)
         if banned {
-            print("BANNED::: \(url?.absoluteString)")
+            print("BANNED::: \(String(describing: url?.absoluteString))")
             decision = WKNavigationActionPolicy.cancel
         }
         else {
@@ -185,7 +185,7 @@ open class NGAWKWebViewController: NGAViewController, WKNavigationDelegate, WKUI
             if hideTableOfContentScriptString != nil {
                 webView.evaluateJavaScript(hideTableOfContentScriptString! as String, completionHandler: { (result:Any?, error:Error?) -> Void in
                     if error != nil {
-                        print("js error \(error)")
+                        print("js error \(String(describing: error))")
                     }
                     else {
                         print("no error")
@@ -206,21 +206,20 @@ open class NGAWKWebViewController: NGAViewController, WKNavigationDelegate, WKUI
     
     open func isURLBanned(_ url:URL) -> Bool {
         var banned = false
-        if let urlString:NSString = url.absoluteString as NSString? {
-            for bannedDomain in bannedDomains {
-                let range = urlString.range(of: bannedDomain, options: NSString.CompareOptions.caseInsensitive)
-                if range.location != NSNotFound {
+        let urlString = url.absoluteString
+        for bannedDomain in bannedDomains {
+            let range = urlString.range(of: bannedDomain, options: NSString.CompareOptions.caseInsensitive)
+            if range != nil {
+                banned = true
+                break
+            }
+        }
+        if self.blockOptionalDomains && !banned {
+            for optionalDomain in optionalDomains {
+                let range = urlString.range(of: optionalDomain, options: NSString.CompareOptions.caseInsensitive)
+                if range != nil {
                     banned = true
                     break
-                }
-            }
-            if self.blockOptionalDomains && !banned {
-                for optionalDomain in optionalDomains {
-                    let range = urlString.range(of: optionalDomain, options: NSString.CompareOptions.caseInsensitive)
-                    if range.location != NSNotFound {
-                        banned = true
-                        break
-                    }
                 }
             }
         }

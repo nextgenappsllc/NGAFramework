@@ -61,6 +61,7 @@
 		829349391C9B76C7005BB4DE /* APIHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 829349381C9B76C7005BB4DE /* APIHandler.swift */; };
 		829993491CAA02BC002ABDDE /* NGAView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 829993481CAA02BC002ABDDE /* NGAView.swift */; };
 		82AAD9391CA0D03000587401 /* XMLParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82AAD9381CA0D03000587401 /* XMLParser.swift */; };
+		82B695021EB231BA000266A6 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82B695011EB231BA000266A6 /* main.swift */; };
 		82E3A3421CB43C47008F7E15 /* IntExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82E3A3411CB43C47008F7E15 /* IntExtension.swift */; };
 		D8405EE18C54B49DED7D01AC /* Pods_NGAFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A099B45E3517ABD12FD43585 /* Pods_NGAFramework.framework */; };
 		DAD9E0CE855D62C3469978DE /* Pods_NGAFrameworkTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 61F6BCFCDB9852BC09C154BE /* Pods_NGAFrameworkTests.framework */; };
@@ -138,6 +139,7 @@
 		829666331D861CFA00FA64D6 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		829993481CAA02BC002ABDDE /* NGAView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NGAView.swift; sourceTree = "<group>"; };
 		82AAD9381CA0D03000587401 /* XMLParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XMLParser.swift; sourceTree = "<group>"; };
+		82B695011EB231BA000266A6 /* main.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		82C43B8A1D861FEC00C10FC8 /* NGAFramework.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = NGAFramework.playground; sourceTree = "<group>"; };
 		82E3A3411CB43C47008F7E15 /* IntExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IntExtension.swift; sourceTree = "<group>"; };
 		9B9E4D313060FB89C85138F4 /* Pods-NGAFramework.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NGAFramework.release.xcconfig"; path = "Pods/Target Support Files/Pods-NGAFramework/Pods-NGAFramework.release.xcconfig"; sourceTree = "<group>"; };
@@ -298,6 +300,7 @@
 				828DAE991C96075400EEDE1B /* Info.plist */,
 				821663271C9611D400493594 /* NGAArranger.swift */,
 				821663251C9611D400493594 /* NGAConfig.swift */,
+				82B695011EB231BA000266A6 /* main.swift */,
 				821662FF1C9611B900493594 /* NGAFontNames.swift */,
 				828DAE971C96075400EEDE1B /* NGAFramework.h */,
 				8216633D1C9616DA00493594 /* NGAPseudoDictionary.swift */,
@@ -581,6 +584,7 @@
 				8216634C1C965A8E00493594 /* DictionaryExtension.swift in Sources */,
 				8290470A1C9662A400EF27F5 /* UIFontExtension.swift in Sources */,
 				821663441C96183B00493594 /* StringExtension.swift in Sources */,
+				82B695021EB231BA000266A6 /* main.swift in Sources */,
 				829047061C96626C00EF27F5 /* UILabelExtension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

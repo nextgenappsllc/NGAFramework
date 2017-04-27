@@ -143,12 +143,30 @@ public struct NGADevice {
 //MARK: Thread handler
 
 open class NGAExecute {
+    
+    open static let mainQueueKey = DispatchSpecificKey<Any>()
+    
+    static var mainQueueRegistered = false
+    
     open class func performOnMainThread(_ b:VoidBlock?) {
-        if b == nil {return}
-        if Thread.isMainThread {
-            b?()
-        } else {
-            DispatchQueue.main.async(execute: b!)
+        guard let b = b else {return}
+        Thread.isMainThread ? b() : DispatchQueue.main.async(execute: b)
+    }
+    
+    open class func performOnMainQueue(_ b:VoidBlock?) {
+        guard let b = b else {return}
+        isMainQueue ? b() : DispatchQueue.main.async(execute: b)
+    }
+    
+    open class func registerMainQueue(){
+        DispatchQueue.main.setSpecific(key: mainQueueKey, value: ())
+        mainQueueRegistered = true
+    }
+    
+    open static var isMainQueue:Bool {
+        get {
+            if !mainQueueRegistered {registerMainQueue()}
+            return DispatchQueue.getSpecific(key: mainQueueKey) != nil
         }
     }
 }

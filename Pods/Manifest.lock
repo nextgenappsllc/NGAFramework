@@ -1,11 +1,11 @@
 PODS:
-  - CryptoSwift (0.6.7)
+  - CryptoSwift (0.6.8)
 
 DEPENDENCIES:
   - CryptoSwift (~> 0.6)
 
 SPEC CHECKSUMS:
-  CryptoSwift: 685ae257941e5447474348a2b545583e1a16b573
+  CryptoSwift: f21ea03ed3a94e79d241648ce26652cd4810508a
 
 PODFILE CHECKSUM: da8c9592a1eb5dfd31590a18b7b00b31bd66c1eb
 

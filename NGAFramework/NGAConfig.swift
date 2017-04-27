@@ -140,36 +140,109 @@ public struct NGADevice {
 
 
 
+// Queue Wrapper
+
+open class QueueWrapper {
+    
+    open let queue:DispatchQueue
+    
+    open let queueKey:DispatchSpecificKey<Any> = DispatchSpecificKey<Any>()
+    
+    public init(_ queue:DispatchQueue){
+        self.queue = queue
+    }
+    
+    public convenience init(label:String, qos:DispatchQoS, attributes:DispatchQueue.Attributes, autoreleaseFrequency:DispatchQueue.AutoreleaseFrequency, target:DispatchQueue?){
+        self.init(DispatchQueue(label: label, qos: qos, attributes: attributes, autoreleaseFrequency: autoreleaseFrequency, target: target))
+    }
+    
+    public convenience init(label:String){
+        self.init(DispatchQueue(label: label))
+    }
+    
+    public convenience init(){
+        self.init(DispatchQueue(label: ""))
+    }
+    
+    
+    public func registerQueue(){
+        queue.setSpecific(key: queueKey, value: ())
+    }
+    
+    
+    open func performOnQueue(async:Bool = true, _ b:VoidBlock?) {
+        guard let b = b else {return}
+        isQueue ? b() : queueExecute(async: async, b)
+    }
+    
+    
+    open var isQueue:Bool {get {return DispatchQueue.getSpecific(key: queueKey) != nil}}
+    
+    open func queueExecute(async:Bool = true, _ b:@escaping VoidBlock) {
+        async ? queue.async(execute: b) : queue.sync(execute: b)
+    }
+    
+    
+    
+}
+
+
+
+
+
 //MARK: Thread handler
 
 open class NGAExecute {
     
-    open static let mainQueueKey = DispatchSpecificKey<Any>()
+    static let queueWrapper = QueueWrapper(DispatchQueue.main)
     
-    static var mainQueueRegistered = false
+    open static func performOnMainQueue(async:Bool = true, _ b:VoidBlock?) {queueWrapper.performOnQueue(async: async, b)}
     
-    open class func performOnMainThread(_ b:VoidBlock?) {
+    open static var isMainQueue:Bool {get {return queueWrapper.isQueue}}
+    
+    open static func performOnMainThread(async:Bool = true, _ b:VoidBlock?) {
         guard let b = b else {return}
-        Thread.isMainThread ? b() : DispatchQueue.main.async(execute: b)
+        Thread.isMainThread ? b() : queueWrapper.queueExecute(async: async, b)
     }
     
-    open class func performOnMainQueue(_ b:VoidBlock?) {
-        guard let b = b else {return}
-        isMainQueue ? b() : DispatchQueue.main.async(execute: b)
-    }
-    
-    open class func registerMainQueue(){
-        DispatchQueue.main.setSpecific(key: mainQueueKey, value: ())
-        mainQueueRegistered = true
-    }
-    
-    open static var isMainQueue:Bool {
-        get {
-            if !mainQueueRegistered {registerMainQueue()}
-            return DispatchQueue.getSpecific(key: mainQueueKey) != nil
-        }
-    }
 }
+
+
+
+//open class NGAExecute {
+//    
+//    static var mainQueue:DispatchQueue {get{return DispatchQueue.main}}
+//    
+//    open static let mainQueueKey = DispatchSpecificKey<Any>()
+//    
+//    static var mainQueueRegistered = false
+//    
+//    open class func performOnMainThread(async:Bool = true, _ b:VoidBlock?) {
+//        guard let b = b else {return}
+//        Thread.isMainThread ? b() : mainQueueExecute(async: async, b)
+//    }
+//    
+//    open class func performOnMainQueue(async:Bool = true, _ b:VoidBlock?) {
+//        guard let b = b else {return}
+//        isMainQueue ? b() : mainQueueExecute(async: async, b)
+//    }
+//    
+//    open class func registerMainQueue(){
+//        mainQueue.setSpecific(key: mainQueueKey, value: ())
+//        mainQueueRegistered = true
+//    }
+//    
+//    open static var isMainQueue:Bool {
+//        get {
+//            if !mainQueueRegistered {registerMainQueue()}
+//            return DispatchQueue.getSpecific(key: mainQueueKey) != nil
+//        }
+//    }
+//    
+//    open class func mainQueueExecute(async:Bool = true, _ b:@escaping VoidBlock) {
+//        async ? mainQueue.async(execute: b) : mainQueue.sync(execute: b)
+//    }
+//}
 
 
 

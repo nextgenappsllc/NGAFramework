@@ -93,7 +93,7 @@ open class NGAParallaxCollectionViewController: NGACollectionViewController {
     
     
     open func setContentOffsetForCell(_ cell:NGAParallaxCollectionViewCell?) {
-        NGAExecute.performOnMainThread() {
+        NGAExecute.performOnMainQueue() {
             let contentView = self.contentView; let collectionView = self.collectionView ; let landscape = self.landscape
             guard contentView.longSide > 0, let c = cell else {return}
             let totalSize = contentView.longSide

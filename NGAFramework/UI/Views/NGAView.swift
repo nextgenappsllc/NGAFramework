@@ -12,7 +12,7 @@ import UIKit
 open class NGAView: UIView {
     open override var frame: CGRect {didSet{if autoUpdateFrames && oldValue.size != frame.size {setFramesForSubviewsOnMainThread()}}}
     open func setFramesForSubviews() {}
-    open func setFramesForSubviewsOnMainThread() {NGAExecute.performOnMainThread(setFramesForSubviews)}
+    open func setFramesForSubviewsOnMainThread() {NGAExecute.performOnMainQueue(setFramesForSubviews)}
     public override init(frame: CGRect) {
         super.init(frame: frame)
         postInit()
@@ -21,27 +21,14 @@ open class NGAView: UIView {
     open func postInit() {}
     open var autoUpdateFrames:Bool = true {didSet{if autoUpdateFrames && !oldValue {setFramesForSubviewsOnMainThread()}}}
     
-//    public override var frame: CGRect {didSet{if autoUpdateFrames && oldValue.size != frame.size {setNeedsLayout()}}}
-//    public func setFramesForSubviews() {}
-//    public func setFramesForSubviewsOnMainThread() {NGAExecute.performOnMainThread(setFramesForSubviews)}
-//    public override init(frame: CGRect) {
-//        super.init(frame: frame)
-//        postInit()
-//    }
-//    public convenience required init?(coder aDecoder: NSCoder) {self.init()}
-//    public func postInit() {}
-//    public override func layoutSubviews() {
-//        super.layoutSubviews()
-//        setFramesForSubviews()
-//    }
-//    public var autoUpdateFrames:Bool = true {didSet{if autoUpdateFrames && !oldValue {setNeedsLayout()}}}
+
     
 }
 
 open class NGACollectionViewCell: UICollectionViewCell {
     open override var frame: CGRect {didSet{if autoUpdateFrames && oldValue.size != frame.size {setFramesForSubviewsOnMainThread()}}}
     open func setFramesForSubviews() {}
-    open func setFramesForSubviewsOnMainThread() {NGAExecute.performOnMainThread(setFramesForSubviews)}
+    open func setFramesForSubviewsOnMainThread() {NGAExecute.performOnMainQueue(setFramesForSubviews)}
     public override init(frame: CGRect) {
         super.init(frame: frame)
         postInit()
@@ -54,26 +41,12 @@ open class NGACollectionViewCell: UICollectionViewCell {
     }
     open var autoUpdateFrames:Bool = true {didSet{if autoUpdateFrames && !oldValue {setFramesForSubviewsOnMainThread()}}}
     
-//    public override var frame: CGRect {didSet{if autoUpdateFrames && oldValue.size != frame.size {setNeedsLayout()}}}
-//    public func setFramesForSubviews() {}
-//    public func setFramesForSubviewsOnMainThread() {NGAExecute.performOnMainThread(setFramesForSubviews)}
-//    public override init(frame: CGRect) {
-//        super.init(frame: frame)
-//        postInit()
-//    }
-//    public convenience required init?(coder aDecoder: NSCoder) {self.init()}
-//    public func postInit() {}
-//    public override func layoutSubviews() {
-//        super.layoutSubviews()
-//        setFramesForSubviews()
-//    }
-//    public var autoUpdateFrames:Bool = true {didSet{if autoUpdateFrames && !oldValue {setNeedsLayout()}}}
 }
 
 open class NGACollectionReusableView: UICollectionReusableView {
     open override var frame: CGRect {didSet{if autoUpdateFrames && oldValue.size != frame.size {setFramesForSubviewsOnMainThread()}}}
     open func setFramesForSubviews() {}
-    open func setFramesForSubviewsOnMainThread() {NGAExecute.performOnMainThread(setFramesForSubviews)}
+    open func setFramesForSubviewsOnMainThread() {NGAExecute.performOnMainQueue(setFramesForSubviews)}
     public override init(frame: CGRect) {
         super.init(frame: frame)
         postInit()
@@ -90,7 +63,7 @@ open class NGACollectionReusableView: UICollectionReusableView {
 open class NGATableViewCell: UITableViewCell {
     open override var frame: CGRect {didSet{if autoUpdateFrames && oldValue.size != frame.size {setFramesForSubviewsOnMainThread()}}}
     open func setFramesForSubviews() {}
-    open func setFramesForSubviewsOnMainThread() {NGAExecute.performOnMainThread(setFramesForSubviews)}
+    open func setFramesForSubviewsOnMainThread() {NGAExecute.performOnMainQueue(setFramesForSubviews)}
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         postInit()
@@ -109,7 +82,7 @@ open class NGATableViewCell: UITableViewCell {
 open class NGAScrollView: UIScrollView {
     open override var frame: CGRect {didSet{if autoUpdateFrames && oldValue.size != frame.size {setFramesForSubviewsOnMainThread()}}}
     open func setFramesForSubviews() {}
-    open func setFramesForSubviewsOnMainThread() {NGAExecute.performOnMainThread(setFramesForSubviews)}
+    open func setFramesForSubviewsOnMainThread() {NGAExecute.performOnMainQueue(setFramesForSubviews)}
     public override init(frame: CGRect) {
         super.init(frame: frame)
         postInit()

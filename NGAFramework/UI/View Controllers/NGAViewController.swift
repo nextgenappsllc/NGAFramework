@@ -17,7 +17,7 @@ open class NGAViewController: UIViewController {
     open var adjustsForKeyboard = false {
         didSet{
             if oldValue != adjustsForKeyboard {
-                NGAExecute.performOnMainThread() {self.setupAdjustsForKeyboard(self.adjustsForKeyboard)}
+                NGAExecute.performOnMainQueue() {self.setupAdjustsForKeyboard(self.adjustsForKeyboard)}
             }
         }
     }
@@ -186,17 +186,17 @@ open class NGAViewController: UIViewController {
                 presenter.present(viewControllerToPresent, animated: flag, completion: completion)
             } else {super.present(viewControllerToPresent, animated: flag, completion: completion)}
         }
-        NGAExecute.performOnMainThread(block)
+        NGAExecute.performOnMainQueue(block)
     }
     
     
     open func pushToViewController(_ viewController:UIViewController, animated:Bool = true) {
-        NGAExecute.performOnMainThread() {self.navigationController?.pushViewController(viewController, animated: animated)}
+        NGAExecute.performOnMainQueue() {self.navigationController?.pushViewController(viewController, animated: animated)}
         
     }
     
     open func popViewController() {
-        NGAExecute.performOnMainThread() {let _=self.navigationController?.popViewController(animated: true)}
+        NGAExecute.performOnMainQueue() {let _=self.navigationController?.popViewController(animated: true)}
     }
     
     open func resignAllFirstResponders() {
@@ -250,7 +250,7 @@ open class NGAViewController: UIViewController {
 public extension UIViewController {
     //MARK: Pop up
     public func flash(title:String?, message:String?, cancelTitle:String?, actions:UIAlertAction?...) {
-        NGAExecute.performOnMainThread() { () -> Void in
+        NGAExecute.performOnMainQueue() { () -> Void in
             let alertController = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.alert)
             let cancelBlock:AlertActionBlock = {(action:UIAlertAction) -> Void in }
             let cancelAction = UIAlertAction(title: cancelTitle, style: UIAlertActionStyle.cancel, handler: cancelBlock)
@@ -261,7 +261,7 @@ public extension UIViewController {
     }
     
     public func flash(title:String?, message:String?, cancelTitle:String?, actions:[UIAlertAction]) {
-        NGAExecute.performOnMainThread() { () -> Void in
+        NGAExecute.performOnMainQueue() { () -> Void in
             let alertController = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.alert)
             let cancelBlock:AlertActionBlock = {(action:UIAlertAction) -> Void in }
             let cancelAction = UIAlertAction(title: cancelTitle, style: UIAlertActionStyle.cancel, handler: cancelBlock)

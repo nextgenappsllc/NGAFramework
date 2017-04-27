@@ -89,7 +89,7 @@ open class NGACollectionViewController: NGAViewController, UICollectionViewDeleg
     
     open func reloadCollectionViewOnMainThread(_ collectionView:UICollectionView? = nil) {
         let temp = collectionView ?? self.collectionView
-        NGAExecute.performOnMainThread(temp.reloadData)
+        NGAExecute.performOnMainQueue(temp.reloadData)
 //        dispatch_async(dispatch_get_main_queue(), mainBlock)
     }
     

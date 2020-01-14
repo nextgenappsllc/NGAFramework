@@ -117,7 +117,7 @@ open class NGATapView: NGAContainerView {
 
 open class NGATapLabelView: NGATapView {
     
-    open let label = UILabel()
+    public let label = UILabel()
     open var text:String? {get{return label.text}set{label.text = newValue; setFramesForSubviewsOnMainThread()}}
     open var attributedText:NSAttributedString? {get{return label.attributedText}set{label.attributedText = newValue; setFramesForSubviewsOnMainThread()}}
     open var textColor:UIColor? {get{return label.textColor}set{label.textColor = newValue}}
@@ -151,7 +151,7 @@ open class NGATapLabelView: NGATapView {
 
 
 open class NGATapImageView: NGATapView {
-    open let imageView = UIImageView()
+    public let imageView = UIImageView()
     open var image:UIImage? {get{return imageView.image}set{imageView.image = alwaysTemplate ? newValue?.withRenderingMode(.alwaysTemplate) : newValue}}
     open var imageTintColor:UIColor? {get{return imageView.tintColor}set{imageView.tintColor = newValue}}
     open var imageContentMode:UIView.ContentMode {get{return imageView.contentMode} set{imageView.contentMode = newValue}}

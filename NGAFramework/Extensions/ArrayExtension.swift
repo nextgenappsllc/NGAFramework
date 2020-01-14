@@ -267,7 +267,7 @@ public extension Array where Element : Equatable {
     
     public mutating func removeElement(_ e:Element?) {
         if e == nil {return}
-        if let i = index(of: e!) {
+        if let i = firstIndex(of: e!) {
             remove(at: i)
         }
     }

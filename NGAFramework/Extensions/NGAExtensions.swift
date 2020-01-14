@@ -54,7 +54,7 @@ extension CLLocationCoordinate2D : Equatable {}
 
 
 public extension UITextField {
-    public var isEmpty:Bool {
+    var isEmpty:Bool {
         get {
             return text?.trim().isEmpty ?? true
         }

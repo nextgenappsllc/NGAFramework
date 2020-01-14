@@ -276,7 +276,7 @@ open class NGAWKWebView: WKWebView {
         guard htmlData != nil && String.isNotEmpty(path),
             let url = htmlCacheDirectory.stringByAddingPathComponent(path!.crc32CheckSum())?.appendIfNotNil(".html").fileUrl , htmlData != (try? Data(contentsOf: url))
             else {return false}
-        try? htmlData?.write(to: url, options: [.atomic])
+        ((try? htmlData?.write(to: url, options: [.atomic])) as ()??)
         return true
     }
     

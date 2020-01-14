@@ -9,14 +9,14 @@
 import Foundation
 
 open class CompassView: NGAView {
-    open let viewMask = UIView()
-    open let nLabel = UILabel()
-    open let eLabel = UILabel()
-    open let sLabel = UILabel()
-    open let wLabel = UILabel()
-    open let pointer = UIView()
-    open let degreesLabel = UILabel()
-    open let titleLabel = UILabel()
+    public let viewMask = UIView()
+    public let nLabel = UILabel()
+    public let eLabel = UILabel()
+    public let sLabel = UILabel()
+    public let wLabel = UILabel()
+    public let pointer = UIView()
+    public let degreesLabel = UILabel()
+    public let titleLabel = UILabel()
     open var title:String? {
         didSet {
             setFramesForSubviews()

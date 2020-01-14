@@ -29,10 +29,16 @@ public extension String {
     }
     
     
-    public var characterArray:[Character] {get{return Array(characters)}}
-    public var substrings:[String] {get {return characterArray.mapToNewArray(iteratorBlock: { (element) -> String? in
-        return String(element)
-    })}}
+//    public var characterArray:[Character] {get{return Array(characters)}}
+//    public var substrings:[String] {get {return characterArray.mapToNewArray(iteratorBlock: { (element) -> String? in
+//        return String(element)
+//    })}}
+    var substrings:[String] {
+        get {
+            return self.map { String($0) }
+        }
+        
+    }
     
     public subscript (i: Int) -> String? {
         get{return substrings.itemAtIndex(i)}
@@ -45,9 +51,9 @@ public extension String {
     
     public subscript (r: Range<Int>) -> String {
         var range = r
-        let letterCount = characters.count
+        let letterCount = self.count
         if range.upperBound > letterCount { range = (range.lowerBound..<letterCount) }
-        return substring(with: characters.index(startIndex, offsetBy: range.lowerBound)..<characters.index(startIndex, offsetBy: range.upperBound))
+        return substring(with: index(startIndex, offsetBy: range.lowerBound)..<index(startIndex, offsetBy: range.upperBound))
 //        var range = r
 //        let letterCount = characters.count
 //        if range.upperBound > letterCount { range.upperBound = letterCount }
@@ -71,7 +77,7 @@ public extension String {
         return temp
     }
     
-    public var length:Int {get {return self.characters.count}}
+    public var length:Int {get {return self.count}}
     
     
     public var isValidEmailFormat:Bool {
@@ -116,7 +122,7 @@ public extension String {
     public func regexNumberOfMatches(_ pattern:String, patternOptions:NSRegularExpression.Options = NSRegularExpression.Options.init(rawValue: 0), matchingOptions:NSRegularExpression.MatchingOptions = NSRegularExpression.MatchingOptions.init(rawValue: 0)) -> Int? {
         do {
             let regex = try NSRegularExpression(pattern: pattern, options: patternOptions)
-            return regex.numberOfMatches(in: self, options: matchingOptions, range: NSMakeRange(0, self.characters.count))
+            return regex.numberOfMatches(in: self, options: matchingOptions, range: NSMakeRange(0, self.count))
         } catch {
             return nil
         }
@@ -665,9 +671,9 @@ private struct HTMLEntities {
     //     decode("&foo;")    --> nil
     fileprivate static func decode(_ entity : String) -> Character? {
         if entity.hasPrefix("&#x") || entity.hasPrefix("&#X"){
-            return decodeNumeric(entity.substring(from: entity.characters.index(entity.startIndex, offsetBy: 3)), base: 16)
+            return decodeNumeric(entity.substring(from: entity.index(entity.startIndex, offsetBy: 3)), base: 16)
         } else if entity.hasPrefix("&#") {
-            return decodeNumeric(entity.substring(from: entity.characters.index(entity.startIndex, offsetBy: 2)), base: 10)
+            return decodeNumeric(entity.substring(from: entity.index(entity.startIndex, offsetBy: 2)), base: 10)
         } else {
             return HTMLEntities.characterEntities[entity]
         }

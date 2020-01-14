@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 
 open class NGAGradientView: NGAView {
-    open let gradientLayer = CAGradientLayer()
+    public let gradientLayer = CAGradientLayer()
     open var colors:[UIColor]? {get{return convertCGColorsToUIColors(gradientLayer.colors as SwiftArray?)} set{gradientLayer.colors = convertUIColorsToCGColors(newValue)}}
     open var locations:[NSNumber]? {get{return gradientLayer.locations} set{gradientLayer.locations = newValue}}
     open var endPoint: CGPoint {get{return gradientLayer.endPoint} set{gradientLayer.endPoint = newValue}}

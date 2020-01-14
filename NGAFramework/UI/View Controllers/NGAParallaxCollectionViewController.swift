@@ -66,7 +66,7 @@ open class NGAParallaxCollectionViewController: NGACollectionViewController {
             for cell in visibleCells {
                 setContentOffsetForCell(cell as? NGAParallaxCollectionViewCell)
             }
-            let horizontalScroll = (collectionView.collectionViewLayout as? UICollectionViewFlowLayout)?.scrollDirection == UICollectionViewScrollDirection.horizontal
+            let horizontalScroll = (collectionView.collectionViewLayout as? UICollectionViewFlowLayout)?.scrollDirection == UICollectionView.ScrollDirection.horizontal
             let shouldRefresh = horizontalScroll ? scrollView.isLeftOfContentByMoreRatio(thresholdRatio) : scrollView.isAboveContentByMoreThanRatio(thresholdRatio)
             let shouldLoadMoreContent = horizontalScroll ? scrollView.isRightOfContentByMoreThanRatio(thresholdRatio) : scrollView.isBelowContentByMoreThanRatio(thresholdRatio)
             
@@ -175,7 +175,7 @@ open class NGAParallaxCollectionViewCell:NGACollectionViewCell {
     open lazy var imageView:UIImageView = {
         var temp = UIImageView()
 //        temp.backgroundColor = UIColor.redColor()
-        temp.contentMode = UIViewContentMode.scaleAspectFill
+        temp.contentMode = UIView.ContentMode.scaleAspectFill
         temp.clipsToBounds = false
         return temp
         }()
@@ -190,7 +190,7 @@ open class NGAParallaxCollectionViewCell:NGACollectionViewCell {
         }()
     
     open lazy var blurView:UIVisualEffectView = {
-        var temp = UIVisualEffectView(effect: UIBlurEffect(style: UIBlurEffectStyle.light))
+        var temp = UIVisualEffectView(effect: UIBlurEffect(style: UIBlurEffect.Style.light))
 //        var temp = UIVisualEffectView(effect: UIBlurEffect(style: UIBlurEffectStyle.Dark))
         temp.clipsToBounds = true
         temp.layer.cornerRadius = 5.0

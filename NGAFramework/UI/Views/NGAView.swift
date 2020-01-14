@@ -64,7 +64,7 @@ open class NGATableViewCell: UITableViewCell {
     open override var frame: CGRect {didSet{if autoUpdateFrames && oldValue.size != frame.size {setFramesForSubviewsOnMainThread()}}}
     open func setFramesForSubviews() {}
     open func setFramesForSubviewsOnMainThread() {NGAExecute.performOnMainQueue(setFramesForSubviews)}
-    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         postInit()
     }

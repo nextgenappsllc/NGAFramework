@@ -579,7 +579,7 @@ open class NGASwitchBarItem: UIView {
     }
     open lazy var imageView:UIImageView = {
        var temp = UIImageView()
-        temp.contentMode = UIViewContentMode.scaleAspectFit
+        temp.contentMode = UIView.ContentMode.scaleAspectFit
         return temp
     }()
     open lazy var label:UILabel = {
@@ -609,7 +609,7 @@ open class NGASwitchBarItem: UIView {
         }
     }
     
-    open func switchBarItemTapped() {
+    @objc open func switchBarItemTapped() {
         if delegate != nil {
             delegate?.buttonPressed(self)
         }
@@ -636,7 +636,7 @@ open class NGASwitchBarItem: UIView {
 //            var captionedImage = image?.captionedImageWith(caption: title)
             let captionedImage = image?.captionedImageWith(caption: title, size: imageSize, andFont: nil)
             if captionedImage != nil {
-                imageView.image = captionedImage?.withRenderingMode(UIImageRenderingMode.alwaysTemplate)
+                imageView.image = captionedImage?.withRenderingMode(UIImage.RenderingMode.alwaysTemplate)
                 captionedImagePresent = true
                 if vertical {
                     label.alpha = 0

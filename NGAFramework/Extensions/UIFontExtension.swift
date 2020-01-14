@@ -10,7 +10,7 @@ import Foundation
 
 public extension UIFont {
     
-    @nonobjc public static let attributeKey = NSFontAttributeName
+    @nonobjc public static let attributeKey = convertFromNSAttributedStringKey(NSAttributedString.Key.font)
     
     public func fitFontToSize(_ size:CGSize, forString string:String?) -> UIFont {
         if String.isEmptyOrNil(string) || size.width == 0 || size.height == 0 {
@@ -22,7 +22,7 @@ public extension UIFont {
         var testSize = CGSize.zero
         repeat {
             fontSize += increment
-            testSize =? string?.size(attributes: [UIFont.attributeKey: withSize(fontSize)])
+            testSize =? string?.size(withAttributes: convertToOptionalNSAttributedStringKeyDictionary([UIFont.attributeKey: withSize(fontSize)]))
         } while testSize.height < size.height && testSize.width < size.width
         fontSize -= increment
         return withSize(fontSize)
@@ -72,4 +72,15 @@ public extension UIFont {
         }
     }
     
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertFromNSAttributedStringKey(_ input: NSAttributedString.Key) -> String {
+	return input.rawValue
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertToOptionalNSAttributedStringKeyDictionary(_ input: [String: Any]?) -> [NSAttributedString.Key: Any]? {
+	guard let input = input else { return nil }
+	return Dictionary(uniqueKeysWithValues: input.map { key, value in (NSAttributedString.Key(rawValue: key), value)})
 }

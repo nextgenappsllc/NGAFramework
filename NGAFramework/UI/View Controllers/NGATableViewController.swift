@@ -12,11 +12,11 @@ import UIKit
 open class NGATableViewController: NGAViewController, UITableViewDataSource, UITableViewDelegate {
     
     open lazy var tableView:UITableView = {
-        let tempTableView:UITableView = UITableView(frame: self.contentView.bounds, style: UITableViewStyle.plain)
+        let tempTableView:UITableView = UITableView(frame: self.contentView.bounds, style: UITableView.Style.plain)
         tempTableView.register(UITableViewCell.self, forCellReuseIdentifier: "Cell")
         tempTableView.delegate = self
         tempTableView.dataSource = self
-        tempTableView.separatorStyle = UITableViewCellSeparatorStyle.none
+        tempTableView.separatorStyle = UITableViewCell.SeparatorStyle.none
         tempTableView.backgroundColor = UIColor.white
         tempTableView.autoresizesSubviews = true
         //// if iOS 9

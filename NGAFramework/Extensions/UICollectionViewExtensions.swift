@@ -18,12 +18,12 @@ public extension UICollectionView {
     }
     public func registerHeaderClasses(_ dict:[String:AnyClass]) {
         for (key, value) in dict {
-            register(value, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: key)
+            register(value, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: key)
         }
     }
     public func registerFooterClasses(_ dict:[String:AnyClass]) {
         for (key, value) in dict {
-            register(value, forSupplementaryViewOfKind: UICollectionElementKindSectionFooter, withReuseIdentifier: key)
+            register(value, forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: key)
         }
     }
     public func rectForCellAtIndexPath(_ indexPath:IndexPath) -> CGRect? {

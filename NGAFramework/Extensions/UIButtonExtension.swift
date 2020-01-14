@@ -46,7 +46,7 @@ public extension UIButton {
         let finalImage = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
         
-        self.setImage(finalImage, for: UIControlState())
+        self.setImage(finalImage, for: UIControl.State())
         newFrame.size.height = totalFrame.size.height
         self.frame = newFrame
         

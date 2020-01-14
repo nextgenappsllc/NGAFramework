@@ -106,7 +106,7 @@ open class NGATapView: NGAContainerView {
     }
     
     
-    open func userTapped(_ sender:Any?) {
+    @objc open func userTapped(_ sender:Any?) {
         //        print("tapped")
         callBack?()
         callBackWithSender?(self)
@@ -154,7 +154,7 @@ open class NGATapImageView: NGATapView {
     open let imageView = UIImageView()
     open var image:UIImage? {get{return imageView.image}set{imageView.image = alwaysTemplate ? newValue?.withRenderingMode(.alwaysTemplate) : newValue}}
     open var imageTintColor:UIColor? {get{return imageView.tintColor}set{imageView.tintColor = newValue}}
-    open var imageContentMode:UIViewContentMode {get{return imageView.contentMode} set{imageView.contentMode = newValue}}
+    open var imageContentMode:UIView.ContentMode {get{return imageView.contentMode} set{imageView.contentMode = newValue}}
     open var alwaysTemplate:Bool = true {didSet{if alwaysTemplate != oldValue {imageView.image = imageView.image}}}
     
     open override func postInit() {

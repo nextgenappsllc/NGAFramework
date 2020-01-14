@@ -25,7 +25,7 @@ open class NGACollectionViewController: NGAViewController, UICollectionViewDeleg
     
     open lazy var collectionView:UICollectionView = {
         var layout = UICollectionViewFlowLayout()
-        layout.scrollDirection = UICollectionViewScrollDirection.vertical
+        layout.scrollDirection = UICollectionView.ScrollDirection.vertical
         var temp = UICollectionView(frame: self.contentView.bounds, collectionViewLayout: layout)
         return temp
         }()
@@ -48,8 +48,8 @@ open class NGACollectionViewController: NGAViewController, UICollectionViewDeleg
     
     open func registerClasses() {
         collectionView.register(collectionViewCellClass, forCellWithReuseIdentifier: "Cell")
-        collectionView.register(collectionViewHeaderClass, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: "Header")
-        collectionView.register(collectionViewFooterClass, forSupplementaryViewOfKind: UICollectionElementKindSectionFooter, withReuseIdentifier: "Footer")
+        collectionView.register(collectionViewHeaderClass, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "Header")
+        collectionView.register(collectionViewFooterClass, forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: "Footer")
     }
     
     open override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {

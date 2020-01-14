@@ -106,11 +106,11 @@ public extension UIImage {
     public var aspectRatioHtoW:CGFloat {get {return size.aspectRatioHtoW}}
     
     public func toJPEGData(_ quality:CGFloat = 1.0) -> Data? {
-        return UIImageJPEGRepresentation(self, quality)
+        return self.jpegData(compressionQuality: quality)
     }
     
     public func toPNGData() -> Data? {
-        return UIImagePNGRepresentation(self)
+        return self.pngData()
     }
     
     

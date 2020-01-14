@@ -28,7 +28,7 @@ open class NGAWKWebViewController: NGAViewController, WKNavigationDelegate, WKUI
     
     
     open lazy var backButton:UIBarButtonItem = {
-        let temp = UIBarButtonItem(title: "Back", style: UIBarButtonItemStyle.plain, target: self, action: #selector(backButtonPressed))
+        let temp = UIBarButtonItem(title: "Back", style: UIBarButtonItem.Style.plain, target: self, action: #selector(backButtonPressed))
         return temp
     }()
     
@@ -46,7 +46,7 @@ open class NGAWKWebViewController: NGAViewController, WKNavigationDelegate, WKUI
         return temp
     }()
     
-    open var activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.gray)
+    open var activityIndicator = UIActivityIndicatorView(style: UIActivityIndicatorView.Style.gray)
     
     open override func viewDidLoad() {
         super.viewDidLoad()
@@ -164,7 +164,7 @@ open class NGAWKWebViewController: NGAViewController, WKNavigationDelegate, WKUI
     
     
     //MARK: Actions
-    open func backButtonPressed(){
+    @objc open func backButtonPressed(){
         self.webView.goBack()
     }
     

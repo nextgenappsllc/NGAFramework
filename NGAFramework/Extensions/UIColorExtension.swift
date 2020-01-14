@@ -9,7 +9,7 @@
 import Foundation
 
 public extension UIColor {
-    @nonobjc public static let textColorAttributeKey = NSForegroundColorAttributeName
+    @nonobjc public static let textColorAttributeKey = convertFromNSAttributedStringKey(NSAttributedString.Key.foregroundColor)
     public convenience init(hexString:String) {
         if let intValue = UInt(hexString, radix: 16) {
             let red = CGFloat((intValue & 0xFF0000) >> 16)/255.0
@@ -95,3 +95,8 @@ public extension UIColor {
     }
 }
 
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertFromNSAttributedStringKey(_ input: NSAttributedString.Key) -> String {
+	return input.rawValue
+}

@@ -116,7 +116,7 @@ open class NGASwitchBarTableViewController: NGATableViewController, NGASwitchBar
                 self.tableView.reloadData()
                 self.tableView.frame = startFrame2
                 if self.tableView.numberOfSections > 0 && self.tableView.numberOfRows(inSection: 0) > 0 {
-                    self.tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: UITableViewScrollPosition.top, animated: false)
+                    self.tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: UITableView.ScrollPosition.top, animated: false)
                     
                 }
                 UIView.animate(withDuration: 0.1, animations: { () -> Void in

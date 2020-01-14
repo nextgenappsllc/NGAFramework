@@ -25,16 +25,16 @@ open class NGAViewController: UIViewController {
     open func setupAdjustsForKeyboard(_ newValue:Bool) {
         let notificationCenter = NotificationCenter.default
         if newValue {
-            notificationCenter.addObserver(self, selector: #selector(keyboardDidShow(_:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
-            notificationCenter.addObserver(self, selector: #selector(keyboardDidHide(_:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+            notificationCenter.addObserver(self, selector: #selector(keyboardDidShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
+            notificationCenter.addObserver(self, selector: #selector(keyboardDidHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
         } else {
-            notificationCenter.removeObserver(self, name: NSNotification.Name.UIKeyboardWillShow, object: nil)
-            notificationCenter.removeObserver(self, name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+            notificationCenter.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
+            notificationCenter.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
         }
     }
     
     
-    open func keyboardDidShow(_ notification:Notification?) {
+    @objc open func keyboardDidShow(_ notification:Notification?) {
         guard let kbFrame = getKeyboardRectFromNotification(notification), let r = currentFirstResponder(), let w = window , viewIsCurrentlyDisplayed else {return}
         if !r.isDescendant(of: contentView) {return}
         let rFrame = r.frame
@@ -43,10 +43,10 @@ open class NGAViewController: UIViewController {
         if diff < 0 {contentView.top = contentViewFrame.origin.y + diff}
     }
     
-    open func keyboardDidHide(_ notification:Notification?) {setContentViewFrame()}
+    @objc open func keyboardDidHide(_ notification:Notification?) {setContentViewFrame()}
     
     fileprivate func getKeyboardRectFromNotification(_ notification:Notification?, beginFrame:Bool = false) -> CGRect? {
-        let key = beginFrame ? UIKeyboardFrameBeginUserInfoKey : UIKeyboardFrameEndUserInfoKey
+        let key = beginFrame ? UIResponder.keyboardFrameBeginUserInfoKey : UIResponder.keyboardFrameEndUserInfoKey
         return ((notification as NSNotification?)?.userInfo?[key] as? NSValue)?.cgRectValue
     }
     
@@ -251,9 +251,9 @@ public extension UIViewController {
     //MARK: Pop up
     public func flash(title:String?, message:String?, cancelTitle:String?, actions:UIAlertAction?...) {
         NGAExecute.performOnMainQueue() { () -> Void in
-            let alertController = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.alert)
+            let alertController = UIAlertController(title: title, message: message, preferredStyle: UIAlertController.Style.alert)
             let cancelBlock:AlertActionBlock = {(action:UIAlertAction) -> Void in }
-            let cancelAction = UIAlertAction(title: cancelTitle, style: UIAlertActionStyle.cancel, handler: cancelBlock)
+            let cancelAction = UIAlertAction(title: cancelTitle, style: UIAlertAction.Style.cancel, handler: cancelBlock)
             alertController.addAction(cancelAction)
             for action in actions {if let action = action {alertController.addAction(action)}}
             self.present(alertController, animated: true, completion: nil)
@@ -262,9 +262,9 @@ public extension UIViewController {
     
     public func flash(title:String?, message:String?, cancelTitle:String?, actions:[UIAlertAction]) {
         NGAExecute.performOnMainQueue() { () -> Void in
-            let alertController = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.alert)
+            let alertController = UIAlertController(title: title, message: message, preferredStyle: UIAlertController.Style.alert)
             let cancelBlock:AlertActionBlock = {(action:UIAlertAction) -> Void in }
-            let cancelAction = UIAlertAction(title: cancelTitle, style: UIAlertActionStyle.cancel, handler: cancelBlock)
+            let cancelAction = UIAlertAction(title: cancelTitle, style: UIAlertAction.Style.cancel, handler: cancelBlock)
             alertController.addAction(cancelAction)
             for action in actions {alertController.addAction(action)}
             self.present(alertController, animated: true, completion: nil)
@@ -353,7 +353,7 @@ open class NGAContentView: NGAScrollView, UIGestureRecognizerDelegate {
         contentSize = newBounds.size
     }
     
-    open func userTapped() {
+    @objc open func userTapped() {
         if self.resignFirstResponderOnTap {
             self.contentViewDelegate?.resignAllFirstResponders()
         }

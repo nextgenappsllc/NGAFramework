@@ -8,11 +8,11 @@
 
 import Foundation
 
-public extension UIFont {
+extension UIFont {
     
-    @nonobjc public static let attributeKey = convertFromNSAttributedStringKey(NSAttributedString.Key.font)
+    @nonobjc static let attributeKey = convertFromNSAttributedStringKey(NSAttributedString.Key.font)
     
-    public func fitFontToSize(_ size:CGSize, forString string:String?) -> UIFont {
+    func fitFontToSize(_ size:CGSize, forString string:String?) -> UIFont {
         if String.isEmptyOrNil(string) || size.width == 0 || size.height == 0 {
             return self.withSize(0)
         }
@@ -29,16 +29,16 @@ public extension UIFont {
         
     }
     
-    public func fontIncreasedByAmount(_ i:CGFloat?) -> UIFont {
+    func fontIncreasedByAmount(_ i:CGFloat?) -> UIFont {
         return fontChangeByAmount(i, inc: true)
     }
-    public func fontIncreasedByPercent(_ i:CGFloat?) -> UIFont {
+    func fontIncreasedByPercent(_ i:CGFloat?) -> UIFont {
         return fontChangeByPercent(i, inc: true)
     }
-    public func fontDecreasedByAmount(_ i:CGFloat?) -> UIFont {
+    func fontDecreasedByAmount(_ i:CGFloat?) -> UIFont {
         return fontChangeByAmount(i, inc: false)
     }
-    public func fontDecreasedByPercent(_ i:CGFloat?) -> UIFont {
+    func fontDecreasedByPercent(_ i:CGFloat?) -> UIFont {
         return fontChangeByPercent(i, inc: false)
     }
     fileprivate func fontChangeByAmount(_ i:CGFloat?, inc:Bool) -> UIFont {
@@ -53,7 +53,7 @@ public extension UIFont {
         return self.withSize(size)
     }
     
-    public class func allFontNames() -> [String] {
+    class func allFontNames() -> [String] {
         var temp:[String] = []
         for family in UIFont.familyNames {
             for fontName in UIFont.fontNames(forFamilyName: family) {
@@ -63,7 +63,7 @@ public extension UIFont {
         return temp
     }
     
-    public class func printAllFonts() {
+    class func printAllFonts() {
         for family in UIFont.familyNames {
             print("Family: \(family)")
             for fontName in UIFont.fontNames(forFamilyName: family) {

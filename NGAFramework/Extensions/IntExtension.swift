@@ -8,8 +8,8 @@
 
 import Foundation
 
-public extension Int {
-    public func times(_ b:(Int) -> Void) {
+extension Int {
+    func times(_ b:(Int) -> Void) {
         if self < 0 {return}
         for i in 0..<self {
             b(i)

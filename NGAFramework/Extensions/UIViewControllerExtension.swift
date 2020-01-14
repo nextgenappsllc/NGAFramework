@@ -9,14 +9,14 @@
 import Foundation
 import UIKit
 
-public extension UIViewController {
-    public var window:UIWindow? {
+extension UIViewController {
+    var window:UIWindow? {
         get {
             guard view != nil else {return nil}
             return view.window
         }
     }
-    public var topSuperview:UIView? {
+    var topSuperview:UIView? {
         get {
             guard view != nil else {return nil}
             return view.topView

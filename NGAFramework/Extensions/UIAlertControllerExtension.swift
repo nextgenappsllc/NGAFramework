@@ -8,9 +8,9 @@
 
 import Foundation
 
-public extension UIAlertController {
+extension UIAlertController {
     
-    public var messageAlignment:NSTextAlignment? {
+    var messageAlignment:NSTextAlignment? {
         get {
             return messageLabel?.textAlignment
         }
@@ -20,7 +20,7 @@ public extension UIAlertController {
     }
     
     
-    public var messageLabel:UILabel? {
+    var messageLabel:UILabel? {
         get {
             var messageLabel:UILabel? = nil
             var subviews:[UIView]? = view.subviews
@@ -35,7 +35,7 @@ public extension UIAlertController {
     }
     
     
-    public var titleAlignment:NSTextAlignment? {
+    var titleAlignment:NSTextAlignment? {
         get {
             return titleLabel?.textAlignment
         }
@@ -45,7 +45,7 @@ public extension UIAlertController {
     }
     
     
-    public var titleLabel:UILabel? {
+    var titleLabel:UILabel? {
         get {
             var messageLabel:UILabel? = nil
             var subviews:[UIView]? = view.subviews

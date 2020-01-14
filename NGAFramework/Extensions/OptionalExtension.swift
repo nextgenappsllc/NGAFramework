@@ -8,21 +8,21 @@
 
 import Foundation
 
-public extension Optional {
+extension Optional {
     
-    public var isNil:Bool {
+    var isNil:Bool {
         get {return self == nil}
     }
     
-    public var isNotNil:Bool {
+    var isNotNil:Bool {
         get {return !isNil}
     }
     
-    public func or(_ nonNilValue:Wrapped) -> Wrapped {
+    func or(_ nonNilValue:Wrapped) -> Wrapped {
         return self ?? nonNilValue
     }
     
-//    public func printToLog() {
+//    func printToLog() {
 //        if let s = self {print(s)}
 //        else {print(self)}
 //    }

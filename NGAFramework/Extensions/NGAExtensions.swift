@@ -21,7 +21,7 @@ open class TimerExecutor {
     @objc open func executeBlock() {
         block?(timer)
     }
-    public init() {}
+    init() {}
 }
 
 
@@ -53,7 +53,7 @@ extension CLLocationCoordinate2D : Equatable {}
 
 
 
-public extension UITextField {
+extension UITextField {
     var isEmpty:Bool {
         get {
             return text?.trim().isEmpty ?? true

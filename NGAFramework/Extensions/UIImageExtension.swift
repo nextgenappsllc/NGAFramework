@@ -8,27 +8,27 @@
 
 import Foundation
 
-public extension UIImage {
+extension UIImage {
     
     
-    public func captionedImageWith(caption:String?) -> UIImage {
+    func captionedImageWith(caption:String?) -> UIImage {
         let font = UIFont(name: NGAFontNames.ArialRoundedMTBold, size: 12.0)
         return self.captionedImageWith(caption: caption, andFont: font)
     }
     
     
     
-    public func captionedImageWith(caption:String?, andFont font:UIFont?) -> UIImage {
+    func captionedImageWith(caption:String?, andFont font:UIFont?) -> UIImage {
         
         return self.captionedImageWith(caption: caption, size: self.size, andFont: font)
     }
     
-    public func captionedImageWith(caption:String?, size:CGSize, andFont font:UIFont?) -> UIImage {
+    func captionedImageWith(caption:String?, size:CGSize, andFont font:UIFont?) -> UIImage {
         return captionedImageWith(caption: caption, textHeightRatio: 0.3, size: size, andFont: font)
     }
     
     
-    public func captionedImageWith(caption:String?, textHeightRatio:CGFloat, size:CGSize, andFont font:UIFont?) -> UIImage {
+    func captionedImageWith(caption:String?, textHeightRatio:CGFloat, size:CGSize, andFont font:UIFont?) -> UIImage {
         //        println(size)
         func frameForLabel() -> CGRect {
             var temp = CGRect.zero
@@ -67,7 +67,7 @@ public extension UIImage {
     }
     
 
-    public func roundedImage(_ radius:CGFloat? = nil) -> UIImage {
+    func roundedImage(_ radius:CGFloat? = nil) -> UIImage {
         let smallSide = size.height > size.width ? size.width : size.height
         let r = radius ?? smallSide / 30
         var temp = self
@@ -85,7 +85,7 @@ public extension UIImage {
     
     
     /// maxSize is the max pixel count for any side
-    public func compressTo(_ maxSize:CGFloat) -> UIImage {
+    func compressTo(_ maxSize:CGFloat) -> UIImage {
         let largeSide = size.height > size.width ? size.height : size.width
         if largeSide > maxSize
         {
@@ -102,22 +102,22 @@ public extension UIImage {
         }
     }
     
-    public var aspectRatioWToH:CGFloat {get {return size.aspectRatioWToH}}
-    public var aspectRatioHtoW:CGFloat {get {return size.aspectRatioHtoW}}
+    var aspectRatioWToH:CGFloat {get {return size.aspectRatioWToH}}
+    var aspectRatioHtoW:CGFloat {get {return size.aspectRatioHtoW}}
     
-    public func toJPEGData(_ quality:CGFloat = 1.0) -> Data? {
+    func toJPEGData(_ quality:CGFloat = 1.0) -> Data? {
         return self.jpegData(compressionQuality: quality)
     }
     
-    public func toPNGData() -> Data? {
+    func toPNGData() -> Data? {
         return self.pngData()
     }
     
     
 }
 
-public extension UIImageView {
-    public func sizeToFitImage(_ s:CGSize? = nil) -> CGSize {
+extension UIImageView {
+    func sizeToFitImage(_ s:CGSize? = nil) -> CGSize {
         var s = s ?? frameSize;let imageSize = image?.size ?? CGSize.zero
         guard !imageSize.aSideIsZero() else {return CGSize.zero}
         if imageSize.aspectRatioWToH > s.aspectRatioWToH {

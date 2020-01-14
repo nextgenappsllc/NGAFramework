@@ -264,10 +264,10 @@ public enum FontName:String {
 }
 
 public extension UIFont {
-    public convenience init?(name:FontName, size: CGFloat) {
+    convenience init?(name:FontName, size: CGFloat) {
         self.init(name: name.rawValue, size: size)
     }
-    public class func printFontNameEnum() {
+    class func printFontNameEnum() {
         print("public enum FontName:String {")
         let familyNames = UIFont.familyNames.sorted()
         for family in familyNames {

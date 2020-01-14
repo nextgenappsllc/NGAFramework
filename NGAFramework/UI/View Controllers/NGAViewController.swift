@@ -249,7 +249,7 @@ open class NGAViewController: UIViewController {
 
 public extension UIViewController {
     //MARK: Pop up
-    public func flash(title:String?, message:String?, cancelTitle:String?, actions:UIAlertAction?...) {
+    func flash(title:String?, message:String?, cancelTitle:String?, actions:UIAlertAction?...) {
         NGAExecute.performOnMainQueue() { () -> Void in
             let alertController = UIAlertController(title: title, message: message, preferredStyle: UIAlertController.Style.alert)
             let cancelBlock:AlertActionBlock = {(action:UIAlertAction) -> Void in }
@@ -260,7 +260,7 @@ public extension UIViewController {
         }
     }
     
-    public func flash(title:String?, message:String?, cancelTitle:String?, actions:[UIAlertAction]) {
+    func flash(title:String?, message:String?, cancelTitle:String?, actions:[UIAlertAction]) {
         NGAExecute.performOnMainQueue() { () -> Void in
             let alertController = UIAlertController(title: title, message: message, preferredStyle: UIAlertController.Style.alert)
             let cancelBlock:AlertActionBlock = {(action:UIAlertAction) -> Void in }

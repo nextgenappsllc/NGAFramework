@@ -8,9 +8,9 @@
 
 import Foundation
 
-public extension CGSize {
+extension CGSize {
     
-//    public mutating func fitInCircleWithRadius(radius:CGFloat, xInset:CGFloat = 0, yInset:CGFloat = 0) {
+//    mutating func fitInCircleWithRadius(radius:CGFloat, xInset:CGFloat = 0, yInset:CGFloat = 0) {
 //        let wToHRatio = width * height == 0 ? 1 : width / height
 //        let hToWRatio = 1 / wToHRatio
 //        var w = sqrt((radius * radius) / (1 + (hToWRatio * hToWRatio)))
@@ -22,7 +22,7 @@ public extension CGSize {
 //        self = newSize
 //    }
     
-    public mutating func fitInCircleWithRadius(_ radius:CGFloat, xInset:CGFloat = 0, yInset:CGFloat = 0) {
+    mutating func fitInCircleWithRadius(_ radius:CGFloat, xInset:CGFloat = 0, yInset:CGFloat = 0) {
 //        let wToHRatio = width * height == 0 ? 1 : width / height
 //        let hToWRatio = 1 / wToHRatio
         var w = sqrt((radius * radius) / 2)
@@ -33,20 +33,20 @@ public extension CGSize {
         self = newSize
     }
 
-    public func aSideIsZero() -> Bool {
+    func aSideIsZero() -> Bool {
         return height == 0 || width == 0
     }
     
-    public var shortSide:CGFloat {
+    var shortSide:CGFloat {
         get {return width > height ? height : width}
     }
     
-    public var longSide:CGFloat {
+    var longSide:CGFloat {
         get {return width > height ? width : height}
     }
     
-    public var aspectRatioWToH:CGFloat {get {return safeDivide(numerator: width, denominator: height)}}
-    public var aspectRatioHtoW:CGFloat {get {return safeDivide(numerator: height, denominator: width)}}
+    var aspectRatioWToH:CGFloat {get {return safeDivide(numerator: width, denominator: height)}}
+    var aspectRatioHtoW:CGFloat {get {return safeDivide(numerator: height, denominator: width)}}
     
     
     fileprivate func safeDivide(numerator num:CGFloat, denominator den:CGFloat) -> CGFloat {
@@ -54,28 +54,28 @@ public extension CGSize {
         return num / den
     }
     
-    public static func squareSizeWithLength(_ l:CGFloat) -> CGSize{
+    static func squareSizeWithLength(_ l:CGFloat) -> CGSize{
         return l.toEqualSize()
     }
     
-    public static func makeFromHeight(_ h:CGFloat, aspectRatioWToH:CGFloat) -> CGSize {
+    static func makeFromHeight(_ h:CGFloat, aspectRatioWToH:CGFloat) -> CGSize {
         return CGSize(width: h * aspectRatioWToH, height: h)
     }
     
     
-    public static func makeFromWidth(_ w:CGFloat, aspectRatioHToW:CGFloat) -> CGSize {
+    static func makeFromWidth(_ w:CGFloat, aspectRatioHToW:CGFloat) -> CGSize {
         return CGSize(width: w, height: w * aspectRatioHToW)
     }
     
-    public static func makeFromHeight(_ h:CGFloat, aspectRatioHToW:CGFloat) -> CGSize {
+    static func makeFromHeight(_ h:CGFloat, aspectRatioHToW:CGFloat) -> CGSize {
         return CGSize(width: h / aspectRatioHToW, height: h)
     }
     
     
-    public static func makeFromWidth(_ w:CGFloat, aspectRatioWToH:CGFloat) -> CGSize {
+    static func makeFromWidth(_ w:CGFloat, aspectRatioWToH:CGFloat) -> CGSize {
         return CGSize(width: w, height: w / aspectRatioWToH)
     }
     
-    public var diagonalLength:CGFloat {get{return sqrt(width * width + height * height)}}
+    var diagonalLength:CGFloat {get{return sqrt(width * width + height * height)}}
     
 }

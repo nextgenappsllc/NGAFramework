@@ -29,9 +29,9 @@ fileprivate func >= <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
 }
 
 
-public extension Array {
+extension Array {
     
-    @discardableResult public mutating func appendIfNotNil(_ element:Element?) -> Array<Element> {
+    @discardableResult mutating func appendIfNotNil(_ element:Element?) -> Array<Element> {
         if element != nil {append(element!)}
         return self
     }
@@ -46,7 +46,7 @@ public extension Array {
     //        return self.contains(element!)
     //    }
     
-    //    public func containsElement(_ e:Element?) -> Bool {
+    //    func containsElement(_ e:Element?) -> Bool {
     //        for element in self {
     //            if let obj1 = e as? String, let obj2 = element as? String {if obj1 == obj2 {return true}}
     //            else if let obj1 = e as? Int, let obj2 = element as? Int {if obj1 == obj2 {return true}}
@@ -59,7 +59,7 @@ public extension Array {
     //        return false
     //    }
     
-    public func containsElement<T:Equatable>(_ e:T?,checkType:Bool = true) -> Bool {
+    func containsElement<T:Equatable>(_ e:T?,checkType:Bool = true) -> Bool {
         guard let e = e else {return false}
         for element in self {
             var eq = equals(l:e , r: element)
@@ -72,7 +72,7 @@ public extension Array {
         return false
     }
     
-    public func containsElement<T>(_ e:T?,checkType:Bool = true) -> Bool {
+    func containsElement<T>(_ e:T?,checkType:Bool = true) -> Bool {
         guard let e = e as? Element else {return false}
         for element in self {
             let eq = equals(l:e , r: element)
@@ -81,28 +81,28 @@ public extension Array {
         return false
     }
     
-//    public func containsEquatable<T>(_ obj:T?) -> Bool where T:Equatable {
+//    func containsEquatable<T>(_ obj:T?) -> Bool where T:Equatable {
 //        for element in self {if let e = element as? T {if e == obj {return true}}}
 //        return false
 //    }
     
-    public func itemAtIndex(_ i:Int) -> Element? {
+    func itemAtIndex(_ i:Int) -> Element? {
         let c = count
         if i >= 0 && i < c {
             return self[i]
         } else {return nil}
     }
     
-    public func itemAtIndexWithClass<T>(_ i:Int, c:T.Type) -> T? {
+    func itemAtIndexWithClass<T>(_ i:Int, c:T.Type) -> T? {
         return itemAtIndex(i) as? T
     }
     
     
-    @discardableResult public mutating func safeRemove(_ i:Int?) -> Element? {
+    @discardableResult mutating func safeRemove(_ i:Int?) -> Element? {
         if i != nil && i < count && i >= 0 {return remove(at: i!)} else {return nil}
     }
     
-    @discardableResult public mutating func safeSet(_ i:Int?, toElement element:Element?) -> [Element] {
+    @discardableResult mutating func safeSet(_ i:Int?, toElement element:Element?) -> [Element] {
         if let e = element, let index = i {
             if index >= count {
                 append(e)
@@ -115,16 +115,16 @@ public extension Array {
         return self
     }
     
-    @discardableResult public mutating func shift() -> Element? {
+    @discardableResult mutating func shift() -> Element? {
         return safeRemove(0)
     }
     
-    @discardableResult public mutating func unshift(_ element:Element?) -> Array {
+    @discardableResult mutating func unshift(_ element:Element?) -> Array {
         if let e = element {insert(e, at: 0)}
         return self
     }
     
-    public func toDictionary<T:Hashable>(_ keyForElement:((Element) -> T?)) -> [T:Element] {
+    func toDictionary<T:Hashable>(_ keyForElement:((Element) -> T?)) -> [T:Element] {
         var temp:[T:Element] = [:]
         for element in self {
             if let k = keyForElement(element) {temp[k] = element}
@@ -132,7 +132,7 @@ public extension Array {
         return temp
     }
     
-    public func toMultiDictionary<T:Hashable>(_ keysForElement:((Element) -> [T]?)) -> [T:[Element]] {
+    func toMultiDictionary<T:Hashable>(_ keysForElement:((Element) -> [T]?)) -> [T:[Element]] {
         var temp:[T:[Element]] = [:]
         for element in self {
             if let keys = keysForElement(element) {for key in keys {
@@ -145,13 +145,13 @@ public extension Array {
     }
     
     
-    public func collect<T>(initialValue iVal:T, iteratorBlock b:(_ total:T, _ element:Element) -> T) -> T {
+    func collect<T>(initialValue iVal:T, iteratorBlock b:(_ total:T, _ element:Element) -> T) -> T {
         var temp = iVal
         for element in self {temp = b(temp, element)}
         return temp
     }
     
-    public func mapToNewArray<T>(iteratorBlock b:(_ element:Element) -> T?) -> [T] {
+    func mapToNewArray<T>(iteratorBlock b:(_ element:Element) -> T?) -> [T] {
         var temp:[T] = []
         for val in self {
             let _=temp.appendIfNotNil(b(val))
@@ -159,7 +159,7 @@ public extension Array {
         return temp
     }
     
-    public mutating func mapInPlace(iteratorBlock b:(_ element:Element) -> Element?) {
+    mutating func mapInPlace(iteratorBlock b:(_ element:Element) -> Element?) {
         var vCount = count
         var i = 0
         while i < vCount {
@@ -173,7 +173,7 @@ public extension Array {
         }
     }
     
-    public func convertedToType<T>(_ c: (T.Type)) -> [T]? {
+    func convertedToType<T>(_ c: (T.Type)) -> [T]? {
         var arr = [T]()
         for element in self {
             let n = (element as? ToClassType)?.toClassType(c) ?? element as? T
@@ -182,11 +182,11 @@ public extension Array {
         return count != arr.count ? nil : arr
     }
     
-//    public static func fromAny<T>(_ obj:Any?, classType c:T.Type) -> [T]? {
+//    static func fromAny<T>(_ obj:Any?, classType c:T.Type) -> [T]? {
 //        return obj as? [T]
 //    }
     
-    public func toJSONData(_ prettyPrint:Bool = false) -> Data? {
+    func toJSONData(_ prettyPrint:Bool = false) -> Data? {
         do {
             
                 if !JSONSerialization.isValidJSONObject(self) {return nil}
@@ -203,7 +203,7 @@ public extension Array {
         }
     }
     
-    public func toJSONSafe() -> SwiftArray {
+    func toJSONSafe() -> SwiftArray {
         return mapToNewArray { (v:Element) -> Any? in
             var val:Any = v
             if let d = val as? Data {
@@ -213,7 +213,7 @@ public extension Array {
         }
     }
     
-    public func selectIf(_ b:(Element) -> Bool) -> Array {
+    func selectIf(_ b:(Element) -> Bool) -> Array {
         var temp = [Element]()
         for (element) in self {
             if b(element) {temp.append(element)}
@@ -221,7 +221,7 @@ public extension Array {
         return temp
     }
     
-    public func rejectIf(_ b:(Element) -> Bool) -> Array {
+    func rejectIf(_ b:(Element) -> Bool) -> Array {
         var temp = [Element]()
         for (element) in self {
             if !b(element) {temp.append(element)}
@@ -230,7 +230,7 @@ public extension Array {
     }
     
     
-    public func selectFirst(_ b:(Element) -> Bool) -> Element? {
+    func selectFirst(_ b:(Element) -> Bool) -> Element? {
         for e in self  {
             if b(e) {return e}
         }
@@ -243,7 +243,7 @@ public extension Array {
     //        return false
     //    }
     
-    public func elementalCast<T>(_ to:T.Type, allOrNothing:Bool = true) -> [T]? {
+    func elementalCast<T>(_ to:T.Type, allOrNothing:Bool = true) -> [T]? {
         guard allOrNothing else {return mapToNewArray() {e -> T? in return e as? T}}
         var t = [T]()
         for element in self {
@@ -256,16 +256,16 @@ public extension Array {
     
 }
 
-public extension Array where Element : Equatable {
+extension Array where Element : Equatable {
     
-    public func hasObject(_ obj:Element) -> Bool {
+    func hasObject(_ obj:Element) -> Bool {
         for object in self {
             return obj == object
         }
         return false
     }
     
-    public mutating func removeElement(_ e:Element?) {
+    mutating func removeElement(_ e:Element?) {
         if e == nil {return}
         if let i = firstIndex(of: e!) {
             remove(at: i)
@@ -293,7 +293,7 @@ fileprivate func equals<T>(l:T,r:T) -> Bool{
 }
 
 
-//public extension Array where Element:Integer, Element.IntegerLiteralType == UInt8 {
+//extension Array where Element:Integer, Element.IntegerLiteralType == UInt8 {
 //    init(hex2: String){
 //        self.init()
 //        self.reserveCapacity(hex2.unicodeScalars.lazy.underestimatedCount)

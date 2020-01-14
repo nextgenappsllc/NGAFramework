@@ -10,9 +10,9 @@ import Foundation
 import CryptoSwift
 
 
-public extension String {
+extension String {
     
-    public func containsString(_ str:String, caseInsensitive:Bool = false) -> Bool {
+    func containsString(_ str:String, caseInsensitive:Bool = false) -> Bool {
 //        var temp = false
 //        let nsStr = caseInsensitive ? str.lowercased() : str
 //        let newSelf:NSString = caseInsensitive ? self.lowercased() as NSString : self as NSString
@@ -21,7 +21,7 @@ public extension String {
         return caseInsensitive ? self.lowercased().contains(str.lowercased()) : self.contains(str)
     }
     
-    public func stringByAddingPathComponent(_ pathComp: String?) -> String? {
+    func stringByAddingPathComponent(_ pathComp: String?) -> String? {
         if let comp = pathComp {
             return (self as NSString).appendingPathComponent(comp)
         }
@@ -29,8 +29,8 @@ public extension String {
     }
     
     
-//    public var characterArray:[Character] {get{return Array(characters)}}
-//    public var substrings:[String] {get {return characterArray.mapToNewArray(iteratorBlock: { (element) -> String? in
+//    var characterArray:[Character] {get{return Array(characters)}}
+//    var substrings:[String] {get {return characterArray.mapToNewArray(iteratorBlock: { (element) -> String? in
 //        return String(element)
 //    })}}
     var substrings:[String] {
@@ -40,7 +40,7 @@ public extension String {
         
     }
     
-    public subscript (i: Int) -> String? {
+    subscript (i: Int) -> String? {
         get{return substrings.itemAtIndex(i)}
         mutating set {
             var arr = substrings
@@ -49,11 +49,12 @@ public extension String {
         }
     }
     
-    public subscript (r: Range<Int>) -> String {
+    subscript (r: Range<Int>) -> String {
         var range = r
         let letterCount = self.count
         if range.upperBound > letterCount { range = (range.lowerBound..<letterCount) }
-        return substring(with: index(startIndex, offsetBy: range.lowerBound)..<index(startIndex, offsetBy: range.upperBound))
+        let stringRange = index(startIndex, offsetBy: range.lowerBound)..<index(startIndex, offsetBy: range.upperBound)
+        return String(self[stringRange])
 //        var range = r
 //        let letterCount = characters.count
 //        if range.upperBound > letterCount { range.upperBound = letterCount }
@@ -61,7 +62,7 @@ public extension String {
     }
     
     
-    public func abbreviatedStringWithMaxCharacters(_ maxChars:Int = 3) -> String {
+    func abbreviatedStringWithMaxCharacters(_ maxChars:Int = 3) -> String {
         var temp = self
         let components = temp.components(separatedBy: " ")
         if components.count > 1 {
@@ -77,28 +78,28 @@ public extension String {
         return temp
     }
     
-    public var length:Int {get {return self.count}}
+    var length:Int {get {return self.count}}
     
     
-    public var isValidEmailFormat:Bool {
+    var isValidEmailFormat:Bool {
         get{
             let components = self.components(separatedBy: "@")
             return components.count == 2 && components.last?.components(separatedBy: ".").count ?? 0 >= 2
         }
     }
     
-    public static func doesExist(_ str:String?) -> Bool {return !(str?.isEmpty() ?? true)}
-    public static func isNotEmpty(_ str:String?) -> Bool {
+    static func doesExist(_ str:String?) -> Bool {return !(str?.isEmpty() ?? true)}
+    static func isNotEmpty(_ str:String?) -> Bool {
         return doesExist(str)
     }
-    public static func isEmptyOrNil(_ str:String?) -> Bool {
+    static func isEmptyOrNil(_ str:String?) -> Bool {
         return !isNotEmpty(str)
     }
     
-    public var url:URL? {get{return URL(string: self)}}
-    public var fileUrl:URL? {get{return URL(fileURLWithPath: self)}}
+    var url:URL? {get{return URL(string: self)}}
+    var fileUrl:URL? {get{return URL(fileURLWithPath: self)}}
     
-    public static func largerContainsSmaller(string1 str1:String?, string2 str2:String?, caseInsensitive:Bool = true) -> Bool {
+    static func largerContainsSmaller(string1 str1:String?, string2 str2:String?, caseInsensitive:Bool = true) -> Bool {
         if !doesExist(str1) || !doesExist(str2) {return false}
         let largerString:String ; let smallerString:String
         if str1!.length < str2!.length {largerString = str2!; smallerString = str1!}
@@ -106,20 +107,20 @@ public extension String {
         return largerString.containsString(smallerString, caseInsensitive: caseInsensitive)
     }
     
-    public func appendIfNotNil(_ str:String?, separator:String? = nil) -> String {
+    func appendIfNotNil(_ str:String?, separator:String? = nil) -> String {
         guard let str = str else {return self}
         return surround(prefix: nil, postfix: "\(separator ?? "")\(str)")
     }
     
-    public func prependIfNotNil(_ str:String?, separator:String? = nil) -> String {
+    func prependIfNotNil(_ str:String?, separator:String? = nil) -> String {
         return surround(prefix: "\(separator ?? "")\(str ?? "")", postfix: nil)
     }
     
-    public func surround(prefix pre:String?, postfix post:String?) -> String{
+    func surround(prefix pre:String?, postfix post:String?) -> String{
         return "\(pre ?? "")\(self)\(post ?? "")"
     }
     
-    public func regexNumberOfMatches(_ pattern:String, patternOptions:NSRegularExpression.Options = NSRegularExpression.Options.init(rawValue: 0), matchingOptions:NSRegularExpression.MatchingOptions = NSRegularExpression.MatchingOptions.init(rawValue: 0)) -> Int? {
+    func regexNumberOfMatches(_ pattern:String, patternOptions:NSRegularExpression.Options = NSRegularExpression.Options.init(rawValue: 0), matchingOptions:NSRegularExpression.MatchingOptions = NSRegularExpression.MatchingOptions.init(rawValue: 0)) -> Int? {
         do {
             let regex = try NSRegularExpression(pattern: pattern, options: patternOptions)
             return regex.numberOfMatches(in: self, options: matchingOptions, range: NSMakeRange(0, self.count))
@@ -128,19 +129,19 @@ public extension String {
         }
     }
     
-    public func regexMatchExists(_ pattern:String, patternOptions:NSRegularExpression.Options = NSRegularExpression.Options.init(rawValue: 0), matchingOptions:NSRegularExpression.MatchingOptions = NSRegularExpression.MatchingOptions.init(rawValue: 0)) -> Bool {
+    func regexMatchExists(_ pattern:String, patternOptions:NSRegularExpression.Options = NSRegularExpression.Options.init(rawValue: 0), matchingOptions:NSRegularExpression.MatchingOptions = NSRegularExpression.MatchingOptions.init(rawValue: 0)) -> Bool {
         return regexNumberOfMatches(pattern, patternOptions: patternOptions, matchingOptions: matchingOptions) ?? 0 > 0
     }
     
     //TODO rename to isBlank
-    public func isEmpty() -> Bool {
+    func isEmpty() -> Bool {
         return self.trim().length == 0
     }
     
     
     
     
-    public func urlEncode() -> String {
+    func urlEncode() -> String {
         let charactersToEscape = "\\!*'();:@&=+$,/?%#[]\" "
         let allowedCharacters = CharacterSet(charactersIn: charactersToEscape).inverted
         return self.addingPercentEncoding(withAllowedCharacters: allowedCharacters) ?? self
@@ -149,7 +150,7 @@ public extension String {
     
     fileprivate static let xmlEscapeCharMap = [["&":"&amp;"],["<":"&lt;"], [">": "&gt;"], ["'":"&pos;"], ["\"":"&quo;"]]
     
-    public func xmlEncode() -> String {
+    func xmlEncode() -> String {
         var str = self
         for charDictionary in String.xmlEscapeCharMap {
             for (key, value) in charDictionary {
@@ -158,7 +159,7 @@ public extension String {
         }
         return str
     }
-    public func xmlDecode() -> String {
+    func xmlDecode() -> String {
         var str = self
         for charDictionary in String.xmlEscapeCharMap.reversed() {
             for (key, value) in charDictionary.invert() {
@@ -168,41 +169,41 @@ public extension String {
         return str
     }
     
-//    public func htmlDecode() -> String? {
+//    func htmlDecode() -> String? {
 //        guard let encodedData = dataUsingEncoding(NSUTF8StringEncoding) else {return nil}
 //        let attributedOptions : [String: AnyObject] = [NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType, NSCharacterEncodingDocumentAttribute: NSUTF8StringEncoding]
 //        return try? NSAttributedString(data: encodedData, options: attributedOptions, documentAttributes: nil).string
 //    }
     
-//    public func htmlDecode() -> String {
-//        var result = ""
-//        var position = startIndex
-//        // Find the next '&' and copy the characters preceding it to `result`:
-//        while let ampRange = self.range(of: "&", range: position ..< endIndex) {
-//            result.append(String(self[position ..< ampRange.lowerBound]))
-//            position = ampRange.lowerBound
-//            // Find the next ';' and copy everything from '&' to ';' into `entity`
-//            if let semiRange = self.range(of: ";", range: position ..< endIndex) {
-//                let entity = self[position ..< semiRange.upperBound]
-//                position = semiRange.upperBound
-//                if let decoded = HTMLEntities.decode(String(entity)) {
-//                    // Replace by decoded character:
-//                    result.append(decoded)
-//                } else {
-//                    // Invalid entity, copy verbatim:
-//                    result.append(entity)
-//                }
-//            } else {
-//                // No matching ';'.
-//                break
-//            }
-//        }
-//        result.append(String(self[position ..< endIndex]))
-//        return result
-//    }
+    func htmlDecode() -> String {
+        var result = ""
+        var position = startIndex
+        // Find the next '&' and copy the characters preceding it to `result`:
+        while let ampRange = self.range(of: "&", range: position ..< endIndex) {
+            result.append(String(self[position ..< ampRange.lowerBound]))
+            position = ampRange.lowerBound
+            // Find the next ';' and copy everything from '&' to ';' into `entity`
+            if let semiRange = self.range(of: ";", range: position ..< endIndex) {
+                let entity = self[position ..< semiRange.upperBound]
+                position = semiRange.upperBound
+                if let decoded = HTMLEntities.decode(String(entity)) {
+                    // Replace by decoded character:
+                    result.append(decoded)
+                } else {
+                    // Invalid entity, copy verbatim:
+                    result.append(String(entity))
+                }
+            } else {
+                // No matching ';'.
+                break
+            }
+        }
+        result.append(String(self[position ..< endIndex]))
+        return result
+    }
     
     
-    public func crc32CheckSum() -> String? {
+    func crc32CheckSum() -> String? {
         let s = self.crc32()
         if let i = UInt(s, radix: 16) {
             return "\(i)"
@@ -210,26 +211,26 @@ public extension String {
         return nil
     }
     
-    public func trim() -> String {
+    func trim() -> String {
         return trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
     }
-    public mutating func trimInPlace() {
+    mutating func trimInPlace() {
         self = trim()
     }
     
-    public static func fromAny(_ obj:Any?) -> String? {
+    static func fromAny(_ obj:Any?) -> String? {
         return obj as? String
     }
     
-    public func toDateWithFormat(_ format:String) -> Date? {
+    func toDateWithFormat(_ format:String) -> Date? {
         return Date.date(from: self, withFormat: format)
     }
     
-    public func toAttributedString(_ attributes:[String:Any]?) -> NSAttributedString {
+    func toAttributedString(_ attributes:[String:Any]?) -> NSAttributedString {
         return NSAttributedString(string: self, attributes: convertToOptionalNSAttributedStringKeyDictionary(attributes))
     }
     
-    public func toAttributedString(font:UIFont?, color: UIColor?) -> NSAttributedString {
+    func toAttributedString(font:UIFont?, color: UIColor?) -> NSAttributedString {
         var attributes = [String:Any]()
         attributes[convertFromNSAttributedStringKey(NSAttributedString.Key.font)] = font
         attributes[convertFromNSAttributedStringKey(NSAttributedString.Key.foregroundColor)] = color
@@ -237,7 +238,7 @@ public extension String {
     }
 
     
-    public static func repeatedStringOfSize(_ s:Int, repeatedString:String = " ") -> String {
+    static func repeatedStringOfSize(_ s:Int, repeatedString:String = " ") -> String {
         var str = ""
         s.times { (i) in
             str += repeatedString
@@ -246,7 +247,7 @@ public extension String {
     }
     
     
-    public static let degrees = "°"
+    static let degrees = "°"
     
     /**
      Encrypts the string with the given 32 bit key.
@@ -261,15 +262,15 @@ public extension String {
      
      - Returns: A tuple containing the hex string values on the initialization vector and the encrypted data.
      */
-//    public func AES256Encrypt(key:String)->(iv:String, encrypted:String?){
-//        let _key:Array<UInt8> = key.utf8.map{UInt8($0)}
-//        let _iv = AES.randomIV(AES.blockSize)
-//        var t:(iv:String, encrypted:String?) = (_iv.toHexString(), nil)
-//        guard _key.count == 32, let aes = try? AES(key: key, iv: CryptoSwift.BlockMode.CBC(iv: _iv)), let encrypted = try? aes.encrypt(Array(self.utf8)) else {return t}
-//        t.encrypted = encrypted.toHexString()
-//        return t
-//    }
-//
+    func AES256Encrypt(key:String)->(iv:String, encrypted:String?){
+        let _key = key.utf8.map{$0}
+        let _iv = AES.randomIV(AES.blockSize)
+        var t:(iv:String, encrypted:String?) = (_iv.toHexString(), nil)
+        guard _key.count == 32, let aes = try? AES(key: _key, blockMode: CBC(iv: _iv)), let encrypted = try? aes.encrypt(Array(self.utf8)) else {return t}
+        t.encrypted = encrypted.toHexString()
+        return t
+    }
+
     /**
      Decrypts the string with the given 32 bit key and initialization vector.
      
@@ -286,13 +287,13 @@ public extension String {
      
      - Returns: A decrypted string if successful
      */
-//    public func AES256Decrypt(key:String, iv:String) -> String?{
-//        let _key:Array<UInt8> = key.utf8.map{$0}
-//        let _iv = iv.convertFromHex()
-//        guard _key.count == 32, let aes = try? AES(key: key, iv: _iv), let decrypted = try? aes.decrypt(self.convertFromHex()) else {return nil}
-//        return String(data: Data(decrypted), encoding: .utf8)
-//    }
-//    
+    func AES256Decrypt(key:String, iv:String) -> String?{
+        let _key = key.utf8.map{$0}
+        let _iv = iv.convertFromHex()
+        guard _key.count == 32, let aes = try? AES(key: _key, blockMode: CBC(iv: _iv)), let decrypted = try? aes.decrypt(self.convertFromHex()) else {return nil}
+        return String(data: Data(decrypted), encoding: .utf8)
+    }
+    
     
     
     /**
@@ -304,7 +305,7 @@ public extension String {
      */
     
     //DEPRECATE
-    public func convertFromHex() -> [UInt8]{
+    func convertFromHex() -> [UInt8]{
         return hexToBytes()
     }
 
@@ -317,7 +318,7 @@ public extension String {
      
      - Returns: An array of 8 bit unsigned integers (bytes).
      */
-    public func hexToBytes() -> [UInt8]{
+    func hexToBytes() -> [UInt8]{
         var bytes:[UInt8] = []
         do{
             try self.streamHexBytes { (byte) in
@@ -332,7 +333,7 @@ public extension String {
     // Allows str.hexToBytes() and Array<UInt8>(hex: str) to share the same code
     // Old functionality returns a blank array upon encountering a non hex character so this method must throw in order to replicate that in methods relying on this method. (ex. "ffn" should return [] instead of [255])
     // Changed NSError to custom Error enum
-    public func streamHexBytes(_ block:(UInt8)->Void) throws{
+    func streamHexBytes(_ block:(UInt8)->Void) throws{
         var buffer:UInt8?
         var skip = hasPrefix("0x") ? 2 : 0
         for char in unicodeScalars.lazy {
@@ -363,7 +364,7 @@ public extension String {
         if let b = buffer{block(b)}
     }
     
-//    public func streamHexBytes(_ block:(UInt8)->Void) throws{
+//    func streamHexBytes(_ block:(UInt8)->Void) throws{
 //        let unicodeHexMap:[UnicodeScalar:UInt8] = ["0":0,"1":1,"2":2,"3":3,"4":4,"5":5,"6":6,"7":7,"8":8,"9":9,"a":10,"b":11,"c":12,"d":13,"e":14,"f":15,"A":10,"B":11,"C":12,"D":13,"E":14,"F":15]
 //        var buffer:UInt8?
 //        var skip = hasPrefix("0x") ? 2 : 0
@@ -671,9 +672,11 @@ private struct HTMLEntities {
     //     decode("&foo;")    --> nil
     fileprivate static func decode(_ entity : String) -> Character? {
         if entity.hasPrefix("&#x") || entity.hasPrefix("&#X"){
-            return decodeNumeric(entity.substring(from: entity.index(entity.startIndex, offsetBy: 3)), base: 16)
+            let sub = entity[entity.index(entity.startIndex, offsetBy: 3)]
+            return decodeNumeric(String(sub), base: 16)
         } else if entity.hasPrefix("&#") {
-            return decodeNumeric(entity.substring(from: entity.index(entity.startIndex, offsetBy: 2)), base: 10)
+            let sub = entity[entity.index(entity.startIndex, offsetBy: 2)]
+            return decodeNumeric(String(sub), base: 10)
         } else {
             return HTMLEntities.characterEntities[entity]
         }

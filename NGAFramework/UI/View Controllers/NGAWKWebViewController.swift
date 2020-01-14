@@ -94,7 +94,7 @@ open class NGAWKWebViewController: NGAViewController, WKNavigationDelegate, WKUI
     
     //MARK: WKWebView
     open func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
-        print("finished", navigation)
+//        print("finished", navigation)
         //        if let url = webView.URL {
         //            var lastPathComponent = url.lastPathComponent
         //            var host = url.host

@@ -11,21 +11,21 @@ import Foundation
 
 
 
-//public protocol Loggable {}
-//public extension Loggable {
-//    public func printToLog() {print(self)}
+//protocol Loggable {}
+//extension Loggable {
+//    func printToLog() {print(self)}
 //}
 //extension Optional:Loggable {
-//    public func printToLog() {
+//    func printToLog() {
 //        if let v = self {
 //            print(v)
 //        } else {print(self)}
 //    }
 //}
 
-public protocol Loggable {}
-public extension Loggable {
-    public func printToLog() {
+protocol Loggable {}
+extension Loggable {
+    func printToLog() {
         if let s = self as? UnWrappable, let v = s.unwrap() {
             print(v)
         } else {print(self)}

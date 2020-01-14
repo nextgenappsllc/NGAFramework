@@ -8,15 +8,15 @@
 
 import Foundation
 
-public extension UIView {
+extension UIView {
     
     //// adding subviews make the last one appear on top of the previous so these methods do not re add thus preserving the order
-    public func addSubviewIfNeeded(_ subview:UIView?) {
+    func addSubviewIfNeeded(_ subview:UIView?) {
         //// changed to direct descendant
         if subview != nil && !subview!.isDirectDescendantOf(self) {addSubview(subview!)}
     }
     //// same as above but can add many
-    public func addSubviewsIfNeeded(_ subviews:UIView?...) {
+    func addSubviewsIfNeeded(_ subviews:UIView?...) {
         for subview in subviews {addSubviewIfNeeded(subview)}
     }
     
@@ -33,25 +33,25 @@ public extension UIView {
         return temp
     }
     
-    public func setSizeFromView(_ view:UIView, withXRatio xRatio:CGFloat, andYRatio yRatio:CGFloat) {
+    func setSizeFromView(_ view:UIView, withXRatio xRatio:CGFloat, andYRatio yRatio:CGFloat) {
         var newFrame = self.frame
         newFrame.size = UIView.sizeFromSize(view.frame.size, withXRatio: xRatio, andYRatio: yRatio)
         self.frame = newFrame
     }
     
-    public func setWidthFromView(_ view:UIView, withXRatio xRatio:CGFloat) {
+    func setWidthFromView(_ view:UIView, withXRatio xRatio:CGFloat) {
         var newFrame = self.frame
         newFrame.size.width = view.frame.size.width * xRatio
         self.frame = newFrame
     }
     
-    public func setHeightFromView(_ view:UIView, withYRatio yRatio:CGFloat) {
+    func setHeightFromView(_ view:UIView, withYRatio yRatio:CGFloat) {
         var newFrame = self.frame
         newFrame.size.height = view.frame.size.height * yRatio
         self.frame = newFrame
     }
     
-    public class func sizeFromSize(_ superSize:CGSize, withXRatio xRatio:CGFloat, andYRatio yRatio:CGFloat) -> CGSize {
+    class func sizeFromSize(_ superSize:CGSize, withXRatio xRatio:CGFloat, andYRatio yRatio:CGFloat) -> CGSize {
         return CGSize(width: superSize.width * xRatio, height: superSize.height * yRatio)
     }
     
@@ -63,14 +63,14 @@ public extension UIView {
     }
     
     //// the two following functions advance their property by the values inputed
-    public func changeFrameOrigin(dX:CGFloat, dY:CGFloat) {
+    func changeFrameOrigin(dX:CGFloat, dY:CGFloat) {
         var temp = self.frame
         temp.origin.x = temp.origin.x + dX
         temp.origin.y = temp.origin.y + dY
         self.frame = temp
     }
     
-    public func changeFrameSize(dWidth:CGFloat, dHeight:CGFloat) {
+    func changeFrameSize(dWidth:CGFloat, dHeight:CGFloat) {
         var temp = self.frame
         temp.size.width  = temp.size.width + dWidth
         temp.size.height  = temp.size.height  + dHeight
@@ -78,7 +78,7 @@ public extension UIView {
     }
     
     //// editing a views frame directly like view.frame.size.height = 20 is not allowed and is tedious so the following methods a for convenience making the previous example view.frameHeight = 20
-    public var frameOrigin:CGPoint {
+    var frameOrigin:CGPoint {
         get {
             return self.frame.origin
         }
@@ -88,7 +88,7 @@ public extension UIView {
             self.frame = temp
         }
     }
-    public var frameSize:CGSize {
+    var frameSize:CGSize {
         get {
             return self.frame.size
         }
@@ -98,7 +98,7 @@ public extension UIView {
             self.frame = temp
         }
     }
-    public var frameHeight:CGFloat {
+    var frameHeight:CGFloat {
         get {
             return self.frame.size.height
         }
@@ -108,7 +108,7 @@ public extension UIView {
             self.frame = temp
         }
     }
-    public var frameWidth:CGFloat {
+    var frameWidth:CGFloat {
         get {
             return self.frame.size.width
         }
@@ -118,7 +118,7 @@ public extension UIView {
             self.frame = temp
         }
     }
-    public var frameOriginY:CGFloat {
+    var frameOriginY:CGFloat {
         get {
             return self.frame.origin.y
         }
@@ -128,7 +128,7 @@ public extension UIView {
             self.frame = temp
         }
     }
-    public var frameOriginX:CGFloat {
+    var frameOriginX:CGFloat {
         get {
             return self.frame.origin.x
         }
@@ -140,51 +140,51 @@ public extension UIView {
     }
     
     //// Top and Left just set position and are equivalent to the short hand above
-    public var top:CGFloat {
+    var top:CGFloat {
         get {return frameOriginY}
         set {frameOriginY = newValue}
     }
-    public var left:CGFloat {
+    var left:CGFloat {
         get {return frameOriginX}
         set {frameOriginX = newValue}
     }
     //// Bottom and Right adjusts the size to make the bottom or right equal the value so a view with view.top = 10 and view.bottom = 30 will have a y orgigin of 10 and a height of 20
-    public var bottom:CGFloat {
+    var bottom:CGFloat {
         get {return frameOriginY + frameHeight}
         set {frameHeight = newValue - frameOriginY}
     }
-    public var right:CGFloat {
+    var right:CGFloat {
         get {return frameOriginX + frameWidth}
         set {frameWidth = newValue - frameOriginX}
     }
     
-    public func placeViewInView(view:UIView, andPosition position:NGARelativeViewPosition) {
+    func placeViewInView(view:UIView, andPosition position:NGARelativeViewPosition) {
         self.placeViewInView(view: view, position: position, andPadding: 0)
     }
-    public func placeViewAccordingToView(view:UIView, andPosition position:NGARelativeViewPosition) {
+    func placeViewAccordingToView(view:UIView, andPosition position:NGARelativeViewPosition) {
         self.placeViewAccordingToView(view: view, position: position, andPadding: 0)
     }
-    public func placeViewInView(view:UIView, position:NGARelativeViewPosition, andPadding padding:CGFloat) {
+    func placeViewInView(view:UIView, position:NGARelativeViewPosition, andPadding padding:CGFloat) {
         let otherViewFrame = view.bounds
         placeViewRelativeToRect(rect: otherViewFrame, position: position, andPadding: padding)
     }
-    public func placeViewAccordingToView(view:UIView, position:NGARelativeViewPosition, andPadding padding:CGFloat) {
+    func placeViewAccordingToView(view:UIView, position:NGARelativeViewPosition, andPadding padding:CGFloat) {
         let otherViewFrame = view.frame
         placeViewRelativeToRect(rect: otherViewFrame, position: position, andPadding: padding)
     }
-    public func placeViewRelativeToRect(rect:CGRect, position:NGARelativeViewPosition, andPadding padding:CGFloat) {
+    func placeViewRelativeToRect(rect:CGRect, position:NGARelativeViewPosition, andPadding padding:CGFloat) {
         self.frame = self.rectForViewRelativeToRect(rect: rect, position: position, andPadding: padding)
     }
     func rectForViewInView(view:UIView, position:NGARelativeViewPosition, andPadding padding:CGFloat) -> CGRect{
         let otherViewFrame = view.bounds
         return self.rectForViewRelativeToRect(rect: otherViewFrame, position: position, andPadding: padding)
     }
-    public func rectForViewAccordingToView(view:UIView, position:NGARelativeViewPosition, andPadding padding:CGFloat) -> CGRect{
+    func rectForViewAccordingToView(view:UIView, position:NGARelativeViewPosition, andPadding padding:CGFloat) -> CGRect{
         
         let otherViewFrame = view.frame
         return self.rectForViewRelativeToRect(rect: otherViewFrame, position: position, andPadding: padding)
     }
-    public func rectForViewRelativeToRect(rect:CGRect, position:NGARelativeViewPosition, andPadding padding:CGFloat) -> CGRect {
+    func rectForViewRelativeToRect(rect:CGRect, position:NGARelativeViewPosition, andPadding padding:CGFloat) -> CGRect {
         var thisViewFrame = self.frame
         
         switch position {
@@ -233,7 +233,7 @@ public extension UIView {
     
     
     
-    public var longSide:CGFloat {
+    var longSide:CGFloat {
         get {
             var temp:CGFloat = 0
             if self.frame.size.height > self.frame.size.width {
@@ -259,7 +259,7 @@ public extension UIView {
         }
     }
     
-    public var shortSide:CGFloat {
+    var shortSide:CGFloat {
         get {
             var temp:CGFloat = 0
             if self.frame.size.height > self.frame.size.width {
@@ -285,17 +285,17 @@ public extension UIView {
         }
     }
     
-    public func shiftRight(_ to:CGFloat) {left = to - frameWidth}
-    public func shiftBottom(_ to:CGFloat) {top = to - frameHeight}
+    func shiftRight(_ to:CGFloat) {left = to - frameWidth}
+    func shiftBottom(_ to:CGFloat) {top = to - frameHeight}
     
-    public var aspectRatioWToH:CGFloat {get {return frame.size.aspectRatioWToH}}
-    public var aspectRatioHtoW:CGFloat {get {return frame.size.aspectRatioHtoW}}
+    var aspectRatioWToH:CGFloat {get {return frame.size.aspectRatioWToH}}
+    var aspectRatioHtoW:CGFloat {get {return frame.size.aspectRatioHtoW}}
     
-    public func fitViewInCiricleWithRadius(_ radius:CGFloat, xInset:CGFloat = 0, yInset:CGFloat = 0) {
+    func fitViewInCiricleWithRadius(_ radius:CGFloat, xInset:CGFloat = 0, yInset:CGFloat = 0) {
         frame.fitRectInCiricleWithRadius(radius, xInset: xInset, yInset: yInset)
     }
     
-    public var topView:UIView? {
+    var topView:UIView? {
         get{
             var v = superview
             while v != nil {
@@ -308,11 +308,11 @@ public extension UIView {
     }
     
     
-    public func isDirectDescendantOf(_ view:UIView) -> Bool {
+    func isDirectDescendantOf(_ view:UIView) -> Bool {
         return view.subviews.contains(self)
     }
     
-    public func lowestSubviewBottom() -> CGFloat {
+    func lowestSubviewBottom() -> CGFloat {
         return subviews.collect(initialValue: 0, iteratorBlock: { (t, v) -> CGFloat in
             let b = v.alpha == 0 ? t : v.bottom
             return b > t ? b : t
@@ -320,30 +320,30 @@ public extension UIView {
     }
     
     //MARK: Layer
-    public var borderColor:UIColor? {get{if let temp = layer.borderColor{return UIColor(cgColor: temp)};return nil}set{layer.borderColor = newValue?.cgColor}}
-    public var borderWidth:CGFloat {get{return layer.borderWidth}set{layer.borderWidth = newValue}}
+    var borderColor:UIColor? {get{if let temp = layer.borderColor{return UIColor(cgColor: temp)};return nil}set{layer.borderColor = newValue?.cgColor}}
+    var borderWidth:CGFloat {get{return layer.borderWidth}set{layer.borderWidth = newValue}}
     
-    public func addBorderWith(width:CGFloat?, color:UIColor?) {
+    func addBorderWith(width:CGFloat?, color:UIColor?) {
         let w = width ?? 0
         borderWidth = w
         borderColor = color
     }
     
-    public func removeBorder() {
+    func removeBorder() {
         addBorderWith(width: 0, color: UIColor.clear)
     }
     
-    public var cornerRadius:CGFloat {get{return layer.cornerRadius}set{layer.cornerRadius = newValue}}
+    var cornerRadius:CGFloat {get{return layer.cornerRadius}set{layer.cornerRadius = newValue}}
     
-    public var shadowRadius:CGFloat {get{return layer.shadowRadius}set{layer.shadowRadius = newValue}}
-    public var shadowOffset:CGSize {get{return layer.shadowOffset}set{layer.shadowOffset = newValue}}
-    public var shadowOpacity:CGFloat {get{return CGFloat(layer.shadowOpacity)}set{layer.shadowOpacity = Float(newValue)}}
-    public var shadowColor:UIColor? {get{if let temp = layer.shadowColor{return UIColor(cgColor: temp)};return nil}set{layer.shadowColor = newValue?.cgColor}}
-    public var shadowPath:UIBezierPath? {get{if let temp = layer.shadowPath{return UIBezierPath(cgPath: temp)};return nil}set{layer.shadowPath = newValue?.cgPath}}
+    var shadowRadius:CGFloat {get{return layer.shadowRadius}set{layer.shadowRadius = newValue}}
+    var shadowOffset:CGSize {get{return layer.shadowOffset}set{layer.shadowOffset = newValue}}
+    var shadowOpacity:CGFloat {get{return CGFloat(layer.shadowOpacity)}set{layer.shadowOpacity = Float(newValue)}}
+    var shadowColor:UIColor? {get{if let temp = layer.shadowColor{return UIColor(cgColor: temp)};return nil}set{layer.shadowColor = newValue?.cgColor}}
+    var shadowPath:UIBezierPath? {get{if let temp = layer.shadowPath{return UIBezierPath(cgPath: temp)};return nil}set{layer.shadowPath = newValue?.cgPath}}
     
-    public var roundedRectPath:UIBezierPath {get{return UIBezierPath(roundedRect: bounds, cornerRadius: cornerRadius)}}
+    var roundedRectPath:UIBezierPath {get{return UIBezierPath(roundedRect: bounds, cornerRadius: cornerRadius)}}
     
-    public func addShadowWith(radius:CGFloat?, offset:CGSize?, opacity:CGFloat?, color:UIColor?, path:UIBezierPath?) {
+    func addShadowWith(radius:CGFloat?, offset:CGSize?, opacity:CGFloat?, color:UIColor?, path:UIBezierPath?) {
         let r = radius ?? 0 ; let off = offset ?? CGSize.zero ; let a = opacity ?? 0
         shadowPath = path
         shadowRadius = r
@@ -358,14 +358,14 @@ public extension UIView {
         }
     }
     
-    public func removeShadow() {
+    func removeShadow() {
         addShadowWith(radius: 0, offset: nil, opacity: 0, color: UIColor.clear, path: nil)
     }
     
     
     
     //MARK: Conversions
-    public func toImage(_ size:CGSize? = nil) -> UIImage? {
+    func toImage(_ size:CGSize? = nil) -> UIImage? {
         var temp:UIImage?
         let s = size ?? bounds.size
         autoreleasepool {
@@ -379,7 +379,7 @@ public extension UIView {
         return temp
     }
     
-    public func toPDF() -> Data? {
+    func toPDF() -> Data? {
         let data = NSMutableData()
         //// default 8 1/2 x 11 is 612 x 792 and setting to CGRectZero will set it to default
         UIGraphicsBeginPDFContextToData(data, bounds, nil)
@@ -389,27 +389,27 @@ public extension UIView {
         return data.copy() as? Data
     }
     
-    public func toSquare(_ useSmallSide:Bool = true) {
+    func toSquare(_ useSmallSide:Bool = true) {
         let s = useSmallSide ? shortSide : longSide
         frameSize = CGSize(width: s, height: s)
     }
-    public func toCircle(_ useSmallSide:Bool = true) {
+    func toCircle(_ useSmallSide:Bool = true) {
         toSquare(useSmallSide)
         cornerRadius = frameWidth / 2
     }
     
-    public func setSizeWithWidth(_ w:CGFloat, aspectRatioHToW:CGFloat) {
+    func setSizeWithWidth(_ w:CGFloat, aspectRatioHToW:CGFloat) {
         frameSize = CGSize.makeFromWidth(w, aspectRatioHToW: aspectRatioHToW)
     }
     
-    public func setSizeWithHeight(_ h:CGFloat, aspectRatioWToH:CGFloat) {
+    func setSizeWithHeight(_ h:CGFloat, aspectRatioWToH:CGFloat) {
         frameSize = CGSize.makeFromWidth(h, aspectRatioHToW: aspectRatioWToH)
     }
     
 }
 
 //// Going to encapsulate the enum in the UIView extension to something along the lines of Position so instead of NGARelativeViewPosition it would be UIView.Position
-public enum NGARelativeViewPosition {
+enum NGARelativeViewPosition {
     case aboveTop, belowBottom, toTheLeft, toTheRight, alignTop, alignBottom, alignRight, alignLeft, alignCenter, alignCenterX, alignCenterY
     
 }

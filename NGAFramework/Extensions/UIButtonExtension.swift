@@ -8,14 +8,14 @@
 
 import Foundation
 
-public extension UIButton {
+extension UIButton {
     
-    public func captionImageWithTitle(_ title:String?) {
+    func captionImageWithTitle(_ title:String?) {
         let font = UIFont(name: "ArialRoundedMTBold", size: 12.0)
         self.captionImageWith(title: title, andFont: font)
     }
     
-    public func captionImageWith(title:String?, andFont font:UIFont?) {
+    func captionImageWith(title:String?, andFont font:UIFont?) {
         var buttonFrame = self.frame
         var totalFrame = buttonFrame
         var newFrame = totalFrame
@@ -53,7 +53,7 @@ public extension UIButton {
     }
     
     
-    public func captionLabelWithTitle(_ title:String?, andFont font:UIFont?) -> UILabel {
+    func captionLabelWithTitle(_ title:String?, andFont font:UIFont?) -> UILabel {
         let temp = UILabel()
         temp.text = title
         
@@ -68,7 +68,7 @@ public extension UIButton {
         return temp
     }
     
-    public func frameForCaptionLabel(_ label:UILabel) -> CGRect {
+    func frameForCaptionLabel(_ label:UILabel) -> CGRect {
         let frame = self.frame
         var temp = frame
         temp.origin.y = frame.origin.y + frame.size.height

@@ -9,10 +9,10 @@
 import Foundation
 
 
-public protocol AllObjects:Loggable {}
+protocol AllObjects:Loggable {}
 extension Optional:AllObjects{}
 
-public protocol StandardObjects:AllObjects {}
+protocol StandardObjects:AllObjects {}
 extension NSObject:StandardObjects{}
 extension String:StandardObjects{}
 extension Int:StandardObjects{}
@@ -24,7 +24,7 @@ extension Array:StandardObjects{}
 extension Dictionary:StandardObjects{}
 
 
-public protocol Numbers {}
+protocol Numbers {}
 extension Int:Numbers{}
 extension Float:Numbers{}
 extension CGFloat:Numbers{}

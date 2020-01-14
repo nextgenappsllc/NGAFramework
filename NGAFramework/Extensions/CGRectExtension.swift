@@ -8,23 +8,23 @@
 
 import Foundation
 
-public extension CGRect {
+extension CGRect {
     
     // see if this is better than just length / 2
-    public mutating func fitRectInCiricleWithRadius(_ radius:CGFloat, xInset:CGFloat = 0, yInset:CGFloat = 0) {
+    mutating func fitRectInCiricleWithRadius(_ radius:CGFloat, xInset:CGFloat = 0, yInset:CGFloat = 0) {
         self.size.fitInCircleWithRadius(radius, xInset:xInset, yInset:yInset)
     }
     
-    public var shortSide:CGFloat {
+    var shortSide:CGFloat {
         get {return size.shortSide}
     }
     
-    public var longSide:CGFloat {
+    var longSide:CGFloat {
         get {return size.longSide}
     }
     
-    public var aspectRatioWToH:CGFloat {get {return size.aspectRatioWToH}}
-    public var aspectRatioHtoW:CGFloat {get {return size.aspectRatioHtoW}}
-    public var diagonalLength:CGFloat {get{return size.diagonalLength}}
+    var aspectRatioWToH:CGFloat {get {return size.aspectRatioWToH}}
+    var aspectRatioHtoW:CGFloat {get {return size.aspectRatioHtoW}}
+    var diagonalLength:CGFloat {get{return size.diagonalLength}}
     
 }

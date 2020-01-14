@@ -8,9 +8,9 @@
 
 import Foundation
 
-public extension Timer {
+extension Timer {
     
-    public class func executeBlockWithDelay(_ delay:Double, block:@escaping (Timer?) -> Void) -> Timer {
+    class func executeBlockWithDelay(_ delay:Double, block:@escaping (Timer?) -> Void) -> Timer {
         let executor = TimerExecutor()
         executor.block = block
         let timer = Timer.scheduledTimer(timeInterval: delay, target: executor, selector: #selector(TimerExecutor.executeBlock), userInfo: executor, repeats: true)

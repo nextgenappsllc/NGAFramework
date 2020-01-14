@@ -47,55 +47,55 @@ extension NSString {
     }
 }
 
-public extension URL {
-    public func toRequest() -> URLRequest {
+extension URL {
+    func toRequest() -> URLRequest {
         return URLRequest(url: self)
     }
     
-    public func toMutableRequest() -> NSMutableURLRequest {
+    func toMutableRequest() -> NSMutableURLRequest {
         return NSMutableURLRequest(url: self)
     }
 }
 
 
-public extension NSAttributedString {
-//    public class func compoundAttributedStringFrom(str1:String, withAttributes attr1:[String : Any]?, andStr2 str2:String, withAttributes attr2:[String : Any]?, andConnector connector:String? = nil) -> NSAttributedString? {
+extension NSAttributedString {
+//    class func compoundAttributedStringFrom(str1:String, withAttributes attr1:[String : Any]?, andStr2 str2:String, withAttributes attr2:[String : Any]?, andConnector connector:String? = nil) -> NSAttributedString? {
 //        let firstString = connector == nil ? str1 : str1 + connector!
 //        let mutableString = NSMutableAttributedString(string: firstString, attributes: attr1)
 //        mutableString.appendAttributedString(NSAttributedString(string: str2, attributes: attr2))
 //        return mutableString.copy() as? NSAttributedString
 //    }
     
-    public func append(_ attStr:NSAttributedString?) -> NSAttributedString {
+    func append(_ attStr:NSAttributedString?) -> NSAttributedString {
         let mutSelf = toMutableAttributedString()
         if let s = attStr {mutSelf.append(s)}
         return mutSelf.toAttributedString()
     }
     
-    public func toMutableAttributedString() -> NSMutableAttributedString {
+    func toMutableAttributedString() -> NSMutableAttributedString {
         return NSMutableAttributedString(attributedString: self)
     }
     
 }
 
 
-public extension NSMutableAttributedString {
+extension NSMutableAttributedString {
     func toAttributedString() -> NSAttributedString {
         return NSAttributedString(attributedString: self)
     }
 }
 
 
-public extension NSArray {
+extension NSArray {
     
-    public func toMutableArray() -> NSMutableArray {
+    func toMutableArray() -> NSMutableArray {
         return NSMutableArray(array: self)
     }
-    public func toArray() -> NSArray {
+    func toArray() -> NSArray {
         return NSArray(array: self)
     }
     
-    public func containsIfNotNil(_ element:Any?) -> Bool {
+    func containsIfNotNil(_ element:Any?) -> Bool {
         if element == nil {return false}
         return self.contains(element!)
     }
@@ -103,30 +103,30 @@ public extension NSArray {
 }
 
 
-public extension NSDictionary {
-    public func toMutableDictionary() -> NSMutableDictionary {
+extension NSDictionary {
+    func toMutableDictionary() -> NSMutableDictionary {
         return NSMutableDictionary(dictionary: self)
     }
-    public func toDictionary() -> NSDictionary {
+    func toDictionary() -> NSDictionary {
         return NSDictionary(dictionary: self)
     }
 }
 
 
-public extension Data {
+extension Data {
     
-    public func append(_ data:Data?) -> Data {
+    func append(_ data:Data?) -> Data {
         var d = self
         guard let data = data else {return d}
         d.append(data)
         return d
     }
     
-    public init?(filePath:String?) {
+    init?(filePath:String?) {
         self.init(url: filePath?.fileUrl)
     }
     
-    public init?(url: URL?) {
+    init?(url: URL?) {
         guard let url = url, let d = try? Data(contentsOf: url) else {return nil}
         self = d
     }
@@ -134,8 +134,8 @@ public extension Data {
 
 
 
-public extension Equatable {
-    public func isEqualTo<T>(_ other:T?) -> Bool {
+extension Equatable {
+    func isEqualTo<T>(_ other:T?) -> Bool {
         return self == other as? Self
     }
 }

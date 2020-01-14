@@ -8,11 +8,11 @@
 
 import Foundation
 
-public extension Dictionary {
-    public var valueArray:[Value] {get{return Array(values)}}
-    public var keyArray:[Key] {get{return Array(keys)}}
+extension Dictionary {
+    var valueArray:[Value] {get{return Array(values)}}
+    var keyArray:[Key] {get{return Array(keys)}}
     
-    public func addDictionary(_ d:[Key:Value]?) -> Dictionary<Key, Value> {
+    func addDictionary(_ d:[Key:Value]?) -> Dictionary<Key, Value> {
         var temp = self
         if let dict = d {
             for (key, value) in dict {
@@ -22,18 +22,18 @@ public extension Dictionary {
         return temp
     }
     
-    public func addKeyValue(_ key:Key?, value:Value?) -> Dictionary<Key, Value> {
+    func addKeyValue(_ key:Key?, value:Value?) -> Dictionary<Key, Value> {
         var temp = self
         temp.safeSetKey(key, toValue: value)
         return temp
     }
     
     
-    public mutating func append(_ key:Key?, value:Value?) -> Dictionary<Key,Value> {
+    mutating func append(_ key:Key?, value:Value?) -> Dictionary<Key,Value> {
         self.safeSetKey(key, toValue: value)
         return self
     }
-    public mutating func append(_ dict:[Key:Value]?) -> Dictionary<Key,Value> {
+    mutating func append(_ dict:[Key:Value]?) -> Dictionary<Key,Value> {
         if let d  = dict {
             for (key, value) in d {
                 self.safeSetKey(key, toValue: value)
@@ -43,7 +43,7 @@ public extension Dictionary {
     }
     
     
-    public func selectIf(_ b:(Value) -> Bool) -> Dictionary {
+    func selectIf(_ b:(Value) -> Bool) -> Dictionary {
         var temp = [Key:Value]()
         for (key, value) in self {
             if b(value) {temp[key] = value}
@@ -51,7 +51,7 @@ public extension Dictionary {
         return temp
     }
     
-    public func rejectIf(_ b:(Value) -> Bool) -> Dictionary {
+    func rejectIf(_ b:(Value) -> Bool) -> Dictionary {
         var temp = [Key:Value]()
         for (key, value) in self {
             if !b(value) {temp[key] = value}
@@ -59,7 +59,7 @@ public extension Dictionary {
         return temp
     }
     
-    public func mapToNewDictionary<T>(_ b:(Key, Value) -> T?) -> Dictionary<Key, T> {
+    func mapToNewDictionary<T>(_ b:(Key, Value) -> T?) -> Dictionary<Key, T> {
         var temp = [Key:T]()
         for (key, value) in self {
             temp[key] = b(key, value)
@@ -67,7 +67,7 @@ public extension Dictionary {
         return temp
     }
     
-    public func mapKeysToNewDictionary<K:Hashable>(_ b:(Key, Value) -> K?) -> Dictionary<K, Value> {
+    func mapKeysToNewDictionary<K:Hashable>(_ b:(Key, Value) -> K?) -> Dictionary<K, Value> {
         var temp = [K:Value]()
         for (key, value) in self {
             temp.safeSetKey(b(key, value), toValue: value)
@@ -75,7 +75,7 @@ public extension Dictionary {
         return temp
     }
     
-    public func multiMapKeysToNewDictionary<K:Hashable>(_ b:(Key, Value) -> [K]?) -> Dictionary<K, [Value]> {
+    func multiMapKeysToNewDictionary<K:Hashable>(_ b:(Key, Value) -> [K]?) -> Dictionary<K, [Value]> {
         var temp = [K:[Value]]()
         for (key, value) in self {
             if let keys = b(key, value) {
@@ -89,7 +89,7 @@ public extension Dictionary {
         return temp
     }
     
-    public func collect<K:Hashable,V>(_ b:(Key, Value) -> (K?, V?)?) -> Dictionary<K, [V]> {
+    func collect<K:Hashable,V>(_ b:(Key, Value) -> (K?, V?)?) -> Dictionary<K, [V]> {
         var temp = [K:[V]]()
         for (key, value) in self {
             let kv = b(key, value)
@@ -100,7 +100,7 @@ public extension Dictionary {
         return temp
     }
     
-    public func multiCollect<K:Hashable,V>(_ b:(Key, Value) -> ([K?], V?)?) -> Dictionary<K, [V]> {
+    func multiCollect<K:Hashable,V>(_ b:(Key, Value) -> ([K?], V?)?) -> Dictionary<K, [V]> {
         var temp = [K:[V]]()
         for (key, value) in self {
             let kv = b(key, value)
@@ -118,44 +118,44 @@ public extension Dictionary {
     
     
     
-//    public static func fromAnyObject(_ obj:AnyObject?) -> Dictionary? {
+//    static func fromAnyObject(_ obj:AnyObject?) -> Dictionary? {
 //        return obj as? Dictionary
 //    }
-    public func valueForKey(_ k:Key?) -> Value? {
+    func valueForKey(_ k:Key?) -> Value? {
         if k == nil {return nil}
         return self[k!]
     }
-    public func valueForKeyWithType<T>(_ k:Key?, type:T.Type) -> T? {
+    func valueForKeyWithType<T>(_ k:Key?, type:T.Type) -> T? {
         return valueForKey(k) as? T
     }
-    public func stringForKey(_ k:Key?) -> String? {
+    func stringForKey(_ k:Key?) -> String? {
         if k == nil {return nil}
         let v = self[k!] as? String ?? (self[k!] as? Double)?.toString()
         return v
     }
-    public func doubleForKey(_ k:Key?) -> Double? {
+    func doubleForKey(_ k:Key?) -> Double? {
         if k == nil {return nil}
         let v = self[k!] as? Double ?? (self[k!] as? String)?.toDouble()
         return v
     }
-    public func intForKey(_ k:Key?) -> Int? {
+    func intForKey(_ k:Key?) -> Int? {
         return doubleForKey(k)?.toInt()
     }
-    public func boolForKey(_ k:Key?) -> Bool? {
+    func boolForKey(_ k:Key?) -> Bool? {
         return valueForKey(k) as? Bool ?? stringForKey(k)?.toBool()
     }
-    public func dictionaryForKey(_ k:Key) -> [AnyHashable: Any]? {
+    func dictionaryForKey(_ k:Key) -> [AnyHashable: Any]? {
         return valueForKey(k) as? [AnyHashable: Any]
     }
-    public func arrayForKey(_ k:Key) -> SwiftArray? {
+    func arrayForKey(_ k:Key) -> SwiftArray? {
         return valueForKey(k) as? SwiftArray
     }
     
-    public mutating func safeSetKey(_ k:Key?, toValue v:Value?) {
+    mutating func safeSetKey(_ k:Key?, toValue v:Value?) {
         if k != nil {self[k!] = v}
     }
     
-    public func toJSONData(_ prettyPrint:Bool = false) -> Data? {
+    func toJSONData(_ prettyPrint:Bool = false) -> Data? {
 //        guard var a = self as? AnyObject else {return nil}
         var a:Any = self
         if !JSONSerialization.isValidJSONObject(a) { a =? toJSONSafe()}
@@ -165,7 +165,7 @@ public extension Dictionary {
     }
     
     
-    public func toJSONSafe() -> [String:Any] {
+    func toJSONSafe() -> [String:Any] {
         var temp:[String:Any] = [:]
         for (k,v) in self {
             let key = k as? String ?? "\(k)"
@@ -175,7 +175,7 @@ public extension Dictionary {
         return temp
     }
     
-    public func valueCast<T>(_ to:T.Type, allOrNothing:Bool = true) -> [Key:T]? {
+    func valueCast<T>(_ to:T.Type, allOrNothing:Bool = true) -> [Key:T]? {
         guard allOrNothing else {return mapToNewDictionary(){(k,v) -> T? in return v as? T}}
         var t:[Key:T] = [:]
         for (k,v) in self {
@@ -184,7 +184,7 @@ public extension Dictionary {
         }
         return t
     }
-    public func keyCast<T:Hashable>(_ to:T.Type, allOrNothing:Bool = true) -> [T:Value]? {
+    func keyCast<T:Hashable>(_ to:T.Type, allOrNothing:Bool = true) -> [T:Value]? {
         guard allOrNothing else {return mapKeysToNewDictionary(){(k,v) -> T? in return k as? T}}
         var t:[T:Value] = [:]
         for (k,v) in self {
@@ -193,7 +193,7 @@ public extension Dictionary {
         }
         return t
     }
-    public func cast<K,V>(_ to:Dictionary<K,V>.Type, allOrNothing:Bool = true) -> [K:V]? {
+    func cast<K,V>(_ to:Dictionary<K,V>.Type, allOrNothing:Bool = true) -> [K:V]? {
         var t:[K:V] = [:]
         for (k,v) in self {
             if let k = k as? K, let v = v as? V {t[k] = v}
@@ -211,9 +211,9 @@ public extension Dictionary {
 
 
 
-public extension Dictionary where Value:Hashable {
+extension Dictionary where Value:Hashable {
     
-    public func invert() -> [Value:Key]{
+    func invert() -> [Value:Key]{
         var r:[Value:Key] = [:]
         for (key, value) in self {
             r[value] = key

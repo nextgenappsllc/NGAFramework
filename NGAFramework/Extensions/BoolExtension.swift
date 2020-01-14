@@ -8,11 +8,11 @@
 
 import Foundation
 
-public extension Bool {
-    public static let trueValues:Array<AnyHashable> = [true, 1 as Int, 1 as Float, 1 as CGFloat, 1 as Double, 1 as NSNumber, "1", "t", "y", "true", "si", "on", "yes"]
+extension Bool {
+    static let trueValues:Array<AnyHashable> = [true, 1 as Int, 1 as Float, 1 as CGFloat, 1 as Double, 1 as NSNumber, "1", "t", "y", "true", "si", "on", "yes"]
     
     
-    public init(hashable:AnyHashable) {
+    init(hashable:AnyHashable) {
         guard var v = hashable as? String else {
             self = Bool.trueValues.containsElement(hashable)
             return

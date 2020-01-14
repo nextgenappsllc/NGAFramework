@@ -168,32 +168,32 @@ public extension String {
 //        return try? NSAttributedString(data: encodedData, options: attributedOptions, documentAttributes: nil).string
 //    }
     
-//    public func htmlDecode() -> String {
-//        var result = ""
-//        var position = startIndex
-//        // Find the next '&' and copy the characters preceding it to `result`:
-//        while let ampRange = self.range(of: "&", range: position ..< endIndex) {
-//            result.append(String(self[position ..< ampRange.lowerBound]))
-//            position = ampRange.lowerBound
-//            // Find the next ';' and copy everything from '&' to ';' into `entity`
-//            if let semiRange = self.range(of: ";", range: position ..< endIndex) {
-//                let entity = self[position ..< semiRange.upperBound]
-//                position = semiRange.upperBound
-//                if let decoded = HTMLEntities.decode(String(entity)) {
-//                    // Replace by decoded character:
-//                    result.append(decoded)
-//                } else {
-//                    // Invalid entity, copy verbatim:
-//                    result.append(entity)
-//                }
-//            } else {
-//                // No matching ';'.
-//                break
-//            }
-//        }
-//        result.append(String(self[position ..< endIndex]))
-//        return result
-//    }
+    public func htmlDecode() -> String {
+        var result = ""
+        var position = startIndex
+        // Find the next '&' and copy the characters preceding it to `result`:
+        while let ampRange = self.range(of: "&", range: position ..< endIndex) {
+            result.append(String(self[position ..< ampRange.lowerBound]))
+            position = ampRange.lowerBound
+            // Find the next ';' and copy everything from '&' to ';' into `entity`
+            if let semiRange = self.range(of: ";", range: position ..< endIndex) {
+                let entity = self[position ..< semiRange.upperBound]
+                position = semiRange.upperBound
+                if let decoded = HTMLEntities.decode(String(entity)) {
+                    // Replace by decoded character:
+                    result.append(decoded)
+                } else {
+                    // Invalid entity, copy verbatim:
+                    result.append(String(entity))
+                }
+            } else {
+                // No matching ';'.
+                break
+            }
+        }
+        result.append(String(self[position ..< endIndex]))
+        return result
+    }
     
     
     public func crc32CheckSum() -> String? {
@@ -255,15 +255,15 @@ public extension String {
      
      - Returns: A tuple containing the hex string values on the initialization vector and the encrypted data.
      */
-//    public func AES256Encrypt(key:String)->(iv:String, encrypted:String?){
-//        let _key:Array<UInt8> = key.utf8.map{UInt8($0)}
-//        let _iv = AES.randomIV(AES.blockSize)
-//        var t:(iv:String, encrypted:String?) = (_iv.toHexString(), nil)
-//        guard _key.count == 32, let aes = try? AES(key: key, iv: CryptoSwift.BlockMode.CBC(iv: _iv)), let encrypted = try? aes.encrypt(Array(self.utf8)) else {return t}
-//        t.encrypted = encrypted.toHexString()
-//        return t
-//    }
-//
+    public func AES256Encrypt(key:String)->(iv:String, encrypted:String?){
+        let _key:Array<UInt8> = key.utf8.map{UInt8($0)}
+        let _iv = AES.randomIV(AES.blockSize)
+        var t:(iv:String, encrypted:String?) = (_iv.toHexString(), nil)
+        guard _key.count == 32, let aes = try? AES(key: _key, blockMode: CryptoSwift.BlockMode.CBC(iv: _iv)), let encrypted = try? aes.encrypt(Array(self.utf8)) else {return t}
+        t.encrypted = encrypted.toHexString()
+        return t
+    }
+
     /**
      Decrypts the string with the given 32 bit key and initialization vector.
      
@@ -280,13 +280,13 @@ public extension String {
      
      - Returns: A decrypted string if successful
      */
-//    public func AES256Decrypt(key:String, iv:String) -> String?{
-//        let _key:Array<UInt8> = key.utf8.map{$0}
-//        let _iv = iv.convertFromHex()
-//        guard _key.count == 32, let aes = try? AES(key: key, iv: _iv), let decrypted = try? aes.decrypt(self.convertFromHex()) else {return nil}
-//        return String(data: Data(decrypted), encoding: .utf8)
-//    }
-//    
+    public func AES256Decrypt(key:String, iv:String) -> String?{
+        let _key:Array<UInt8> = key.utf8.map{$0}
+        let _iv = iv.convertFromHex()
+        guard _key.count == 32, let aes = try? AES(key: _key, blockMode: CryptoSwift.BlockMode.CBC(iv: _iv)), let decrypted = try? aes.decrypt(self.convertFromHex()) else {return nil}
+        return String(data: Data(decrypted), encoding: .utf8)
+    }
+    
     
     
     /**
